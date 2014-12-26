@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2014.12.25)  26 DEC 2014 15:40
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=latex 2014.12.25)  26 DEC 2014 16:24
 entering extended mode
  %&-line parsing enabled.
 **temp.tex
@@ -663,24 +663,33 @@ File: CJK.enc 2008/12/29 4.8.2
 LaTeX Info: Redefining \selectfont on input line 756.
 \CJK@indent=\box54
 )
-(/usr/share/texmf/tex/latex/beamer/base/themes/theme/beamerthemeWarsaw.sty
-Package: beamerthemeWarsaw 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/base/themes/theme/compatibility/beamerthemes
+hadow.sty
+Package: beamerthemeshadow 2010/06/17  (rcs-revision d02a7cf4d8ae)
 
 (/usr/share/texmf/tex/latex/beamer/base/themes/inner/beamerinnerthemerounded.st
 y
 Package: beamerinnerthemerounded 2010/06/17  (rcs-revision d02a7cf4d8ae)
+)
+(/usr/share/texmf/tex/latex/beamer/base/themes/color/beamercolorthemeorchid.sty
+Package: beamercolorthemeorchid 2010/06/17  (rcs-revision d02a7cf4d8ae)
+)
+(/usr/share/texmf/tex/latex/beamer/base/themes/color/beamercolorthemewhale.sty
+Package: beamercolorthemewhale 2010/06/17  (rcs-revision d02a7cf4d8ae)
 )
 (/usr/share/texmf/tex/latex/beamer/base/themes/outer/beamerouterthemeshadow.sty
 Package: beamerouterthemeshadow 2010/06/17  (rcs-revision d02a7cf4d8ae)
 (/usr/share/texmf/tex/latex/beamer/base/themes/outer/beamerouterthemesplit.sty
 Package: beamerouterthemesplit 2010/06/17  (rcs-revision d02a7cf4d8ae)
 ))
-(/usr/share/texmf/tex/latex/beamer/base/themes/color/beamercolorthemeorchid.sty
-Package: beamercolorthemeorchid 2010/06/17  (rcs-revision d02a7cf4d8ae)
+(/usr/share/texmf/tex/latex/beamer/base/themes/font/beamerfontthemestructurebol
+d.sty
+Package: beamerfontthemestructurebold 2010/06/17  (rcs-revision d02a7cf4d8ae)
+))
+(/usr/share/texmf/tex/latex/beamer/base/themes/theme/beamerthemeWarsaw.sty
+Package: beamerthemeWarsaw 2010/06/17  (rcs-revision d02a7cf4d8ae)
 )
-(/usr/share/texmf/tex/latex/beamer/base/themes/color/beamercolorthemewhale.sty
-Package: beamercolorthemewhale 2010/06/17  (rcs-revision d02a7cf4d8ae)
-)) (./temp.aux)
+(./temp.aux)
 \openout1 = `temp.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
@@ -889,18 +898,18 @@ Dictionary: translator-numbers-dictionary, Language: English
 tionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./temp.nav)
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
 
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.bdg
 File: UTF8.bdg 2008/12/29 4.8.2
@@ -925,136 +934,332 @@ Missing character: There is no € in font cmss12!
 Missing character: There is no … in font cmss12!
 
 
+LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <4> not available
+(Font)              size <5> substituted on input line 14.
+
+
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 (Font)              size <5> substituted on input line 14.
 
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
 [1
 
-] (./temp.toc)
-LaTeX Font Info:    Try loading font information for C70+gbsn on input line 18.
+]
+LaTeX Font Info:    Try loading font information for C70+gbsn on input line 26.
 
  (/usr/share/texmf/tex/latex/CJK/UTF8/c70gbsn.fd
 File: c70gkai.fd 2008/10/03 4.8.1
 )
 (/usr/share/texmf/tex/latex/CJK/UTF8/c70gbsn.fdx
 File: c70gbsn.fdx 2008/12/29 4.8.2
-)
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+) (./temp.toc)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
  [2
 
-]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
- [3
+] (./temp.toc)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+[3
 
-]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+] (./temp.toc)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
  [4
 
-]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+] (./temp.toc)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
  [5
 
-]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+] (./temp.toc)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
  [6
 
 ]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
  [7
 
 ]
-Missing character: There is no ä in font cmss8!
-Missing character: There is no ½ in font cmss8!
-Missing character: There is no œ in font cmss8!
-Missing character: There is no è in font cmss8!
-Missing character: There is no € in font cmss8!
-Missing character: There is no … in font cmss8!
-Missing character: There is no æ in font cmss8!
-Missing character: There is no   in font cmss8!
-Missing character: There is no ‡ in font cmss8!
-Missing character: There is no é in font cmss8!
-Missing character: There is no ¢ in font cmss8!
-Missing character: There is no ˜ in font cmss8!
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [8
 
-[8
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [9
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [10
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+
+[11
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [12
+
+]
+File: test.eps Graphic file (type eps)
+ <test.eps>
+Overfull \vbox (14.02211pt too high) detected at line 53
+ []
+
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+[13
+
+]
+File: test.eps Graphic file (type eps)
+ <test.eps>
+Overfull \vbox (14.02211pt too high) detected at line 53
+ []
+
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+[14
+
+]
+
+LaTeX Font Warning: Font shape `C70/gbsn/m/it' undefined
+(Font)              using `C70/gbsn/m/n' instead on input line 67.
+
+LaTeX Font Info:    Try loading font information for U+msa on input line 67.
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 67.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [15
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [16
+
+]
+Overfull \hbox (10.56332pt too wide) in paragraph at lines 88--88
+ [][][][] 
+ []
+
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+[17
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [18
+
+]
+Missing character: There is no ä in font cmssbx10!
+Missing character: There is no ½ in font cmssbx10!
+Missing character: There is no œ in font cmssbx10!
+Missing character: There is no è in font cmssbx10!
+Missing character: There is no € in font cmssbx10!
+Missing character: There is no … in font cmssbx10!
+Missing character: There is no æ in font cmssbx10!
+Missing character: There is no   in font cmssbx10!
+Missing character: There is no ‡ in font cmssbx10!
+Missing character: There is no é in font cmssbx10!
+Missing character: There is no ¢ in font cmssbx10!
+Missing character: There is no ˜ in font cmssbx10!
+ [19
 
 ]
 \tf@nav=\write6
@@ -1071,14 +1276,20 @@ Missing character: There is no ˜ in font cmss8!
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 15253 strings out of 493849
- 280665 string characters out of 1152845
- 357285 words of memory out of 3000000
- 18120 multiletter control sequences out of 15000+50000
- 11010 words of font info for 39 fonts, out of 3000000 for 9000
+ 15469 strings out of 493849
+ 284846 string characters out of 1152845
+ 359172 words of memory out of 3000000
+ 18283 multiletter control sequences out of 15000+50000
+ 23462 words of font info for 84 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 49i,16n,57p,409b,763s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 49i,16n,57p,409b,816s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on temp.dvi (8 pages, 106328 bytes).
+Output written on temp.dvi (19 pages, 240148 bytes).
