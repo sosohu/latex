@@ -1,1 +1,6 @@
 \beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {1}{背景介绍}{3}{0}{1}
+\beamer@sectionintoc {2}{热点分析}{6}{0}{2}
+\beamer@sectionintoc {3}{优化方法}{10}{0}{3}
+\beamer@sectionintoc {4}{效果分析}{14}{0}{4}
+\beamer@sectionintoc {5}{参考文献}{19}{0}{5}
