@@ -1,0 +1,77 @@
+\documentclass{beamer}
+\usetheme{Berkeley}
+\usepackage{graphics,graphicx}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{caption}
+\setbeamertemplate{caption}[numbered]
+
+
+\usepackage{CJK}
+\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+%\setbeamertemplate{caption}[numbered]
+
+\begin{document} %申明文档的开始
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+    \begin{frame}
+        \frametitle{二叉树}
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=35pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{
+		 \pause
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tcircle[fillcolor=red,fillstyle=solid]{4}
+		 	\pause
+			\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{6}}{
+				\Tcircle[fillcolor=red,fillstyle=solid]{8}
+				\textmd{\textbf{\ \ \ z}}
+				\Tcircle[fillcolor=red,fillstyle=solid]{9}
+			 }
+			\Tcircle[fillcolor=red,fillstyle=solid]{7}
+		 }
+		}
+		\caption{红黑树插入之前}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=35pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tcircle[fillcolor=red,fillstyle=solid]{4}
+			\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{6}}{
+				\Tcircle[fillcolor=red,fillstyle=solid]{8}_{z}
+				\Tcircle[fillcolor=red,fillstyle=solid]{9}
+			 }
+			\Tcircle[fillcolor=red,fillstyle=solid]{7}
+		 }
+		}
+		\caption{红黑树插入之后}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Bezier曲线}
+		\psbezier[]{}(1,1)(5,5)(2,3)(3,2)
+    \end{frame}
+
+\end{CJK}
+\end{document}

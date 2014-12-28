@@ -1,0 +1,14 @@
+\frametitle {背景介绍}
+\framesubtitle{Qt画线程序代码}
+
+        %\pause
+        %Qt画线程序代码
+%\pause
+\begin{lstlisting}
+int main(int argc, char *argv[])
+{
+int i;
+    return 0;
+}
+\end{lstlisting}
+

@@ -1,0 +1,569 @@
+\documentclass{beamer}
+\usetheme{Frankfurt}
+
+%%%
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+\usepackage{CJK}
+\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+%%树
+\usepackage{graphics,graphicx}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{caption}
+\setbeamertemplate{caption}[numbered]
+\def\dedge{\ncline[linestyle=dashed]}
+%%
+
+\begin{document} %申明文档的开始
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+	\title{红黑树}
+	\author{胡庆海}
+	\date{}
+
+    \begin{frame} %beamer里重要的概念，每个frame定义一张page
+        \titlepage    % maketitle
+    \end{frame}
+
+
+    \begin{frame}
+        \frametitle{主要内容}
+        \tableofcontents
+    \end{frame}
+
+	\section{红黑树的定义}
+	\begin{frame}
+        \frametitle{红黑树的定义}
+		%\framesubtitle{五个限定条件}  
+        \begin{definition}
+            红黑树:\ \ \ 满足以下五条性质的二叉搜索树称为红黑树 \
+			\begin{itemize}
+				\item[1]  任意节点的颜色不是红色就是黑色
+				\item[2]  根节点颜色必须是黑色
+				\item[3]  叶子节点(NIL)颜色必须是黑色
+				\item[4]  红色节点的儿子节点必须是黑色
+				\item[5]  对于每个节点,从该节点开始到其后代的任何叶子节点路径黑长度相同
+			\end{itemize}
+        \end{definition}
+	\end{frame}
+
+	\begin{frame}
+        \frametitle{红黑树的定义}
+		\framesubtitle{举例}  
+
+		如下图,树B是红黑树，而树A不是,因为违反规则4和规则5
+		\pause
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{6}}{
+		 		\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{8}}{
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				}
+				%\textmd{\textbf{\ \ \ z}}
+		 		\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{9}}{
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				}
+			 }
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{7}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 }
+		}
+		\caption{树A}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{2}\tlput{red}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{6}}{
+		 		\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{8}}{
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				}
+				%\textmd{\textbf{\ \ \ z}}
+		 		\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{9}}{
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+					\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				}
+			 }
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{7}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 }
+		}
+		\caption{树B}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+
+		\footnote{灰色节点代表节点颜色为黑,红色节点代表颜色为红，小尺寸节点代表黑色叶子节点，白色节点代表颜色有多重，绿色节点代表一个子树}
+	\end{frame}
+
+	\section{红黑树性质}
+    \begin{frame}
+        \frametitle{红黑树性质}\pause
+        \begin{itemize}
+         \item[1] 任意一个节点其左右两个子树的深度之差不会超过一倍 \pause
+		 \item[2] 红黑树是平衡树，对于有n个节点的二叉树其高度为$lg_n$
+        \end{itemize}
+    \end{frame}
+
+	\section{红黑树的基本操作}
+
+	\subsection{红黑树的查找}
+    \begin{frame}
+		\frametitle{红黑树的查找}
+		红黑树本身是属于二叉搜索树，所以其搜索方法与一半BST搜索方法一致
+    \end{frame}
+
+	\subsection{红黑树的插入}
+    \begin{frame}
+		\frametitle{红黑树的插入}
+		对于红黑树的插入，我们首先使用BST的插入算法找到插入点并插入，然后设置其颜色为红色，
+	再根据其具体情况进行修改，主要情况有以下四种
+		\begin{itemize}
+			\item[1] 插入节点的父节点是黑色
+			\item[2] 插入节点的父节点是红色，叔叔节点也是红色
+			\item[3] 插入节点的父节点是红色，叔叔节点也是黑色，插入节点是父节点的右子
+			\item[4] 插入节点的父节点是红色，叔叔节点也是红色，插入节点是父节点的左子
+		\end{itemize}
+    \end{frame}
+
+	\begin{frame}
+		\frametitle{插入情况1}
+		由于此时没有破坏红黑树的任何性质，所以算法结束
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		}
+		%\ncline[linestyle=dashed]{top}{bot}
+		\caption{插入节点3}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+				\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+			}
+		}
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{插入情况2}
+		父节点和叔叔节点都是红节点，那么爷爷节点肯定是黑节点，这样只需要把父节点和叔叔节点染成
+	黑色，爷爷节点染成红色，问题就变成调整爷爷节点了
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{E}
+			\Tcircle[fillcolor=green,fillstyle=solid]{F}
+		 }
+		}
+		\caption{插入节点5}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=red,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{E}
+			\Tcircle[fillcolor=green,fillstyle=solid]{F}
+		 }
+		}
+		\caption{调整之后,继续调整1}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{插入情况3}
+		父节点是红节点，叔叔节点是黑节点，且插入节点是父节点的右子，那么可以以父节点为旋转点做左旋，转化为情况4
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{5}}{
+		 		\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{7}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+				}
+		 		\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{8}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+				}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{G}
+			\Tcircle[fillcolor=green,fillstyle=solid]{H}
+		 }
+		}
+		\caption{插入节点5}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{5}}{
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{2}}{
+		 		\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+					\Tcircle[fillcolor=green,fillstyle=solid]{A}
+					\Tcircle[fillcolor=green,fillstyle=solid]{B}
+				}
+		 		\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{7}}{
+					\Tcircle[fillcolor=green,fillstyle=solid]{C}
+					\Tcircle[fillcolor=green,fillstyle=solid]{D}
+				}
+			}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{8}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{G}
+			\Tcircle[fillcolor=green,fillstyle=solid]{H}
+		 }
+		}
+		\caption{调整之后,继续调整2}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{插入情况4}
+		父节点是红节点，叔叔节点是黑节点，且插入节点是父节点的左子，那么可以以爷爷节点为旋转点右旋并交换父节点和爷爷节点的颜色，最终调整完毕，退出算法
+
+		\begin{columns} %排版
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{E}
+			\Tcircle[fillcolor=green,fillstyle=solid]{F}
+		 }
+		}
+		\caption{插入节点4}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			}
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{1}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			}
+		 }
+		}
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+	\end{frame}
+
+	\subsection{红黑树的删除}
+    \begin{frame}
+		\frametitle{红黑树的删除}
+		红黑树的删除操作先是同一般BST一样操作，然后对于顶替上来的那个节点增加一重黑色,再分情况来处理，主要有以下几种情况
+		\begin{itemize}
+		 \item[1] 该节点颜色为R+B
+		 \item[2] 该节点颜色为B+B,但是是根节点
+		 \item[3] 该节点颜色为B+B，兄弟节点为红色节点
+		 \item[4] 该节点颜色为B+B，兄弟节点为黑色节点，兄弟节点的两个孩子都是黑色
+		 \item[5] 该节点颜色为B+B, 兄弟节点为黑色节点，兄弟节点的左子为红，右子为黑
+		 \item[6] 该节点颜色为B+B, 兄弟节点为黑色节点，兄弟节点的右子为红
+		\end{itemize}
+    \end{frame}
+
+	\begin{frame}
+		\frametitle{删除情况1}
+		直接将此节点颜色设为黑色
+		\begin{columns} %排版
+
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			 }
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 }
+		}
+		\caption{删除节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{4}\tlput{r+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 }
+		}
+		\caption{调整节点4}
+		\end{figure}
+		\end{column}
+
+		\pause
+
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 }
+		}
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{删除情况2}
+		同样，直接将此节点颜色设为黑色
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \Tcircle[fillcolor=lightgray,fillstyle=solid]{}
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 }
+		}
+		\caption{删除根节点1}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=white,fillstyle=solid]{2}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		}\textmd{b+b}
+		\caption{调整节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		}
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+
+	\section{参考文献}
+	\begin{frame}
+		\frametitle{参考文献}
+		[1] http://blog.csdn.net/v\_july\_v/article/details/6105630\newline
+		[2] 算法导论\newline
+		[3] STL源码剖析
+	\end{frame}
+
+
+	\begin{frame}
+		\frametitle{致谢}
+		Thanks
+	\end{frame}
+
+
+\end{CJK}
+\end{document}
