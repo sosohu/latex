@@ -5,4 +5,4 @@
 \beamer@subsectionintoc {3}{1}{红黑树的查找}{10}{0}{3}
 \beamer@subsectionintoc {3}{2}{红黑树的插入}{11}{0}{3}
 \beamer@subsectionintoc {3}{3}{红黑树的删除}{20}{0}{3}
-\beamer@sectionintoc {4}{参考文献}{28}{0}{4}
+\beamer@sectionintoc {4}{参考文献}{40}{0}{4}

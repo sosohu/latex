@@ -39,15 +39,23 @@
 \headcommand {\beamer@framepages {21}{23}}
 \headcommand {\slideentry {3}{3}{3}{24/27}{红黑树的删除}{0}}
 \headcommand {\beamer@framepages {24}{27}}
-\headcommand {\sectionentry {4}{参考文献}{28}{参考文献}{0}}
-\headcommand {\beamer@sectionpages {10}{27}}
-\headcommand {\beamer@subsectionpages {20}{27}}
-\headcommand {\slideentry {4}{0}{4}{28/28}{}{0}}
-\headcommand {\beamer@framepages {28}{28}}
-\headcommand {\slideentry {4}{0}{5}{29/29}{}{0}}
-\headcommand {\beamer@framepages {29}{29}}
-\headcommand {\beamer@partpages {1}{29}}
-\headcommand {\beamer@subsectionpages {1}{29}}
-\headcommand {\beamer@sectionpages {1}{29}}
-\headcommand {\beamer@documentpages {29}}
-\headcommand {\def \inserttotalframenumber {16}}
+\headcommand {\slideentry {3}{3}{4}{28/30}{红黑树的删除}{0}}
+\headcommand {\beamer@framepages {28}{30}}
+\headcommand {\slideentry {3}{3}{5}{31/33}{红黑树的删除}{0}}
+\headcommand {\beamer@framepages {31}{33}}
+\headcommand {\slideentry {3}{3}{6}{34/36}{红黑树的删除}{0}}
+\headcommand {\beamer@framepages {34}{36}}
+\headcommand {\slideentry {3}{3}{7}{37/39}{红黑树的删除}{0}}
+\headcommand {\beamer@framepages {37}{39}}
+\headcommand {\sectionentry {4}{参考文献}{40}{参考文献}{0}}
+\headcommand {\beamer@sectionpages {10}{39}}
+\headcommand {\beamer@subsectionpages {20}{39}}
+\headcommand {\slideentry {4}{0}{8}{40/40}{}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\slideentry {4}{0}{9}{41/41}{}{0}}
+\headcommand {\beamer@framepages {41}{41}}
+\headcommand {\beamer@partpages {1}{41}}
+\headcommand {\beamer@subsectionpages {1}{41}}
+\headcommand {\beamer@sectionpages {1}{41}}
+\headcommand {\beamer@documentpages {41}}
+\headcommand {\def \inserttotalframenumber {20}}

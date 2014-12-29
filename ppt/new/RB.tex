@@ -549,6 +549,227 @@
 		\end{columns}
 	\end{frame}
 
+	\begin{frame}
+		\frametitle{删除情况3}
+		当前节点是B+B,兄弟节点是红节点，则以父节点为旋转点左旋，并且交换父节点和兄弟节点的颜色，将问题转化为后面的情况
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+			\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 }
+		}
+		\caption{调整节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{1}}{
+		 	\pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			 }
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+		 }
+		\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		}
+		\caption{调整之后，继续调整节点2}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{删除情况4}
+		当前节点是B+B,兄弟节点是黑节点，且兄弟节点的孩子都是黑节点，这种情况下可以把兄弟节点换成红色，那么左右两边都会缺一个黑色，则可把节点多的那重黑色转移给父节点，问题就变成父节点的问题了
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			 }
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			 }
+		 }
+		}
+		\caption{调整节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		b+b
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=white,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			 }
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			 }
+		 }
+		}
+		\caption{调整之后，继续调整节点1}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{删除情况5}
+		当前节点是B+B,兄弟节点是黑节点，且兄弟节点的孩子左子是红，右子是黑，这种情况下可以右旋它的兄弟节点，把问题转化为情况6
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			 }
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			 }
+		 }
+		}
+		\caption{调整节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{4}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{C}
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{3}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+		 		\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+					\Tcircle[fillcolor=green,fillstyle=solid]{E}
+					\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			 	}
+			 }
+		 }
+		}
+		\caption{调整之后，继续调整节点2}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{删除情况6}
+		当前节点是B+B,兄弟节点是黑节点，且兄弟节点的孩子右子是红，这种情况下可以左旋父节点，然后交换父节点和兄弟节点的颜色，并把兄弟节点的右子涂成黑色，则问题得以解决，退出算法
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=white,fillstyle=solid]{2}^{b+b}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{A}
+			\Tcircle[fillcolor=green,fillstyle=solid]{B}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			 }
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{5}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{E}
+				\Tcircle[fillcolor=green,fillstyle=solid]{F}
+			 }
+		 }
+		}
+		\caption{调整节点2}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{A}
+				\Tcircle[fillcolor=green,fillstyle=solid]{B}
+			 }
+		 	\pstree{\Tcircle[fillcolor=red,fillstyle=solid]{4}}{
+				\Tcircle[fillcolor=green,fillstyle=solid]{C}
+				\Tcircle[fillcolor=green,fillstyle=solid]{D}
+			 }
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{5}}{
+			\Tcircle[fillcolor=green,fillstyle=solid]{E}
+			\Tcircle[fillcolor=green,fillstyle=solid]{F}
+		 }
+		}
+		\caption{调整之后，算法结束}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
 
 	\section{参考文献}
 	\begin{frame}
