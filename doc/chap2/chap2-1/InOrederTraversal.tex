@@ -29,12 +29,69 @@
 
 \else
 	
-%二叉树的先序遍历
+%XXX 问题
 \begin{description}
-	\item{\textbf{}} : \fbox{时间复杂度 , 空间复杂度O}
+	\item{\textbf{问题}}: Given a binary tree, return the inorder traversal of its nodes' values. \textit{(leetcode 94)}
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
 	\\
 	\begin{lstlisting}
-	\textit{}
+void BiTree::InOrderTraversal(TreeNode* root){
+	if(!root)	return;
+	if(root->left)
+		InOrderTraversal(root->left);
+	cout<<root->val<<endl;
+	if(root->right)
+		InOrderTraversal(root->right);
+	\end{lstlisting}
+	\item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之一，使用两重循环的那个
+	\begin{lstlisting}
+void BiTree::InOrderTraversal(TreeNode* root){
+	if(!root)	return;
+	stack<TreeNode*> s;
+	TreeNode *pos = root;
+	while(pos || !s.empty()){
+		while(pos->left){
+			s.push(pos);
+			pos = pos->left;
+		}
+		cout<<pos->val<<endl;
+		if(pos->right)
+			pos = pos->right;
+		else{
+			pos = s.top();
+			s.pop();
+		}
+	}
+}
+	\end{lstlisting}
+	\item{\textbf{Mirror迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+	\\这里Mirror方法和前序的Mirror方法基本一样，唯一的区别就是打印当前值的时机
+	\begin{lstlisting}
+void BiTree::InOrderTraversal(TreeNode* root){
+	if(!root)	return;
+	TreeNode *curr = root, *next;
+	while(curr){
+		next = curr->left;
+		if(!next){
+			cout<<curr->val<<endl;
+			curr = curr->right;
+			continue;
+		}
+		while(next->right && next->right != curr){
+			next = next->right;
+		}
+		if(next->right == curr){
+			next->right = NULL;
+			cout<<curr->val<<endl;
+			curr = curr->right;
+		}else{
+			next->right = curr;
+			curr = curr->left;
+		}
+	}
+}
+	\end{lstlisting}
 \end{description}
 
 \fi
