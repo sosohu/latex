@@ -1,7 +1,0 @@
-\documentclass{article}  
-\usepackage{CJKutf8}  
-\begin{document}  
-\begin{CJK}{UTF8}{song}  
-你好！这里是Ubuntu下的TexLive+CJK环境！  
-\end{CJK}  
-\end{document}

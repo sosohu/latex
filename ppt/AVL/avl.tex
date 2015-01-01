@@ -1,0 +1,292 @@
+\documentclass{beamer}
+\usetheme{Frankfurt}
+
+\usepackage{CJK}
+\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+%%树
+\usepackage{graphics,graphicx}
+\usepackage{pstricks,pst-node,pst-tree}
+\usepackage{caption}
+\setbeamertemplate{caption}[numbered]
+\def\dedge{\ncline[linestyle=dashed]}
+%%
+
+\begin{document} %申明文档的开始
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+	\title{AVL树}
+	\author{胡庆海}
+	\date{}
+
+    \begin{frame}
+		\titlepage
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{目录}
+		\tableofcontents
+    \end{frame}
+
+	\section{AVL树的定义}
+	\begin{frame}
+		\frametitle{AVL树的定义}
+		AVL树是高度平衡的而二叉搜索树,且AVL树中任何节点的两个子树的高度最大差为1
+	\end{frame}
+
+	\section{AVL树的性质}
+	\begin{frame}
+		\frametitle{AVL树的性质}
+		\begin{itemize}
+			\item AVL树高度平衡，插入/删除/查找时间复杂度为$O(lg_n)$
+		\end{itemize}
+	\end{frame}
+
+	\section{AVL树的操作}
+	\begin{frame}
+		\frametitle{AVL树的操作}
+		\begin{itemize}
+			\item 查找操作，同BST查找,不会打破树的平衡
+			\item 插入操作，同BST查找,可能会打破树的平衡,需要调整
+			\item 删除操作，同BST查找,可能会打破树的平衡,需要调整
+		\end{itemize}
+	\end{frame}
+
+	\section{AVL树的调整}
+	\begin{frame}
+		\frametitle{AVL树的调整}
+		AVL树由于插入或者删除会导致不平衡，主要有以下四种情况(设不平衡节点为观察节点)
+		\begin{itemize}
+		 \item[1] LL: 观察节点左孩子的左孩子的高度过高，使得节点左孩子的高度比右孩子的高度高2度 
+		 \item[2] RR: 观察节点右孩子的右孩子的高度过高，使得节点右孩子的高度比左孩子的高度高2度 
+		 \item[3] LR: 观察节点左孩子的右孩子的高度过高，使得节点左孩子的高度比右孩子的高度高2度 
+		 \item[4] RL: 观察节点右孩子的左孩子的高度过高，使得节点右孩子的高度比左孩子的高度高2度 
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{LL情况}
+		LL情况下，左左子树高度过高，则只需要右旋观察节点，这样就可以恢复当前局部树的平衡了，剩下的只需要向上递归调整就可以了
+			
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tr{\psframebox[framearc=.5]{h+1}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		 \Tr{\psframebox[framearc=.5]{h}}
+		}
+		\caption{调整之前}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \Tr{\psframebox[framearc=.5]{h+1}}
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		}
+
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{RR情况}
+		RR情况和LL情况类似，只需要左旋观察节点，这样就可以恢复当前局部树的平衡了，剩下的只需要向上递归调整就可以了
+			
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \Tr{\psframebox[framearc=.5]{h}}
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+			\Tr{\psframebox[framearc=.5]{h+1}}
+		 }
+		}
+		\caption{调整之前}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		 \Tr{\psframebox[framearc=.5]{h+1}}
+		}
+
+		\caption{调整之后}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{LR情况}
+			以左孩子为旋转点左旋，再以观察节点为旋转点右旋
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+				\Tr{\psframebox[framearc=.5]{h}}
+				\Tr{\psframebox[framearc=.5]{h-1}}
+		 	}
+		 }
+		 \Tr{\psframebox[framearc=.5]{h}}
+		}
+		\caption{调整之前}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tr{\psframebox[framearc=.5]{h}}
+				\Tr{\psframebox[framearc=.5]{h}}
+		 	}
+			\Tr{\psframebox[framearc=.5]{h-1}}
+		 }
+		 \Tr{\psframebox[framearc=.5]{h}}
+		}
+
+		\caption{左旋左孩子}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}{
+			\Tr{\psframebox[framearc=.5]{h-1}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		}
+		}
+
+		\caption{右旋观察节点}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{RL情况}
+			以右孩子为旋转点右旋，再以观察节点为旋转点左旋
+		\begin{columns} %排版
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \Tr{\psframebox[framearc=.5]{h}}
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+				\Tr{\psframebox[framearc=.5]{h}}
+				\Tr{\psframebox[framearc=.5]{h-1}}
+		 	}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		}
+		\caption{调整之前}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \Tr{\psframebox[framearc=.5]{h}}
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}{
+			\Tr{\psframebox[framearc=.5]{h}}
+		 	\pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tr{\psframebox[framearc=.5]{h-1}}
+				\Tr{\psframebox[framearc=.5]{h}}
+		 	}
+		 }
+		}
+
+		\caption{右旋右孩子}
+		\end{figure}
+		\end{column}
+
+		\pause
+		\begin{column}{0.3\textwidth}
+		\centering
+		\begin{figure}
+
+		\pstree[levelsep=25pt,treesep=6pt]{\Tcircle[fillcolor=lightgray,fillstyle=solid]{3}}
+		{% levelsep指不同层之间距离, treesep兄弟之间距离
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{1}}{
+		 	\Tr{\psframebox[framearc=.5]{h}}
+			\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		 \pstree{\Tcircle[fillcolor=lightgray,fillstyle=solid]{2}}{
+				\Tr{\psframebox[framearc=.5]{h-1}}
+				\Tr{\psframebox[framearc=.5]{h}}
+		 }
+		}
+
+		\caption{左旋观察节点}
+		\end{figure}
+		\end{column}
+	
+		\end{columns}
+	\end{frame}
+
+\end{CJK}
+\end{document}

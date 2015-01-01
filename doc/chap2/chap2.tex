@@ -1,0 +1,44 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+	%树的基本问题分类
+\section{二叉树的遍历}
+\input{chap2/chap2-1/chap2-1.tex}
+\newpage
+\section{二叉树的建立}
+\input{chap2/chap2-2/chap2-2.tex}
+\newpage
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
