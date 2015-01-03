@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -28,16 +29,29 @@
 
 \else
 	
-%二叉树的遍历
-\qquad二叉树的遍历是解决很多二叉树问题的基础，它的递归写法和非递归写法更是需要都要掌握的，这里的遍历就是将树的节点都依次访问一遍，因为访问顺序的问题，就可以分为前序，中序，后序以及层次等很多种遍历的方法。
-\subsection{PreOrederTraversal}
-\input{chap2/chap2-1/PreOrederTraversal.tex}
-\subsection{InOrederTraversal}
-\input{chap2/chap2-1/InOrederTraversal.tex}
-\subsection{PostOrederTraversal}
-\input{chap2/chap2-1/PostOrederTraversal.tex}
-\subsection{LevelOrderTraversal}
-\input{chap2/chap2-1/LevelOrederTraversal.tex}
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree, determine if it is height-balanced. \textit{(leetcode 110)}
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\先判断左子树是否高度平衡并返回左子树高度，再判断右子树是否高度平衡，再返回右子树高度，根据左右子树高度再判断当前树是否平衡.
+	\begin{lstlisting}
+bool dfs(TreeNode *root, int &hight){
+	if(!root){
+		hight = 0;
+		return true;
+	}
+	int left, right;
+	bool is_left = dfs(root->left, left);
+	bool is_right = dfs(root->right, right);
+	hight = left > right? left + 1 : right + 1;
+	return is_left && is_right && (abs(left - right) < 2);
+}
+
+bool isBalanced(TreeNode *root) {
+	int hight;
+	return dfs(root, hight);
+}
+	\end{lstlisting}
+\end{description}
 
 \fi
 

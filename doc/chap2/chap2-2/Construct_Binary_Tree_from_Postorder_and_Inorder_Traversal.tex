@@ -1,0 +1,69 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given postorder and inorder traversal of a tree, construct the binary tree. \textit{(leetcode 106)}
+	\item{\textbf{Note}}: You may assume that duplicates do not exist in the tree.
+	\item{\textbf{递归}} : \fbox{时间复杂度O($nlgn$) , 空间复杂度O($lgn$)}
+	\\后序序列的最后一个元素肯定是树的根节点，而且使用这个值在中序序列中查找，找到的那个位置之前的必然是左子树，之后的必然是右子树，所以根据这个特点就可以很容易的使用递归的做法解题。
+	\begin{lstlisting}
+TreeNode* recursion(vector<int> &inorder, vector<int> &postorder,
+					int s_in, int e_in, int s_po, int e_po){
+	//inorder[s_in, e_in],postorder[s_po, e_po]
+	if(s_in > e_in)	return NULL;
+	if(s_in == e_in) return (new TreeNode(inorder[s_in]));
+	TreeNode *root = new TreeNode(postorder[e_po]);
+	int split_in, split_po;
+	for(split_in = s_in; split_in <= e_in; split_in++){
+		if(postorder[e_po] == inorder[split_in])
+			break;
+	}
+	split_po = s_po + split_in - s_in;
+	root->left = recursion(inorder, postorder, s_in, split_in - 1, s_po , split_po - 1 );
+	root->right = recursion(inorder, postorder, split_in + 1, e_in, split_po, e_po - 1);
+	return root;
+}
+
+TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
+	if(inorder.size() != postorder.size() || inorder.size() == 0)
+		return NULL;
+	return recursion(inorder, postorder, 0, inorder.size() - 1, 0, postorder.size() - 1);
+}
+	\end{lstlisting}
+	\textit{}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

@@ -1,0 +1,102 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. \textit{(leetcode 111)}
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+	\\自下而上的递归，非常的简单
+	\begin{lstlisting}
+int minDepth(TreeNode *root) {
+	if(!root)	return 0;
+	if(!root->left && !root->right)	return 1;
+	if(!root->left)
+		return minDepth(root->right) + 1;
+	if(!root->right)
+		return minDepth(root->left) + 1;
+	return min(minDepth(root->left), minDepth(root->right)) + 1;
+}
+	\end{lstlisting}
+	\item{\textbf{DFS}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\这也是递归，但是是一种自上而下的递归，可以进行剪枝而不必把整个树都访问一遍
+	\begin{lstlisting}
+void dfs(TreeNode *root, int &result, int depth){
+	if(result < depth + 1) return;
+	if(!root->left && !root->right){
+		result = depth + 1;
+		return;
+	}
+	if(root->left)
+		dfs(root->left, result, depth + 1);
+	if(root->right)
+		dfs(root->right, result, depth + 1);
+}
+
+	int minDepth(TreeNode *root) {
+	if(!root)	return 0;
+	int result = INT_MAX;
+	dfs(root, result, 0);
+	return result;
+}
+	\end{lstlisting}
+	\item{\textbf{迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\同样我们也可以剪枝
+	\begin{lstlisting}
+int minDepth(TreeNode *root) {
+	if(!root)	return 0;
+	stack<pair<TreeNode*, int> > s;
+	s.push(make_pair(root, 1));
+	int	 result = -((1<<31) + 1);
+	TreeNode *node;
+	int depth;
+	while(!s.empty()){
+		node = s.top().first;
+		depth = s.top().second;
+		s.pop();
+		if(result < depth)	continue;
+		if(!node->left && !node->right)
+			result = depth;
+	
+		if(node->left )
+			s.push(make_pair(node->left, depth + 1));
+		if(node->right)
+			s.push(make_pair(node->right, depth + 1));
+	}
+	return result;
+}
+	\end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

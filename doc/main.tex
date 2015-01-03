@@ -12,19 +12,23 @@
 \lstset{language=C++, %用于设置语言为C++
 	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
 	identifierstyle=,
-	basicstyle=\ttfamily, 
+	%basicstyle=\ttfamily, 
+	basicstyle=\small, 
 	commentstyle=\color{blue} \textit,
+	escapechar=\%,
 	stringstyle=\ttfamily, 
 	showstringspaces=false,
-	frame=shadowbox, 
+	%frame=shadowbox, 
 	rulesepcolor=\color{red!20!green!20!blue!20},
 	numbers=left, numberstyle=\tiny, %行号
+	aboveskip=1em, %代码块边框
 	captionpos=b
 }
 %%%
 
 %\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
 
+\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,CJKbookmarks=true]{hyperref}
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 \title{我的解题报告}

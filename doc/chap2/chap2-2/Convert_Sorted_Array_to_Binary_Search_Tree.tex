@@ -1,0 +1,60 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given an array where elements are sorted in ascending order, convert it to a height balanced BST. \textit{(leetcode 108)}
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+	\\建立平衡的二叉树，那么我们每次取数组的中间位置那个元素为根节点，然后它之前的部分创建左子树，之后的部分创建右子树，那么很容易就可以使用递归实现.
+	\begin{lstlisting}
+TreeNode* dfs(vector<int> &num, int start, int end){
+	if(start > end)	return NULL;
+	if(start == end)	return (new TreeNode(num[start]));
+	int mid = (start + end) / 2;
+	TreeNode* root = new TreeNode(num[mid]);
+	root->left = dfs(num, start, mid - 1);
+	root->right = dfs(num, mid + 1, end);
+	return root;
+}
+
+TreeNode *sortedArrayToBST(vector<int> &num) {	
+	int size = num.size();
+	return dfs(num, 0, size - 1);
+}
+	\end{lstlisting}
+	\textit{因为是数组，所以可以很方便的找到中位数，但是如果是链表，则需要使用一些小技巧}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

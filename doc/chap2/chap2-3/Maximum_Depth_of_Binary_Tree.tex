@@ -1,0 +1,79 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree, find its maximum depth.\textit{(leetcode 104)}
+	\\从根节点来看，它的深度就是左右子树深度较大的那个+1,所以很自然的想到递归
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\递归代码十分简洁
+	\begin{lstlisting}
+int maxDepth(TreeNode *root){
+	if(!root)   return 0;
+	int left = maxDepth(root->left);
+	int right = maxDepth(root->right);
+	return left < right? right + 1 : left + 1;
+}
+	\end{lstlisting}
+	\qquad除了递归，其实这道题能不能用迭代的做法呢？答案是肯定的，最初你可能会想到用两个栈，一个栈存放节点，一个栈存放深度，其实可以把这个两者打包成一个pair，使用一个栈就可以啦
+	\item{\textbf{迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\begin{lstlisting}
+int maxDepth(TreeNode *root) {
+	if(!root)	return 0;
+	stack<pair<TreeNode*, int> > s;
+	s.push(make_pair(root, 1));
+	pair<TreeNode*, int> curr;
+	int result = INT_MIN;
+	while(!s.empty()){
+		curr = s.top();
+		s.pop();
+		if(!curr.first->left && !curr.first->right){
+			if(result < curr.second)
+				result = curr.second;
+			continue;
+		}
+		if(curr.first->left){
+			s.push(make_pair(curr.first->left, curr.second + 1));
+		}
+		if(curr.first->right){
+			s.push(make_pair(curr.first->right, curr.second + 1));
+		}
+	}
+	return result;
+}
+	\end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
