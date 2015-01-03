@@ -1,0 +1,85 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum. \textit{(leetcode 112)}
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\先减去当前节点的值，剩余的值再分别递归求解左右子树
+	\begin{lstlisting}
+bool hasPathSum(TreeNode *root, int sum) {
+	if(root == NULL) return false;
+	int val = root->val;
+	sum = sum - val;
+	if(sum == 0 && !root->left && !root->right)
+		return true;
+
+	bool left = false; 
+	if(root->left){
+		left = hasPathSum(root->left, sum);	
+	}
+	if(left) return true;
+	if(root->right)
+		return hasPathSum(root->right, sum);
+	return false;
+}
+	\end{lstlisting}
+	\qquad仿照最大/小深度问题，可以在迭代栈加上附加路径和这个信息，那么实现起来就非常简单了
+	\item{\textbf{迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\begin{lstlisting}
+bool hasPathSum(TreeNode *root, int sum) {
+	if(!root)	return false;
+	stack<pair<TreeNode*, int> > s;
+	s.push(make_pair(root, root->val));
+	TreeNode *node;
+	int e;
+	while(!s.empty()){
+		node = s.top().first;
+		e = s.top().second;
+		s.pop();
+		if(!node->left && !node->right && e == sum)
+			return true;
+		if(node->left)
+			s.push(make_pair(node->left, e + node->left->val));
+		if(node->right)
+			s.push(make_pair(node->right, e + node->right->val));
+	}
+	return false;
+}
+	\end{lstlisting}
+	\qquad可以看得出，迭代栈加入附件信息是一个常用的技巧，需要深刻理解和掌握.
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
