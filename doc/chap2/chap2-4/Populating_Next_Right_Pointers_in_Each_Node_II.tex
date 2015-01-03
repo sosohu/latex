@@ -1,0 +1,80 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Follow up for problem "Populating Next Right Pointers in Each Node".What if the given tree could be any binary tree? Would your previous solution still work?
+	\textbf{Note}: You may only use constant extra space. \textit{(leetcode 117)}
+	\item{\textbf{迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+	\\这里其实和上一题一样，只不过多了一些判断条件.
+	\begin{lstlisting}
+void connect(TreeLinkNode *root) {
+	if(!root)	return;
+	TreeLinkNode *cur = root, *next, *last;
+	cur->next = NULL;
+	do{
+		next = NULL;
+		while(cur){
+			if(cur->left){
+				if(next){
+					last->next = cur->left;
+					last = last->next;
+				}
+				else{
+					last = cur->left;
+					next = last;
+				}
+			}
+			if(cur->right){
+				if(next){
+					last->next = cur->right;
+					last = last->next;
+				}
+				else{
+					last = cur->left;
+					next = last;
+				}
+			}
+			cur = cur->next;
+		}
+		last->next = NULL;
+		cur = next;
+	}while(cur);
+}
+	\end{lstlisting}
+	\textit{}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

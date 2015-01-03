@@ -1,0 +1,86 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+	identifierstyle=,
+	basicstyle=\ttfamily, 
+	commentstyle=\color{blue} \textit,
+	stringstyle=\ttfamily, 
+	showstringspaces=false,
+	%frame=shadowbox, %边框
+	captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree, flatten it to a linked list in-place by the pre-order. \textit{(leetcode 114)}
+	\\这是一个基于先序遍历的问题，所以可以使用递归和迭代的方法.
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\begin{lstlisting}
+void flatten(TreeNode *root) {
+	TreeNode *tail;
+	recursion(root, tail);
+}
+
+TreeNode* recursion(TreeNode *root, TreeNode* &tail){
+	if(!root)	return NULL;
+	TreeNode *next = NULL;
+	tail = root;
+	if(root->left)
+		next = recursion(root->left, tail);
+	if(root->right)
+		tail->right = recursion(root->right, tail);
+	root->left = NULL;
+	if(next)
+		root->right = next;
+	return root;
+}
+	\end{lstlisting}
+	\item{\textbf{迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\这里就是完完全全的迭代版前序遍历,这里使用了栈，同样你也可以使用Mirror算法.
+	\begin{lstlisting}
+void flatten(TreeNode *root) {
+	if(!root)	return;
+	stack<TreeNode*> s;
+	s.push(root);
+	TreeNode *last = NULL, *cur;
+	while(!s.empty()){
+		cur = s.top();
+		s.pop();
+		if(last)
+			last->right = cur;
+		if(cur->right)
+			s.push(cur->right);
+		if(cur->left)
+			s.push(cur->left);
+		cur->left = NULL;
+		last = cur;
+	}
+	last->right = NULL;
+}
+	\end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

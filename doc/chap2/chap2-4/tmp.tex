@@ -1,7 +1,7 @@
-\documentclass{book}
+\ifx allfiles undefined
+\documentclass{article}
 \usepackage{CJK}
 \usepackage{verbatim}
-\usepackage{amsmath}
 
 %%%代码
 \usepackage{color}
@@ -13,39 +13,34 @@
 \lstset{language=C++, %用于设置语言为C++
 	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
 	identifierstyle=,
-	%basicstyle=\ttfamily, 
-	basicstyle=\small, 
+	basicstyle=\ttfamily, 
 	commentstyle=\color{blue} \textit,
-	escapechar=\%,
 	stringstyle=\ttfamily, 
 	showstringspaces=false,
-	%frame=shadowbox, 
-	rulesepcolor=\color{red!20!green!20!blue!20},
-	numbers=left, numberstyle=\tiny, %行号
-	aboveskip=1em, %代码块边框
+	%frame=shadowbox, %边框
 	captionpos=b
 }
 %%%
 
 %\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
 
-\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,CJKbookmarks=true]{hyperref}
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
-\title{我的解题报告}
-\author{胡庆海}
-\date{}
 
-\maketitle
+\else
+	
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree, return the postorder traversal of its nodes' values. \textit{(leetcode 145)}
+	\item{\textbf{}} : \fbox{时间复杂度 , 空间复杂度O}
+	\\
+	\begin{lstlisting}
+	\end{lstlisting}
+	\textit{}
+\end{description}
 
-%\newpage
-\tableofcontents
+\fi
 
-\chapter{第一章： 链表}
-\input{chap1/chap1.tex}
-
-\chapter{第二章： 树}
-\input{chap2/chap2.tex}
-
+\ifx allfiles undefined
 \end{CJK}
 \end{document}
+\fi
