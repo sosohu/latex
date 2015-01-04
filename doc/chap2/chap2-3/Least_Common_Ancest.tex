@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -28,27 +29,27 @@
 
 \else
 	
-%二叉树的属性
-\subsection{Validate Binary Search Tree}
-\input{chap2/chap2-3/Validate_Binary_Search_Tree.tex}
-\subsection{Symmetric Tree}
-\input{chap2/chap2-3/Symmetric_Tree.tex}
-\subsection{Same Tree}
-\input{chap2/chap2-3/Balanced_Binary_Tree.tex}
-\subsection{Maximum Depth of Binary Tree}
-\input{chap2/chap2-3/Maximum_Depth_of_Binary_Tree.tex}
-\subsection{Minimum Depth of Binary Tree}
-\input{chap2/chap2-3/Minimum_Depth_of_Binary_Tree.tex}
-\subsection{Path Sum}
-\input{chap2/chap2-3/Path_Sum.tex}
-\subsection{Path Sum II}
-\input{chap2/chap2-3/Path_Sum_II.tex}
-\subsection{Binary Tree Maximum Path Sum}
-\input{chap2/chap2-3/Binary_Tree_Maximum_Path_Sum.tex}
-\subsection{Sum Root to Leaf Numbers}
-\input{chap2/chap2-3/Sum_Root_to_Leaf_Numbers.tex}
-\subsection{Least Common Ancest}
-\input{chap2/chap2-3/Least_Common_Ancest.tex}
+\begin{description}
+	\item{\textbf{问题}}: Given a binary tree,  return the least common ancest of two nodes.
+	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+	\\
+	\begin{lstlisting}
+TreeNode * NearestCommAncestor(TreeNode *root, TreeNode *node1, TreeNode *node2){
+    if(!root || !node1 || !node2)   return NULL;
+    if(node1 == root || node2 == root)
+        return root;
+    if(!root->left)
+        return NearestCommAncestor(root->right, node1, node2);
+    if(!root->right)
+        return NearestCommAncestor(root->left, node1, node2);
+    TreeNode *left, *right;
+    left = NearestCommAncestor(root->left, node1, node2);
+    right = NearestCommAncestor(root->right, node1, node2);
+    if(left && right)   return root;
+    return left? left : right;
+}
+	\end{lstlisting}
+\end{description}
 
 \fi
 
