@@ -47,20 +47,39 @@ void BiTree::InOrderTraversal(TreeNode* root){
 	\\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之一，使用两重循环的那个
 	\begin{lstlisting}
 void BiTree::InOrderTraversal(TreeNode* root){
-	if(!root)	return;
+	vector<int> data;
+	if(!root)	return data;
 	stack<TreeNode*> s;
 	TreeNode *pos = root;
-	while(pos || !s.empty()){
-		while(pos->left){
+	while(!s.empty() || pos){
+		while(pos){
 			s.push(pos);
 			pos = pos->left;
 		}
-		cout<<pos->val<<endl;
-		if(pos->right)
-			pos = pos->right;
-		else{
+		pos = s.top();
+		s.pop();
+		std::cout<<pos->val<<std::endl;
+		pos = pos->right;  //这个非常重要
+	}
+}
+	\end{lstlisting}
+	\item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+	\\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之二，使用一重循环，实际上是一样的
+	\begin{lstlisting}
+void BiTree::InOrderTraversal(TreeNode* root){
+	vector<int> data;
+	if(!root)	return data;
+	stack<TreeNode*> s;
+	TreeNode *pos = root;
+	while(!s.empty() || pos){
+		if(pos){
+			s.push(pos);
+			pos = pos->left;
+		}else{
 			pos = s.top();
 			s.pop();
+			std::cout<<pos->val<<std::endl;
+			pos = pos->right;  //这个非常重要
 		}
 	}
 }
