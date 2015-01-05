@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,40 +28,40 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree:
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree:
+    \begin{lstlisting}
 struct TreeLinkNode {
     TreeLinkNode *left;
     TreeLinkNode *right;
-	TreeLinkNode *next;
+    TreeLinkNode *next;
 }
-	\end{lstlisting}
-	Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. 
-	\\\textbf{Note}:
-	\\You may only use constant extra space.
-	\\You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
-	\textit{(leetcode 116)}
-	\\其实就是一个很简单的BFS过程.
-	\item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
-	\\因为是满二叉树，所以每次在上一层建立这一层的next，然后再到这一层来,这样就不需要队列，使用常数的空间复杂度.
-	\begin{lstlisting}
+    \end{lstlisting}
+    Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL. 
+    \\\textbf{Note}:
+    \\You may only use constant extra space.
+    \\You may assume that it is a perfect binary tree (ie, all leaves are at the same level, and every parent has two children).
+    \textit{(leetcode 116)}
+    \\其实就是一个很简单的BFS过程.
+    \item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\因为是满二叉树，所以每次在上一层建立这一层的next，然后再到这一层来,这样就不需要队列，使用常数的空间复杂度.
+    \begin{lstlisting}
 void connect(TreeLinkNode *root) {
-	if(!root)	return;
-	TreeLinkNode *cur = root, *next;
-	cur->next = NULL;
-	while(cur->left){
-		next = cur->left;
-		while(cur){
-			cur->left->next = cur->right;
-			cur->right->next = cur->next? cur->next->left : NULL;
-			cur = cur->next;
-		}
-		cur = next;
-	}
+    if(!root)    return;
+    TreeLinkNode *cur = root, *next;
+    cur->next = NULL;
+    while(cur->left){
+        next = cur->left;
+        while(cur){
+            cur->left->next = cur->right;
+            cur->right->next = cur->next? cur->next->left : NULL;
+            cur = cur->next;
+        }
+        cur = next;
+    }
 }
-	\end{lstlisting}
+    \end{lstlisting}
 \end{description}
 
 \fi

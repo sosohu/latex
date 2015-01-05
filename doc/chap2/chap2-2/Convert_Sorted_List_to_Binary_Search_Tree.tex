@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,41 +28,41 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST. \textit{(leetcode 109)}
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
-	\\前面使用数组构造BST树，我们可以看到每次需要求出它的中间的那个数，然后以它创建根节点，但是对于有序链表来说，找到中位数起码要花O(n)时间，那么这样算下来整个程序需要O($nlgn$)的时间！这似乎和数组的O(n)差别比较大。我们可以想一下，摒弃这种自上而下的思维，来一次自下而上的方法：我们先构建左子树，构建完了之后访问的最后一点节点是不是就是根节点的前驱？这样我们记下这个前驱，然后一记next是不是就求出我们梦寐以求的中位数那个节点！然后再next一下，构建右子树，看看发生了什么？我们一边建树一边就得到中间节点，所以就省掉了找中间节点的那个时间！
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a singly linked list where elements are sorted in ascending order, convert it to a height balanced BST. \textit{(leetcode 109)}
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\前面使用数组构造BST树，我们可以看到每次需要求出它的中间的那个数，然后以它创建根节点，但是对于有序链表来说，找到中位数起码要花O(n)时间，那么这样算下来整个程序需要O($nlgn$)的时间！这似乎和数组的O(n)差别比较大。我们可以想一下，摒弃这种自上而下的思维，来一次自下而上的方法：我们先构建左子树，构建完了之后访问的最后一点节点是不是就是根节点的前驱？这样我们记下这个前驱，然后一记next是不是就求出我们梦寐以求的中位数那个节点！然后再next一下，构建右子树，看看发生了什么？我们一边建树一边就得到中间节点，所以就省掉了找中间节点的那个时间！
+    \begin{lstlisting}
 TreeNode* DFS(ListNode* &head, int n){
-	if(n == 0)	return NULL;
-	TreeNode *root;
-	if(n == 1){
-		root = new TreeNode(head->val);
-		head = head->next;
-		return root;
-	}
-	TreeNode *left = DFS(head, n/2);// head travel the list
-	root = new TreeNode(head->val);
-	head = head->next; 
-	TreeNode *right = DFS(head, n - 1 - n/2 );
-	root->left = left;
-	root->right = right;
-	return root;
+    if(n == 0)    return NULL;
+    TreeNode *root;
+    if(n == 1){
+        root = new TreeNode(head->val);
+        head = head->next;
+        return root;
+    }
+    TreeNode *left = DFS(head, n/2);// head travel the list
+    root = new TreeNode(head->val);
+    head = head->next; 
+    TreeNode *right = DFS(head, n - 1 - n/2 );
+    root->left = left;
+    root->right = right;
+    return root;
 }
 
 TreeNode *sortedListToBST(ListNode *head) {
-	if(!head)	return NULL;
-	int count = 0;
-	ListNode *pos = head;
-	while(pos){//compute the length of the list
-		pos = pos->next;
-		count++;
-	}
-	return DFS(head, count);
+    if(!head)    return NULL;
+    int count = 0;
+    ListNode *pos = head;
+    while(pos){//compute the length of the list
+        pos = pos->next;
+        count++;
+    }
+    return DFS(head, count);
 }
-	\end{lstlisting}
-	\textit{这里使用自下而上的做法很具有普遍性，我们从上面看得不到的东西，从下面可以积累到}
+    \end{lstlisting}
+    \textit{这里使用自下而上的做法很具有普遍性，我们从上面看得不到的东西，从下面可以积累到}
 \end{description}
 
 \fi

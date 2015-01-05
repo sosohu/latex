@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,12 +28,12 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree,  return the least common ancest of two nodes.
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
-	\\
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree,  return the least common ancest of two nodes.
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+    \\
+    \begin{lstlisting}
 TreeNode * NearestCommAncestor(TreeNode *root, TreeNode *node1, TreeNode *node2){
     if(!root || !node1 || !node2)   return NULL;
     if(node1 == root || node2 == root)
@@ -48,7 +48,7 @@ TreeNode * NearestCommAncestor(TreeNode *root, TreeNode *node1, TreeNode *node2)
     if(left && right)   return root;
     return left? left : right;
 }
-	\end{lstlisting}
+    \end{lstlisting}
 \end{description}
 
 \fi

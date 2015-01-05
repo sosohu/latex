@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,48 +28,48 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree, return the postorder traversal of its nodes' values. \textit{(leetcode 145)}
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
-	\\
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree, return the postorder traversal of its nodes' values. \textit{(leetcode 145)}
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+    \\
+    \begin{lstlisting}
 void BiTree::PostOrderTraversal(TreeNode* root){
-	if(!root)	return;
-	if(root->left)
-		PostOrderTraversal(root->left);
-	if(root->right)
-		PostOrderTraversal(root->right);
-	cout<<root->val<<endl;
+    if(!root)    return;
+    if(root->left)
+        PostOrderTraversal(root->left);
+    if(root->right)
+        PostOrderTraversal(root->right);
+    cout<<root->val<<endl;
 }
-	\end{lstlisting}
-	\item{栈式迭代}: \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
-	\\这里判断一个节点的孩子是否被访问过的方法是：记录上一次打印的节点，如果上一次打印的节点是它的孩子节点，那么必然它的所有孩子及其子树都访问完了，换句话说该访问它本身了.
-	\begin{lstlisting}
+    \end{lstlisting}
+    \item{栈式迭代}: \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+    \\这里判断一个节点的孩子是否被访问过的方法是：记录上一次打印的节点，如果上一次打印的节点是它的孩子节点，那么必然它的所有孩子及其子树都访问完了，换句话说该访问它本身了.
+    \begin{lstlisting}
 void BiTree::PostOrderTraversal(TreeNode* root){
-	if(!root)	return;
-	stack<TreeNode*> s;
-	TreeNode *pos = root, *last = root;
-	s.push(root);
-	while(!s.empty()){
-		pos = s.top();
-		if(pos->left == last || pos->right == last || (!pos->left && !pos->right)){
-		//孩子已经打印完毕或者根本就没有孩子
-			cout<<pos->val<<endl;
-			last = pos;
-			s.pop();
-		}else{
-			if(pos->right){
-				s.push(pos->right);
-			}
-			if(pos->left){
-				s.push(pos->right);
-			}
-		}
-	}
+    if(!root)    return;
+    stack<TreeNode*> s;
+    TreeNode *pos = root, *last = root;
+    s.push(root);
+    while(!s.empty()){
+        pos = s.top();
+        if(pos->left == last || pos->right == last || (!pos->left && !pos->right)){
+        //孩子已经打印完毕或者根本就没有孩子
+            cout<<pos->val<<endl;
+            last = pos;
+            s.pop();
+        }else{
+            if(pos->right){
+                s.push(pos->right);
+            }
+            if(pos->left){
+                s.push(pos->right);
+            }
+        }
+    }
 }
-	\end{lstlisting}
-	\textit{这里没有出现万众期待的Mirror算法，主要是后序使用Mirror很复杂，我暂时还没有想到怎么实现\^\_\^}
+    \end{lstlisting}
+    \textit{这里没有出现万众期待的Mirror算法，主要是后序使用Mirror很复杂，我暂时还没有想到怎么实现\^\_\^}
 \end{description}
 
 \fi

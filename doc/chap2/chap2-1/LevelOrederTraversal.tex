@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,37 +28,37 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level). \textit{(leetcode 145)}
-	\item{\textbf{队列}} : \fbox{时间复杂度O(n) , 空间复杂度O(w), w为二叉树最大宽度}
-	\\使用队列，上一层进入队列，然后添加下一层，直到不再有节点进入队列
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level). \textit{(leetcode 145)}
+    \item{\textbf{队列}} : \fbox{时间复杂度O(n) , 空间复杂度O(w), w为二叉树最大宽度}
+    \\使用队列，上一层进入队列，然后添加下一层，直到不再有节点进入队列
+    \begin{lstlisting}
 vector<vector<int> > levelOrder(TreeNode *root) {
-	vector<vector<int> > data;
-	if(!root)	return data;
-	queue<TreeNode*> cur;
-	cur.push(root);
-	int size = 0;
-	TreeNode* now;
-	while(!cur.empty()){
-		vector<int> tmp;
-		size = cur.size();
-		for(int i = 0; i < size; i++){
-			now = cur.front();
-			cur.pop();
-			tmp.push_back(now->val);
-			if(now->left)
-				cur.push(now->left);
-			if(now->right)
-				cur.push(now->right);
-		}
-		data.push_back(tmp);
-	}
-	return data;
+    vector<vector<int> > data;
+    if(!root)    return data;
+    queue<TreeNode*> cur;
+    cur.push(root);
+    int size = 0;
+    TreeNode* now;
+    while(!cur.empty()){
+        vector<int> tmp;
+        size = cur.size();
+        for(int i = 0; i < size; i++){
+            now = cur.front();
+            cur.pop();
+            tmp.push_back(now->val);
+            if(now->left)
+                cur.push(now->left);
+            if(now->right)
+                cur.push(now->right);
+        }
+        data.push_back(tmp);
+    }
+    return data;
 }
-	\end{lstlisting}
-	\textit{其实层次遍历除了这个先上而下，先左而右的顺序以外还有很多顺序，但是都可以通过这个顺序来转换，所以就不再仔细讨论}
+    \end{lstlisting}
+    \textit{其实层次遍历除了这个先上而下，先左而右的顺序以外还有很多顺序，但是都可以通过这个顺序来转换，所以就不再仔细讨论}
 \end{description}
 
 \fi

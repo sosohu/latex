@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,72 +28,72 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Two elements of a binary search tree (BST) are swapped by mistake. Recover the tree without changing its structure. \textit{(leetcode 99)}
-	\\BST树的中序遍历是排序好的，那么可以通过中序遍历来看一下哪两个地方发生了交换,发生交换的地方必然是前面那个数比后面的大,只要在遍历过程记录这个位置就可以了.
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
-	\\这段代码很有技巧，需要细细品读. 对于1,5,3,4,2这个序列: fisrt是5, second是2;对于1,3,2,4,5这个序列: first是3, second是2.
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Two elements of a binary search tree (BST) are swapped by mistake. Recover the tree without changing its structure. \textit{(leetcode 99)}
+    \\BST树的中序遍历是排序好的，那么可以通过中序遍历来看一下哪两个地方发生了交换,发生交换的地方必然是前面那个数比后面的大,只要在遍历过程记录这个位置就可以了.
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+    \\这段代码很有技巧，需要细细品读. 对于1,5,3,4,2这个序列: fisrt是5, second是2;对于1,3,2,4,5这个序列: first是3, second是2.
+    \begin{lstlisting}
 void dfs(TreeNode* root, int& last, TreeNode* &first, TreeNode* &second){
-	if(root->left){
-		dfs(root->left, last, first, second);
-	}
-	if(root->val < last){
-		second = root;
-	}
-	if(!second){
-		first = root;
-	}
-	last = root->val;
-	if(root->right){
-		dfs(root->right, last, first, second);
-	}
+    if(root->left){
+        dfs(root->left, last, first, second);
+    }
+    if(root->val < last){
+        second = root;
+    }
+    if(!second){
+        first = root;
+    }
+    last = root->val;
+    if(root->right){
+        dfs(root->right, last, first, second);
+    }
 }
 
 void recoverTree(TreeNode* root) {
-	if(!root)	return;
-	TreeNode *first = NULL, *second = NULL;
-	int min = (-1)<<31;
-	dfs(root, min, first, second);
-	int tmp = first->val;
-	first->val = second->val;
-	second->val = tmp;
+    if(!root)    return;
+    TreeNode *first = NULL, *second = NULL;
+    int min = (-1)<<31;
+    dfs(root, min, first, second);
+    int tmp = first->val;
+    first->val = second->val;
+    second->val = tmp;
 }
-	\end{lstlisting}
-	\item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
-	\begin{lstlisting}
+    \end{lstlisting}
+    \item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O($lgn$)}
+    \begin{lstlisting}
 void recoverTree(TreeNode* root) {
-	if(!root)	return;
-	TreeNode *first = NULL, *second = NULL, *cur;
-	int last = INT_MIN;
-	stack<TreeNode*> s;
-	s.push(root);
-	while(!s.empty()){
-		cur = s.top();
-		while(cur){
-			s.push(cur->left);
-			cur = cur->left;
-		}
-		s.pop();
-		if(!s.empty()){
-			cur = s.top();
-			if(cur->val < last){
-				second = cur;
-			}
-			if(!second){
-				first = cur;
-			}
-			last = cur->val;
-			s.pop();
-			s.push(cur->right);
-		}
-	}
-	int tmp = first->val;
-	first->val = second->val;
-	second->val = tmp;
+    if(!root)    return;
+    TreeNode *first = NULL, *second = NULL, *cur;
+    int last = INT_MIN;
+    stack<TreeNode*> s;
+    s.push(root);
+    while(!s.empty()){
+        cur = s.top();
+        while(cur){
+            s.push(cur->left);
+            cur = cur->left;
+        }
+        s.pop();
+        if(!s.empty()){
+            cur = s.top();
+            if(cur->val < last){
+                second = cur;
+            }
+            if(!second){
+                first = cur;
+            }
+            last = cur->val;
+            s.pop();
+            s.push(cur->right);
+        }
+    }
+    int tmp = first->val;
+    first->val = second->val;
+    second->val = tmp;
 }
-	\end{lstlisting}
+    \end{lstlisting}
 \end{description}
 
 \fi

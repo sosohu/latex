@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,33 +28,33 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum. \textit{(leetcode 113)}
-	\\这题是Path Sum问题的延续，解法其实是一模一样的.
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
-	\\这里有个技巧需要注意的就是，可以使用一个引用参数cur来记录跟节点到当前节点这条路径中的所有值，我们在进入某个节点后cur要push这个节点，在离开这个节点后就要pop这个节点
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum. \textit{(leetcode 113)}
+    \\这题是Path Sum问题的延续，解法其实是一模一样的.
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
+    \\这里有个技巧需要注意的就是，可以使用一个引用参数cur来记录跟节点到当前节点这条路径中的所有值，我们在进入某个节点后cur要push这个节点，在离开这个节点后就要pop这个节点
+    \begin{lstlisting}
 vector<vector<int> > pathSum(TreeNode *root, int sum){
-	vector<int> cur;
-	vector<vector<int> > result;
-	recursion(root, cur, result, sum);
-	return result;
+    vector<int> cur;
+    vector<vector<int> > result;
+    recursion(root, cur, result, sum);
+    return result;
 }
 
 void recursion(TreeNode *root, vector<int> &cur, vector<vector<int> > &result, int sum){
-	if(!root)	return;
-	cur.push_back(root->val);
-	if(!root->left && !root->right && root->val == sum)
-		result.push_back(cur);
-	if(root->left)
-		recursion(root->left, cur, result, sum - root->val);
-	if(root->right)
-		recursion(root->right, cur, result, sum - root->val);
-	cur.pop_back();
+    if(!root)    return;
+    cur.push_back(root->val);
+    if(!root->left && !root->right && root->val == sum)
+        result.push_back(cur);
+    if(root->left)
+        recursion(root->left, cur, result, sum - root->val);
+    if(root->right)
+        recursion(root->right, cur, result, sum - root->val);
+    cur.pop_back();
 }
-	\end{lstlisting}
-	\qquad我们知道Path Sum有迭代的做法，但是那种通过栈附加信息的做法对于我们这题还要求求出路径的问题不是很适合，所以就没有写出这种做法了，你有什么好想法么？
+    \end{lstlisting}
+    \qquad我们知道Path Sum有迭代的做法，但是那种通过栈附加信息的做法对于我们这题还要求求出路径的问题不是很适合，所以就没有写出这种做法了，你有什么好想法么？
 \end{description}
 
 \fi

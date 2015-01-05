@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,89 +28,89 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 %XXX 问题
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree, return the inorder traversal of its nodes' values. \textit{(leetcode 94)}
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
-	\\
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree, return the inorder traversal of its nodes' values. \textit{(leetcode 94)}
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+    \\
+    \begin{lstlisting}
 void BiTree::InOrderTraversal(TreeNode* root){
-	if(!root)	return;
-	if(root->left)
-		InOrderTraversal(root->left);
-	cout<<root->val<<endl;
-	if(root->right)
-		InOrderTraversal(root->right);
-	\end{lstlisting}
-	\item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
-	\\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之一，使用两重循环的那个
-	\begin{lstlisting}
+    if(!root)    return;
+    if(root->left)
+        InOrderTraversal(root->left);
+    cout<<root->val<<endl;
+    if(root->right)
+        InOrderTraversal(root->right);
+    \end{lstlisting}
+    \item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+    \\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之一，使用两重循环的那个
+    \begin{lstlisting}
 void BiTree::InOrderTraversal(TreeNode* root){
-	vector<int> data;
-	if(!root)	return data;
-	stack<TreeNode*> s;
-	TreeNode *pos = root;
-	while(!s.empty() || pos){
-		while(pos){
-			s.push(pos);
-			pos = pos->left;
-		}
-		pos = s.top();
-		s.pop();
-		std::cout<<pos->val<<std::endl;
-		pos = pos->right;  //这个非常重要
-	}
+    vector<int> data;
+    if(!root)    return data;
+    stack<TreeNode*> s;
+    TreeNode *pos = root;
+    while(!s.empty() || pos){
+        while(pos){
+            s.push(pos);
+            pos = pos->left;
+        }
+        pos = s.top();
+        s.pop();
+        std::cout<<pos->val<<std::endl;
+        pos = pos->right;  //这个非常重要
+    }
 }
-	\end{lstlisting}
-	\item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
-	\\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之二，使用一重循环，实际上是一样的
-	\begin{lstlisting}
+    \end{lstlisting}
+    \item{\textbf{栈式迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+    \\这里需要说一下的是，数据结构那本书上写了两种栈式迭代方法，这是其中之二，使用一重循环，实际上是一样的
+    \begin{lstlisting}
 void BiTree::InOrderTraversal(TreeNode* root){
-	vector<int> data;
-	if(!root)	return data;
-	stack<TreeNode*> s;
-	TreeNode *pos = root;
-	while(!s.empty() || pos){
-		if(pos){
-			s.push(pos);
-			pos = pos->left;
-		}else{
-			pos = s.top();
-			s.pop();
-			std::cout<<pos->val<<std::endl;
-			pos = pos->right;  //这个非常重要
-		}
-	}
+    vector<int> data;
+    if(!root)    return data;
+    stack<TreeNode*> s;
+    TreeNode *pos = root;
+    while(!s.empty() || pos){
+        if(pos){
+            s.push(pos);
+            pos = pos->left;
+        }else{
+            pos = s.top();
+            s.pop();
+            std::cout<<pos->val<<std::endl;
+            pos = pos->right;  //这个非常重要
+        }
+    }
 }
-	\end{lstlisting}
-	\item{\textbf{Mirror迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
-	\\这里Mirror方法和前序的Mirror方法基本一样，唯一的区别就是打印当前值的时机
-	\begin{lstlisting}
+    \end{lstlisting}
+    \item{\textbf{Mirror迭代}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\这里Mirror方法和前序的Mirror方法基本一样，唯一的区别就是打印当前值的时机
+    \begin{lstlisting}
 void BiTree::InOrderTraversal(TreeNode* root){
-	if(!root)	return;
-	TreeNode *curr = root, *next;
-	while(curr){
-		next = curr->left;
-		if(!next){
-			cout<<curr->val<<endl;
-			curr = curr->right;
-			continue;
-		}
-		while(next->right && next->right != curr){
-			next = next->right;
-		}
-		if(next->right == curr){
-			next->right = NULL;
-			cout<<curr->val<<endl;
-			curr = curr->right;
-		}else{
-			next->right = curr;
-			curr = curr->left;
-		}
-	}
+    if(!root)    return;
+    TreeNode *curr = root, *next;
+    while(curr){
+        next = curr->left;
+        if(!next){
+            cout<<curr->val<<endl;
+            curr = curr->right;
+            continue;
+        }
+        while(next->right && next->right != curr){
+            next = next->right;
+        }
+        if(next->right == curr){
+            next->right = NULL;
+            cout<<curr->val<<endl;
+            curr = curr->right;
+        }else{
+            next->right = curr;
+            curr = curr->left;
+        }
+    }
 }
-	\end{lstlisting}
+    \end{lstlisting}
 \end{description}
 
 \fi

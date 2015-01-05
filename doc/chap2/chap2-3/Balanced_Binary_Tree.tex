@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,29 +28,29 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given a binary tree, determine if it is height-balanced. \textit{(leetcode 110)}
-	\item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
-	\\先判断左子树是否高度平衡并返回左子树高度，再判断右子树是否高度平衡，再返回右子树高度，根据左右子树高度再判断当前树是否平衡.
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given a binary tree, determine if it is height-balanced. \textit{(leetcode 110)}
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n) , 空间复杂度O($lgn$)}
+    \\先判断左子树是否高度平衡并返回左子树高度，再判断右子树是否高度平衡，再返回右子树高度，根据左右子树高度再判断当前树是否平衡.
+    \begin{lstlisting}
 bool dfs(TreeNode *root, int &hight){
-	if(!root){
-		hight = 0;
-		return true;
-	}
-	int left, right;
-	bool is_left = dfs(root->left, left);
-	bool is_right = dfs(root->right, right);
-	hight = left > right? left + 1 : right + 1;
-	return is_left && is_right && (abs(left - right) < 2);
+    if(!root){
+        hight = 0;
+        return true;
+    }
+    int left, right;
+    bool is_left = dfs(root->left, left);
+    bool is_right = dfs(root->right, right);
+    hight = left > right? left + 1 : right + 1;
+    return is_left && is_right && (abs(left - right) < 2);
 }
 
 bool isBalanced(TreeNode *root) {
-	int hight;
-	return dfs(root, hight);
+    int hight;
+    return dfs(root, hight);
 }
-	\end{lstlisting}
+    \end{lstlisting}
 \end{description}
 
 \fi

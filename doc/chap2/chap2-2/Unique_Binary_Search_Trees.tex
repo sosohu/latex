@@ -11,14 +11,14 @@
 \lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
 \lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
 \lstset{language=C++, %用于设置语言为C++
-	keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
-	identifierstyle=,
-	basicstyle=\ttfamily, 
-	commentstyle=\color{blue} \textit,
-	stringstyle=\ttfamily, 
-	showstringspaces=false,
-	%frame=shadowbox, %边框
-	captionpos=b
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
 }
 %%%
 
@@ -28,34 +28,34 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-	
+    
 \begin{description}
-	\item{\textbf{问题}}: Given n, how many structurally unique BST's (binary search trees) that store values 1...n? \textit{(leetcode 96)}
-	\\这道题虽然是一个二叉树的问题，但是其实是数学归纳法的问题，我们可以得到递推公式：
-	\begin{equation}
-	\begin{split}
-	S(0) = 1
-	\\S(n) = \sum_{i = 0}^{n - 1}{S(i)*S(n-1-i)}
-	\end{split}
-	\end{equation}
-	\\这是因为对于有n个元素的BST(1,2,...,n)，我们考虑由谁来作为根节点，如果以i+1为根节点，那么左子树为(1,2,...,i),右子树为(i+2,i+3,...,n),所以可以得到上面的递推关系.
-	\item{\textbf{迭代}} : \fbox{时间复杂度O($n^2$) , 空间复杂度O(n)}
-	\begin{lstlisting}
+    \item{\textbf{问题}}: Given n, how many structurally unique BST's (binary search trees) that store values 1...n? \textit{(leetcode 96)}
+    \\这道题虽然是一个二叉树的问题，但是其实是数学归纳法的问题，我们可以得到递推公式：
+    \begin{equation}
+    \begin{split}
+    S(0) = 1
+    \\S(n) = \sum_{i = 0}^{n - 1}{S(i)*S(n-1-i)}
+    \end{split}
+    \end{equation}
+    \\这是因为对于有n个元素的BST(1,2,...,n)，我们考虑由谁来作为根节点，如果以i+1为根节点，那么左子树为(1,2,...,i),右子树为(i+2,i+3,...,n),所以可以得到上面的递推关系.
+    \item{\textbf{迭代}} : \fbox{时间复杂度O($n^2$) , 空间复杂度O(n)}
+    \begin{lstlisting}
 int numTrees(int n) {
-	if(!n)	return 0;
-	vector<int> num(n+1, 0);
-	num[1] = 1;
-	num[2] = 2;
-	for(int i = 3; i <= n; i++){
-		num[i] = 2*num[i-1];
-		for(int j = 1; j < i; j++){
-			num[i] = num[i] + num[j]*num[i-1-j];
-		}
-	}
-	return num[n];
+    if(!n)    return 0;
+    vector<int> num(n+1, 0);
+    num[1] = 1;
+    num[2] = 2;
+    for(int i = 3; i <= n; i++){
+        num[i] = 2*num[i-1];
+        for(int j = 1; j < i; j++){
+            num[i] = num[i] + num[j]*num[i-1-j];
+        }
+    }
+    return num[n];
 }
-	\end{lstlisting}
-	\textit{}
+    \end{lstlisting}
+    \textit{}
 \end{description}
 
 \fi
