@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,13 +28,24 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-
-\section{链表的基本操作}
-\input{chap1/chap1-1/chap1-1.tex}
-\newpage
-\section{链表的基本问题}
-\input{chap1/chap1-2/chap1-2.tex}
-\newpage
+    
+\begin{description}
+    \item{\textbf{问题}}: Given a linked list, determine if it has a cycle in it.(\textit{leetcode 141})
+    \item{\textbf{快慢指针}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\快慢指针, 慢指针每步一个节点，快指针每步两个节点，如果有环肯定会相遇
+    \begin{lstlisting}
+bool IsCircleList(ListNode *pHead){
+	if(!pHead || !pHead->next) return false;
+	ListNode *slow = pHead, *fast = pHead;
+	while(fast && fast->next){
+		slow = slow->next;
+		fast = fast->next->next;
+		if(slow == fast)	return true;
+	}
+	return false;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

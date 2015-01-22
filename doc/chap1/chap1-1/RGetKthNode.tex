@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -28,13 +29,27 @@
 
 \else
 
-\section{链表的基本操作}
-\input{chap1/chap1-1/chap1-1.tex}
-\newpage
-\section{链表的基本问题}
-\input{chap1/chap1-2/chap1-2.tex}
-\newpage
-
+\begin{description}
+    \item{\textbf{问题}}: Given a list, return the last Kth Node.
+    \item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+	两个指针问题.
+    \begin{lstlisting}
+ListNode * RGetKthNode(ListNode *pHead, unsigned int k){
+	if(k < 1)	return NULL;
+	ListNode *pre = pHead;
+	ListNode *last = pHead;
+	while(k-- > 0 && last){
+		last = last->next;
+	}
+	if(!last) return NULL;
+	while(last){
+		last = last->next;
+		pre = pre->next;
+	}
+	return pre;	
+}
+    \end{lstlisting}
+\end{description}
 \fi
 
 \ifx allfiles undefined
