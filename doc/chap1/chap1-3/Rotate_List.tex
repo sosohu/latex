@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -28,21 +29,31 @@
 
 \else
     
-\qquad链表的基本问题大多都是很经典的链表问题，例如中间节点，是否有环等等.
-\subsection{GetMidNode}
-\input{chap1/chap1-2/GetMidNode.tex}
-\subsection{IsMeetList}
-\input{chap1/chap1-2/IsMeetList.tex}
-\subsection{GetFirstMeetNode}
-\input{chap1/chap1-2/GetFirstMeetNode.tex}
-\subsection{IsCircleList}
-\input{chap1/chap1-2/IsCircleList.tex}
-\subsection{GetFirstCircleNode}
-\input{chap1/chap1-2/GetFirstCircleNode.tex}
-\subsection{MergeSortedList}
-\input{chap1/chap1-2/MergeSortedList.tex}
-\subsection{SortList}
-\input{chap1/chap1-2/SortList.tex}
+\begin{description}
+    \item{\textbf{问题}}: Given a list, rotate the list to the right by k places, where k is non-negative. \textit{(leetcode 61)}
+    \item{\textbf{Example}} : Given $1\rightarrow2\rightarrow3\rightarrow4\rightarrow5\rightarrow NULL$ and k = 2, return $4\rightarrow5\rightarrow1\rightarrow2\rightarrow3\rightarrow NULL$.
+    \item{\textbf{Care}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\
+    \begin{lstlisting}
+ListNode *rotateRight(ListNode *head, int k) {
+	if(!head || k < 1)	return head;
+	ListNode *pos = head, *pre = head;
+	int count = 0;
+	for(; count < k && pos; count++){
+		pos = pos->next;
+	}
+	if(!pos)	return rotateRight(head, k%count);
+	while(pos->next){
+		pos = pos->next;
+		pre = pre->next;
+	}
+	pos->next = head;
+	head = pre->next;
+	pre->next = NULL;
+	return head;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

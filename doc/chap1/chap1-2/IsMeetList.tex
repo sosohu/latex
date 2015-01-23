@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -28,21 +29,24 @@
 
 \else
     
-\qquad链表的基本问题大多都是很经典的链表问题，例如中间节点，是否有环等等.
-\subsection{GetMidNode}
-\input{chap1/chap1-2/GetMidNode.tex}
-\subsection{IsMeetList}
-\input{chap1/chap1-2/IsMeetList.tex}
-\subsection{GetFirstMeetNode}
-\input{chap1/chap1-2/GetFirstMeetNode.tex}
-\subsection{IsCircleList}
-\input{chap1/chap1-2/IsCircleList.tex}
-\subsection{GetFirstCircleNode}
-\input{chap1/chap1-2/GetFirstCircleNode.tex}
-\subsection{MergeSortedList}
-\input{chap1/chap1-2/MergeSortedList.tex}
-\subsection{SortList}
-\input{chap1/chap1-2/SortList.tex}
+\begin{description}
+    \item{\textbf{问题}}: Given two lists, return wheather the two lists meet.
+    \item{\textbf{Null}} : \fbox{时间复杂度(n+m), 空间复杂度O(1)}
+    \\判断两个链表是否相交，只需要判断两个链表最后一个节点是否为同一个即可
+    \begin{lstlisting}
+bool isMeetList(ListNode *pHead1, ListNode *pHead2){
+	if(!pHead1 || !pHead2)	return false;
+	ListNode *pos1 = pHead1, *pos2 = pHead2;
+	while(pos1->next){
+		pos1 = pos1->next;
+	}
+	while(pos2->next){
+		pos2 = pos2->next;
+	}
+	return pos1 == pos2;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

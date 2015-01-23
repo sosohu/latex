@@ -1,0 +1,70 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given two lists, return the first node where they meet, if it is not exsit, return Null.
+    \item{\textbf{双指针}} : \fbox{时间复杂度(n+m), 空间复杂度O(1)}
+    \\找到两个链表第一个相交点，首先遍历两个链表，得到两个链表的长度，比如说l1, l2.然后先移动较长的那个链表（比如l1>l2），移动l1-l2步，这样双方剩余的节点数就相等了.接着以前往后走，第一次相遇的点就是答案
+    \begin{lstlisting}
+ListNode *getFirstMeet(ListNode *pHead1, ListNode *pHead2){
+	if(!pHead1 || !pHead2)	return NULL;
+	ListNode *pos1 = pHead1, *pos2 = pHead2;
+	int l1 = 0, l2 = 0;
+	while(pos1->next){
+		l1++;
+		pos1 = pos1->next;
+	}
+	while(pos2->next){
+		l2++;
+		pos2 = pos2->next;
+	}
+	if(pos1 != pos2)	return NULL;
+	pos1 = l1 > l2? pHead1 : pHead2;
+	pos2 = l1 > l2? pHead2 : pHead1;
+	int count = l1 > l2? l1 - l2 : l2 -l1;
+	while(count-- > 0){
+		pos1 = pos1->next;
+	}
+	while(pos1 && pos2){
+		if(pos1 == pos2)	return pos1;
+		pos1 = pos1->next;
+		pos2 = pos2->next;
+	}
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

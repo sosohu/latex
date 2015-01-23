@@ -1,0 +1,62 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given a linked list, remove the nth node from the end of list and return its head. \textit{(leetcode 19)}
+    \item{\textbf{举例}} : Given linked list: $1\rightarrow2\rightarrow3\rightarrow4\rightarrow5$, and n = 2. After removing the second node from the end, the linked list becomes $1\rightarrow2\rightarrow3\rightarrow5$.
+    \item{\textbf{Note}} : Given n will always be valid.
+    \item{\textbf{两个指针}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\两个指针相距n,然后一起后移.
+    \begin{lstlisting}
+ListNode *removeNthFromEnd(ListNode *head, int n) {
+	if(!head || n < 1)	return head;
+	ListNode newhead(0);
+	newhead.next = head;
+	ListNode *last = &newhead, *first = &newhead;
+	while(n-- > 0 && last->next){
+		last = last->next;
+	}
+	while(last->next){
+		first = first->next;
+		last = last->next;
+	}
+	first->next = first->next->next;
+	return newhead.next;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

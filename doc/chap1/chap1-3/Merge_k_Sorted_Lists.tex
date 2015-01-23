@@ -1,0 +1,63 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity. \textit{(leetcode 23)}
+    \item{\textbf{}} : \fbox{时间复杂度 , 空间复杂度O}
+    \\这道题其实是Merge two list的延伸，我们在Merge两个链表时候，每次都是比较一下取较小的入新链表，当有k个链表的时候，我们也是取这k个节点最小的那个，然后用它的next替换它，再进行下次选取.我们想一下，最naive的做法是，每次这k个都比较一遍,那么这个每取一个的时间复杂度就是O(k)，整个的时间复杂度就是O(k*k*n). 其实这里面的过程有一个信息被我们遗漏了，或者说是没有被利用好,那就是当我们取出这k个节点最小那个时候，其实除了最小的那个其他的节点之间大小关系也有比较过，比如是节点s和t,然后新替入的那个进来之后，再来一次取最小值，这时候其实s和t的大小关系我们是已知的，但是我们没有利用，而是有可能还会取比较一次!　为了避免这个重复比较，我们想到使用最小堆的方法:　把这个k个节点放入最小堆，然后取堆顶点，再加入新节点，整个操作只需要O(lgk)的时间复杂度，所以整个的时间复杂度降为O(k*nlgk)
+    \begin{lstlisting}
+ListNode *mergeKLists(vector<ListNode*> &lists) {
+	multimap<int, int> data;
+	ListNode ret(0) , *pos = &ret;
+	for(int i = 0; i < lists.size(); i++){
+		if(lists[i])
+			data.insert(make_pair(lists[i]->val, i));
+	}
+	while(!data.empty()){
+		int index = data.begin()->second;
+		data.erase(data.begin());
+		pos = pos->next = lists[index];
+		lists[index] = lists[index]->next;
+		if(lists[index])
+			data.insert(make_pair(lists[index]->val, index));
+	}
+	return ret.next;
+}
+    \end{lstlisting}
+	上面没有使用堆，但是使用的是tree map,它其实可以用来模拟堆操作，整个的时间复杂度和用堆是一样的.
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
