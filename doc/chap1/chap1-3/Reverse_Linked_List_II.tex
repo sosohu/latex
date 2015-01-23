@@ -30,29 +30,31 @@
 \else
     
 \begin{description}
-    \item{\textbf{问题}}: Given a list, rotate the list to the right by k places, where k is non-negative. \textit{(leetcode 61)}
-    \item{\textbf{示例}} : Given $1\rightarrow2\rightarrow3\rightarrow4\rightarrow5\rightarrow NULL$ and k = 2, return $4\rightarrow5\rightarrow1\rightarrow2\rightarrow3\rightarrow NULL$.
+    \item{\textbf{问题}}: Reverse a linked list from position m to n. Do it in-place and in one-pass. \textit{(leetcode 92)}
+	\item{\textbf{举例}} : Given $1\rightarrow2\rightarrow3\rightarrow4\rightarrow5\rightarrow NULL$, m = 2 and n = 4, return $1\rightarrow4\rightarrow3\rightarrow2\rightarrow5\rightarrow NULL$.
+    \item{\textbf{Note}} : Given m, n satisfy the following condition: 1 ≤ m ≤ n ≤ length of list.
     \item{\textbf{Care}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
-    \\首尾连接一下轻松搞定链表旋转
+    \\这题主要是边界条件比较复杂，如何写出优雅的囊括边界条件检测的代码是个问题.
     \begin{lstlisting}
-ListNode *rotateRight(ListNode *head, int k) {
-	if(!head || k < 1)	return head;
-	ListNode *pos = head, *pre = head;
-	int count = 0;
-	for(; count < k && pos; count++){
+ListNode *reverseBetween(ListNode *head, int m, int n) {
+	if(!head || !head->next || m >= n)	return head;
+	ListNode newhead(0);
+	newhead.next = head;
+	ListNode *pos = &newhead, *next, *tmp;
+	for(int i = 0; i < m - 1; i++){
 		pos = pos->next;
 	}
-	if(!pos)	return rotateRight(head, k%count);
-	while(pos->next){
-		pos = pos->next;
-		pre = pre->next;
+	next = pos->next;
+	for(int i = 0; i < n - m; i++){
+		tmp = next->next;
+		next->next = tmp->next;
+		tmp->next = pos->next;
+		pos->next = tmp;
 	}
-	pos->next = head;
-	head = pre->next;
-	pre->next = NULL;
-	return head;
+	return newhead.next;
 }
     \end{lstlisting}
+	使用一个新的头节点是一个很好的习惯.
 \end{description}
 
 \fi

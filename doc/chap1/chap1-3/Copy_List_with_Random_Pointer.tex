@@ -1,0 +1,120 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null. Return a deep copy of the list. \textit{(leetcode 138)}
+    \item{\textbf{哈希表}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\链表的缺点在于不能随机访问，但是如果和哈希表来联合使用那么就可以做到随机访问了.这道题在遍历链表时候，一边遍历一边建立新的链表节点，然后使用哈希表记录新老节点的映射关系，等到再一次遍历老链表的时候根据映射表就可以快速的定位到新链表对应位置，不必再从头开始找.
+    \begin{lstlisting}
+RandomListNode *copyRandomList(RandomListNode *head){
+	if(head == NULL) return NULL;
+	stack<RandomListNode*> to_be;
+	unordered_map<RandomListNode*, RandomListNode*> have_new;
+	RandomListNode* pos, *next, *rand;
+	to_be.push(head);
+	pos = head;
+	RandomListNode* new_head, *new_pos, *new_next, *new_rand;
+	new_head = new RandomListNode(head->label);
+	new_pos = new_head;
+	have_new[pos] = new_pos;
+	while(!to_be.empty()){
+		pos = to_be.top();
+		to_be.pop();
+		next = pos->next;
+		rand = pos->random;
+		new_pos = have_new[pos];
+		if(next != NULL){
+			if(have_new.count(next) == 1){
+				new_pos->next = have_new[next];
+			}
+			else{
+				new_next  = new RandomListNode(next->label);
+				new_pos->next = new_next;
+				have_new[next] = new_next;
+				to_be.push(next);
+			}
+		}else{
+			new_pos->next = NULL;
+		}
+		if(rand != NULL){
+			if(have_new.count(rand) == 1){
+				new_pos->random = have_new[rand];
+			}
+			else{
+				new_rand = new RandomListNode(rand->label);
+				new_pos->random = new_rand;
+				have_new[rand] = new_rand;
+				to_be.push(rand);
+			}
+		}else{
+			new_pos->random = NULL;
+		}
+	}
+	return new_head;
+}
+    \end{lstlisting}
+    \item{\textbf{插入法}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\插入法实质上也是在建立新老节点的对应关系，不像哈希表这种需要额外空间的对应，而是非常巧妙的在老链表的结构上建立映射关系，举重若轻.
+    \begin{lstlisting}
+RandomListNode *copyRandomList(RandomListNode *head){
+	if(!head)	return NULL;
+	RandomListNode *pos = head, *tmp, *ret;
+	while(pos){
+		tmp = new RandomListNode(pos->label);	
+		tmp->next = pos->next;
+		pos->next = tmp;
+		pos = pos->next->next;
+	}
+	pos = head;
+	while(pos){
+		pos->next->random = pos->random? pos->random->next : NULL;
+		pos = pos->next->next;
+	}
+	pos = head;
+	ret = pos->next;
+	while(pos){
+		tmp = pos->next;
+		pos->next = tmp->next;
+		tmp->next = pos->next? pos->next->next : NULL;
+		pos = pos->next;
+	}
+	return ret;
+}
+    \end{lstlisting}
+	其实这道题你还可以这样看，这里链表的节点有个next指针和random指针，其实这就是一个图了(链表是特殊的树，树是特殊的图)，所以套用图的DFS和BFS，你在处理过程中就有两种选择：　比如你建立老链表第一个节点的对应新节点后，你可以类似DFS选择直接深度优先的访问next节点next的next节点等等；同样你也可以类似BFS下次访问next节点和rand节点.所以你可以使用递归的方式实现.
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
