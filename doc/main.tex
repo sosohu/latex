@@ -1,5 +1,7 @@
 \documentclass[oneside]{book}
 \usepackage{CJK}
+\usepackage{graphics,graphicx}
+\usepackage{pstricks,pst-node,pst-tree}
 \usepackage{verbatim}
 \usepackage{amsmath}
 \usepackage{titlesec}
@@ -27,8 +29,10 @@
     identifierstyle=\ttfamily\color{black}\bfseries,
     stringstyle=\color{pink}\ttfamily,showstringspaces=false,
     breaklines=true,
+	tabsize=4,
     escapeinside=``
 }
+
 %%%
 
 %\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
@@ -77,6 +81,9 @@
 
 \chapter{树}
 \input{chap2/chap2.tex}
+
+\chapter{字符串}
+\input{chap3/chap3.tex}
 
 \end{CJK}
 \end{document}

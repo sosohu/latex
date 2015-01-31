@@ -1,0 +1,97 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+	Implement regular expression matching with support for '.' and '*'.\\
+	'.' Matches any single character.\\
+	'*' Matches zero or more of the preceding element.\\
+	The matching should cover the entire input string (not partial).\\
+	\textit{(leetcode 10)}
+	\item{\textbf{举例}}: \\
+	isMatch("aa","a") → false\\
+	isMatch("aa","aa") → true\\
+	isMatch("aaa","aa") → false\\
+	isMatch("aa", "a*") → true\\
+	isMatch("aa", ".*") → true\\
+	isMatch("ab", ".*") → true\\
+	isMatch("aab", "c*a*b") → true\\
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n*m), 空间复杂度O(n*m)}
+    \\本题使用动态规划求解,设isMatch[i][j]表示s[1...i]与p[1...j]是否匹配\\
+	递推关系是如下:
+
+$$ isMatch[i][j]=\left\{
+\begin{array}{lcr}
+1 $ {\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad}$ { \qquad\qquad\qquad\qquad\qquad i=0,j=0 } \\
+0 $ {\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad}$ { \qquad\qquad\qquad\qquad\qquad i\ne0,j=0 } \\
+{isMatch[i-1][j-1]\ \&\&\ (s_{i-1}\ ==\ p_{j-1}\ ||\ p_{j-1}\ ==\ '.')} $ {\qquad}$ {p_j\ne'*'} \\
+{isMatch[i][j] = isMatch[i][j-2]\ ||\ isMatch[i-1][j]}$ {\quad} $ { p_j='*',p_{j-1}='.'} \\
+{isMatch[i][j-1]} $ {\qquad\qquad\qquad\qquad\qquad\qquad\qquad\qquad} $ { p_j='*',p_{j-1}='*'}\\
+{isMatch[i][j-2]\ ||\ (s_{i-1} == p_{j-1}\ \&\&\ isMatch[i-1][j])}$ {\qquad\qquad} $ {other}
+\end{array}
+\right.
+$$
+    \begin{lstlisting}
+	bool isMatch(const char *s, const char *p) {
+		int ls = strlen(s);
+		int lp = strlen(p);
+		vector<vector<bool> > isMatch(ls+1, vector<bool>(lp+1, false));
+		isMatch[0][0] = true;
+		int di, dj;
+		for(int i = 0; i < ls + 1; i++){ // 起始坐标
+			di = i - 1;
+			for(int j = 1; j < lp + 1; j++){ // 起始坐标
+				dj = j - 1;
+				if(p[dj] != '*'){
+					isMatch[i][j] = di != -1 && isMatch[i-1][j-1] && (s[di] == p[dj] || p[dj] == '.');
+				}else{
+					if(dj == 0) { isMatch[i][j] = false; continue; }
+					if(p[dj-1] == '.'){
+							isMatch[i][j] = isMatch[i][j-2] || (di != -1 && isMatch[i-1][j]);
+					}else{
+						if(p[dj-1] == '*')	isMatch[i][j] = isMatch[i][j-1];	
+						else isMatch[i][j] = isMatch[i][j-2] || (di != -1 && s[di] == p[dj-1] && isMatch[i-1][j]);
+					}
+				}
+			}
+		}
+		return isMatch[ls][lp];
+	}
+    \end{lstlisting}
+    \textit{}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

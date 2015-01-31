@@ -1,0 +1,64 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given an array of strings, return all groups of strings that are anagrams.
+	\item{\textbf{Note}}: All inputs will be in lower-case. 
+	\textit{(leetcode 49)}
+    \item{\textbf{sort}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(n*m)}
+    \\变位词是字符串的一种常见问题,很多时候都是先把一群互为变位词的词选出一个为它们的索引词(key),然后就可以把它们放在一起存储.这道题如果不是先这样,而是一个一个查找那么是非常低效的.
+    \begin{lstlisting}
+vector<string> anagrams(vector<string> &strs) {
+	int size = strs.size();
+	unordered_map<string, vector<string> > table;
+	for(int i = 0; i < size; i++){
+		string index = strs[i];
+		sort(index.begin(), index.end());
+		table[index].push_back(strs[i]);
+	}
+	vector<string> ret;
+	for(unordered_map<string, vector<string> >::iterator iter = table.begin();
+		iter != table.end(); iter++){
+		if(iter->second.size() > 1){
+			ret.insert(ret.end(), iter->second.begin(), iter->second.end());
+		}
+	}
+return ret;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

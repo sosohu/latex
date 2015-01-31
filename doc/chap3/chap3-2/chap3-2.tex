@@ -1,0 +1,55 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\qquad字符串的经典问题有很多,虽然很多解法都属于算法范畴,诸如动态规划等,这里还是归结为字符串的问题.
+
+\subsection{strStr}
+\input{chap3/chap3-2/strStr.tex}
+\subsection{atoi}
+\input{chap3/chap3-2/atoi.tex}
+\subsection{Valid Palindrome}
+\input{chap3/chap3-2/Valid_Palindrome.tex}
+\subsection{LongestPalindrome}
+\input{chap3/chap3-2/LongestPalindrome.tex}
+\subsection{Anagrams}
+\input{chap3/chap3-2/Anagrams.tex}
+\subsection{Valid Number}
+\input{chap3/chap3-2/Valid_Number.tex}
+\subsection{Regular Expression Matching}
+\input{chap3/chap3-2/Regular_Expression_Matching.tex}
+\subsection{Wildcard Matching}
+\input{chap3/chap3-2/Wildcard_Matching.tex}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

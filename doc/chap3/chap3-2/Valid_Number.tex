@@ -1,0 +1,124 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+
+    
+\begin{description}
+    \item{\textbf{问题}}: Validate if a given string is numeric.
+	\item{\textbf{举例}} "0" is true " 0.1 " is true "abc" is false "1 a" is false "2e10" is true
+    \item{\textbf{NFA}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这种问题最优美的解法就是先写出正则表达式,然后根据正则表达式画出NFA,然后根据NFA的状态转移写出代码.\\
+
+	\textbf{正则表达式: $s^*(+|-)?((d^+.?)|(.d))d^*(e(+|-)?d^+)?$   s为空格,d为数字}
+
+	画出状态转移图如下:\\ \\
+
+$
+\psmatrix[mnode=circle,colsep=1]
+0 & 1 & 3 & 4 & 5 & 6 \\
+  &   & 2 & 8 &   & 7 \\
+\endpsmatrix
+$
+\psset{shortput=nab,arrows=->,labelsep=3pt, nodesep=3pt}
+\small
+\nccircle{1,1}{.3cm}
+\nbput*{s}
+\ncline{1,1}{1,2}
+\nbput*{+/-}
+\ncarc[arcangle=45]{1,1}{1,3}
+\naput*{.}
+\ncline{1,1}{2,3}
+\nbput*{d}
+\ncline{1,2}{1,3}^{.}
+\ncline{1,2}{2,3}^[npos=.3]{d}
+\ncline{1,3}{1,4}^{d}
+\nccircle{1,4}{.3cm}
+\nbput*{d}
+\ncline{1,4}{1,5}^{e}
+\ncline{1,4}{2,4}^{s}
+\ncline{1,5}{1,6}^{+/-}
+\ncline{1,5}{2,6}^[npos=.3]{d}
+\ncline{1,6}{2,6}^[npos=.3]{d}
+\nccircle{2,3}{.3cm}
+\nbput*{d}
+\ncline{2,3}{1,4}^{.}
+\ncline{2,3}{1,4}^{d}
+\ncline{2,3}{2,4}^{s}
+\ncline{2,6}{2,4}^{s}
+\nccircle{2,4}{.3cm}
+\nbput*{s}
+
+    \begin{lstlisting}
+enum lexical{ valid, space, sign, number, dot, e };
+
+int isType(const char c){
+	switch(c){
+		case ' ': return 1;
+		case '+': ;
+		case '-': return 2;
+		case '.': return 4;
+		case 'e': return 5;
+		default: if(c <= '9' && c >= '0')	return 3;
+				 else return 0;
+	}
+}
+
+bool isNumber(const char *s) {
+	if(!s)	return false;
+	//状态转移矩阵, -1表示非法
+	int map[9][6] = {
+		-1, 0, 1, 2, 3, -1,  // 0状态的转移
+		-1, -1, -1, 2, 3, -1,
+		-1, 8, -1, 2, 4, 5,
+		-1, -1, -1, 4, -1, -1,
+		-1, 8, -1, 4, -1, 5,
+		-1, -1, 6, 7, -1, -1,
+		-1, -1, -1, 7, -1, -1,
+		-1, 8, -1, 7, -1, -1,
+		-1, 8, -1, -1, -1, -1 
+	};
+	int state = 0;
+	while(*s){
+		state = map[state][isType(*s)];
+		if(state == -1)	return false;
+		s++;
+	}
+	return state == 2 || state == 4 || state == 7 || state == 8;
+}
+    \end{lstlisting}
+    知道NFA转移图后想到像上面这些编写代码也是蛮难的,这样编写的好处是可以灵活的改变NFA,不会对代码构成很大影响,值得学习.
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

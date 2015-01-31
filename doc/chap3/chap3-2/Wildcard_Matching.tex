@@ -1,0 +1,85 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+	 Implement wildcard pattern matching with support for '?' and '*'. '?'\\
+	 Matches any single character. '*' Matches any sequence of characters (including the empty sequence).\\
+	 The matching should cover the entire input string (not partial). \textit{(leetcode 44)}
+	\item{\textbf{举例}}: \\
+	isMatch("aa","a") → false\\
+	isMatch("aa","aa") → true\\
+	isMatch("aaa","aa") → false\\
+	isMatch("aa", "*") → true\\
+	isMatch("aa", "a*") → true\\
+	isMatch("ab", "?*") → true\\
+	isMatch("aab", "c*a*b") → false\\
+    \item{\textbf{迭代}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(1)}
+    \\这道题其实是可以套用Regular Expression Matching的解法,使用动态规划来计算,但是那样在leetcode上会超时,具体原因我还不清楚. 本题的解法其实也很明了,唯一需要注意的就是每次我们遇到*时候都会记下此次*的位置以及主串位置,然后一次一次的试探*是否要生成字母,试探不成功就回到刚才我们记下的状态然后试探下一个状态,但是,当我们遇到下一个*时候,就可以更新这个记录点了,因为都已经到这个*了,上个*走到这个*走的路肯定是对的,即使不太对,也可以通过这个*不断生成字母来弥补,这就是需要注意的地方,不是很好理解,需要仔细琢磨.
+    \begin{lstlisting}
+bool isMatch(const char *s, const char *p){
+	int ls = strlen(s);
+	int lp = strlen(p);
+	const char *ps = s, *pp = p, *lasts = NULL, *lastp = NULL;
+	if(!s || !p)	return false;
+	while(*s){
+		switch(*p){
+			case '?':	s++; p++; break;
+			case '*':	while(*(p+1) && *(p+1) == '*')	p++;
+						lasts = s; lastp = p; p++; break;
+			default:	if(*s == *p){ s++; p++;}
+						else{
+							if(lasts){
+								s = ++lasts;
+								p = lastp + 1;
+							}else{
+								return false;
+							}
+						}
+		}
+	}
+	if(*p == '\0' && *s == '\0')	return true;
+	if((*p) == '\0' && *(p-1) != '*')	return false;
+	while(*p && *p == '*'){
+		p++;
+	}
+	if(*p != '\0')	return false;
+	return true;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

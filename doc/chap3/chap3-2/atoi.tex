@@ -1,0 +1,85 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Implement atoi to convert a string to an integer. \textit{(leetcode 8)}
+	\item{\textbf{Note}}: The function first discards as many whitespace characters as necessary until the first non-whitespace character is found. Then, starting from this character, takes an optional initial plus or minus sign followed by as many numerical digits as possible, and interprets them as a numerical value.
+
+The string can contain additional characters after those that form the integral number, which are ignored and have no effect on the behavior of this function.
+
+If the first sequence of non-whitespace characters in str is not a valid integral number, or if no such sequence exists because either str is empty or it contains only whitespace characters, no conversion is performed.
+
+If no valid conversion could be performed, a zero value is returned. If the correct value is out of the range of representable values, INT\_MAX (2147483647) or INT\_MIN (-2147483648) is returned.
+    \item{\textbf{Care}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这个问题主要要注意两个方面,一个是空格和非法字符,一个是溢出,空格和非法字符都很好处理,溢出的处理方式就值得去研究,在C++中INT\_MAX的绝对值比INT\_MIN小1,所以负数个数比正数个数多一个,你可以都转化位负数来判断溢出. 当然,对付溢出还有一种偷懒的方法就是使用double类型取存储数据.
+    \begin{lstlisting}
+int atoi(const char *str){
+	int sum = 0;  // 存负值.
+	bool isMinus = false;
+	const char* p = str;
+	if(!p)	return 0;
+	while(*p == ' ' && *p != '\0') p++; //空格
+	if(*p == '\0')	return 0;
+	if(*p == '-'){
+		isMinus = true;
+		p++;
+	}else{
+		if(*p == '+') p++;
+	}
+	while(*p != '\0'){
+		int cur = *p++ - '0';
+		if(!(cur >= 0 && cur <= 9))	break;  //非法字符
+		if(isMinus && sum == INT_MIN/10 && cur > INT_MAX%10 + 1){
+			return INT_MIN;
+		}
+		if(isMinus && sum < INT_MIN/10){
+			return INT_MIN;
+		}
+		if(!isMinus && sum == -INT_MAX/10 && cur > INT_MAX%10){
+			return INT_MAX;
+		}
+		if(!isMinus && sum < -INT_MAX/10){
+			return INT_MAX;
+		}
+		sum = sum*10 - cur;
+	}
+	if(!isMinus)	return -sum;
+	return sum;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

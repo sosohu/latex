@@ -1,0 +1,66 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\qquad字符串的库函数有很多,虽然大多数算法上都不是很难,但是需要考虑很多细节问题,所以需要研究一下.关于字符串库函数需要注意的问题大致可以总结为以下几点:
+
+\begin{itemize}
+\item 输入参数是什么类型,该不该是const修饰
+\item 输入的指针是否为NULL
+\item 字符串处理完毕后,新产生的字符串末尾是否要加$'\backslash0'$
+\item 要不要返回值,该返回什么类型的(对于要返回值的是为了实现链式操作)
+\end{itemize}
+
+\textbf{还有一些我觉得可能需要考虑的:}
+
+\begin{itemize}
+\item 有没有地址重叠
+\item src和dest地址一样
+\item 需不需要优化做法
+\end{itemize}
+
+\subsection{strlen}
+\input{chap3/chap3-1/strlen.tex}
+\subsection{strcat}
+\input{chap3/chap3-1/strcat.tex}
+\subsection{strcmp}
+\input{chap3/chap3-1/strcmp.tex}
+\subsection{strcpy}
+\input{chap3/chap3-1/strcpy.tex}
+\subsection{strncpy}
+\input{chap3/chap3-1/strncpy.tex}
+\subsection{memcpy}
+\input{chap3/chap3-1/memcpy.tex}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
