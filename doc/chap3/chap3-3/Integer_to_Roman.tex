@@ -1,0 +1,57 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given an integer, convert it to a roman numeral. Input is guaranteed to be within the range from 1 to 3999. \textit{(leetcode 12)}
+    \item{\textbf{Trick}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\这道题其实比较简单,但是怎么写的优雅是一个很难的事,下面的代码就很trick,需要记住.
+    \begin{lstlisting}
+string 	intToRoman(int num) {
+		string ret;
+		int stand[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+		string symbol[] = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+		for(int i = 0; num > 0; i++){
+			int count = num / stand[i];
+			num = num % stand[i];
+			for(; count > 0; count--) ret += symbol[i];
+		}
+		return ret;
+	}
+    \end{lstlisting}
+    \textit{写的实在是太简洁,太美,太富有穿透力了,应该当做教科书一样背下来.}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

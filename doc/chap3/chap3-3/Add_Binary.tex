@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,16 +28,32 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-
-\section{库函数}
-\input{chap3/chap3-1/chap3-1.tex}
-\newpage
-\section{字符串经典问题}
-\input{chap3/chap3-2/chap3-2.tex}
-\newpage
-\section{字符串其他问题}
-\input{chap3/chap3-3/chap3-3.tex}
-\newpage
+    
+\begin{description}
+    \item{\textbf{问题}}: Given two binary strings, return their sum (also a binary string).\textit{(leetcode 67)}
+	\item{\textbf{举例}}:\\
+	a = "11"\\
+	b = "1"\\
+	Return "100".
+    \item{\textbf{迭代}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\和链表的那个完全类似,解法也是基本一致,优雅的代码.
+    \begin{lstlisting}
+string addBinary(string a, string b) {
+	int la = a.length(), lb = b.length();
+	int carry = 0, sum = 0;
+	string ret;
+	while(la || lb || carry){
+		sum = carry + (la > 0? a[la-1] - '0' : 0) + (lb > 0? b[lb-1] - '0' : 0);
+		ret.push_back(sum%2 + '0');
+		carry = sum/2;
+		if(la)	la--;
+		if(lb)	lb--;
+	}
+	reverse(ret.begin(), ret.end());
+	return ret;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

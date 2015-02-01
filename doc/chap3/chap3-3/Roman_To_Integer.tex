@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,16 +28,37 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given a roman numeral, convert it to an integer.Input is guaranteed to be within the range from 1 to 3999. \textit{(leetcode 13)}
+    \item{\textbf{Care}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\同样,怎么写的优雅是这题的最难的地方.
+    \begin{lstlisting}
+int mapNum(char c){
+	switch(c){
+		case 'I': return 1;
+		case 'V': return 5;
+		case 'X': return 10;
+		case 'L': return 50;
+		case 'C': return 100;
+		case 'D': return 500;
+		case 'M': return 1000;
+		default: return 0;
+	}
+}
 
-\section{库函数}
-\input{chap3/chap3-1/chap3-1.tex}
-\newpage
-\section{字符串经典问题}
-\input{chap3/chap3-2/chap3-2.tex}
-\newpage
-\section{字符串其他问题}
-\input{chap3/chap3-3/chap3-3.tex}
-\newpage
+int romanToInt(string s) {
+	int len = s.length();
+	int sum = 0;
+	for(int i = 0; i < len; i++){
+		if(i < len - 1 && mapNum(s[i]) < mapNum(s[i+1]))	
+				sum -= mapNum(s[i]);
+		else	sum += mapNum(s[i]);
+	}
+	return sum;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,16 +28,28 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-
-\section{库函数}
-\input{chap3/chap3-1/chap3-1.tex}
-\newpage
-\section{字符串经典问题}
-\input{chap3/chap3-2/chap3-2.tex}
-\newpage
-\section{字符串其他问题}
-\input{chap3/chap3-3/chap3-3.tex}
-\newpage
+    
+\begin{description}
+    \item{\textbf{问题}}: Write a function to find the longest common prefix string amongst an array of strings. \textit{(leetcode 14)}
+    \item{\textbf{Care}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(1)}
+    \\这道题比较简单,需要注意的还是怎么写的简洁优雅.
+    \begin{lstlisting}
+string longestCommonPrefix(vector<string> &strs) {
+	string ret;
+	if(strs.size() == 0)	return ret;
+	int len = INT_MAX;
+	for(int i = 0; i < strs.size(); i++)
+		if(len > strs[i].length())	len = strs[i].length();
+	for(int j = 0; j < len; j++){
+		for(int i = 1; i < strs.size(); i++)
+			if(strs[i][j] != strs[i-1][j])	return ret;
+		ret.push_back(strs[0][j]);
+	}
+	return ret;
+}
+    \end{lstlisting}
+    \textit{}
+\end{description}
 
 \fi
 

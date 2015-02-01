@@ -1,0 +1,72 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+	The count-and-say sequence is the sequence of integers beginning as follows:\\
+	1, 11, 21, 1211, 111221, ...\\
+	1 is read off as "one 1" or 11.\\
+	11 is read off as "two 1s" or 21.\\
+	21 is read off as "one 2, then one 1" or 1211.\\
+	Given an integer n, generate the nth sequence.\textit{(leetcode 38)}
+	\item{\textbf{Note}}The sequence of integers will be represented as a string. 
+    \item{\textbf{递推}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(m)}
+    \\根据递推关系一步步的推.
+    \begin{lstlisting}
+string parse(string& str){
+	string ret;
+	int last = 0, len = str.length();
+	for(int i = 0; i < len; i++){
+		last = i;
+		while(i < len - 1 && str[i] == str[i+1])	i++;
+		ret.push_back(i - last + 1 + '0');	
+		ret.push_back(str[last]);	
+	}
+	return ret;
+}
+
+string countAndSay(int n) {
+	string last = "1", cur;
+	if(n < 1)	return cur;
+	while(n-- > 1){
+		last = cur = parse(last);
+	}
+	return last;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
