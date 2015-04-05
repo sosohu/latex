@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,23 +28,29 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-
-\subsection{Integer to Roman}
-\input{chap3/chap3-3/Integer_to_Roman.tex}
-\subsection{Roman to Integer}
-\input{chap3/chap3-3/Roman_To_Integer.tex}
-\subsection{Longest Common Prefix}
-\input{chap3/chap3-3/Longest_Common_Prefix.tex}
-\subsection{Count and Say}
-\input{chap3/chap3-3/Count_and_Say.tex}
-\subsection{Add Binary}
-\input{chap3/chap3-3/Add_Binary.tex}
-\subsection{ZigZag Conversion}
-\input{chap3/chap3-3/ZigZag_Conversion.tex}
-\subsection{Length of Last Word}
-\input{chap3/chap3-3/Length_of_Last_Word.tex}
-\subsection{Text Justification}
-\input{chap3/chap3-3/Text_Justification.tex}
+    
+\begin{description}
+    \item{\textbf{问题}}: Given a string s consists of upper/lower-case alphabets and empty space characters ' ', return the length of last word in the string. If the last word does not exist, return 0.\textit{(leetcode 58)}
+	\item{\textbf{举例}}\\
+	Given s = "Hello World",\\
+	return 5. 
+	\item{\textbf{Note}} A word is defined as a character sequence consists of non-space characters only.
+    \item{\textbf{Care}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\这题其实就是套用spilit操作,过程是一模一样的.
+    \begin{lstlisting}
+int lengthOfLastWord(const char *s) {
+	int len = 0;
+	if(!s)	return len;
+	while(*s){
+		while(*s && *s == ' ') s++;
+		if(*s == '\0')	return len;
+		len = 0;
+		while(*s && *s != ' ') {s++; len++;}
+	}
+	return len;
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 

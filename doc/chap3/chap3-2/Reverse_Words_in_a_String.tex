@@ -1,0 +1,66 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given an input string, reverse the string word by word.\textit{(leetcode 151)}
+	\item{\textbf{举例}}:\\
+	Given s = "the sky is blue",\\
+	return "blue is sky the". 
+    \item{\textbf{反转}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\这也是一道经典的字符串题目,题目的要求可以通过先把整个字符串反转一下,然后从前到后spilit,每spilit一个词就反转这个词然后添加到后面,即全局反转和逐个反转.
+    \begin{lstlisting}
+void reverseWords(string &s) {
+	reverse(s.begin(), s.end());
+	int i = 0, last;
+	string str, word;
+	while(i < s.length()){
+		while(i < s.length() && s[i] == ' ') i++;
+		if(i == s.length()) break;
+		last = i;
+		while(i < s.length() && s[i] != ' ') i++;
+		word = s.substr(last, i - last);
+		reverse(word.begin(), word.end());
+		str = str + word + " ";
+	}
+	if(!str.empty())
+		s.assign(str.begin(), str.end() - 1);
+	else
+		s = str;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

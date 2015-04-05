@@ -1,0 +1,69 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an array of non-negative integers, you are initially positioned at the first index of the array.Each element in the array represents your maximum jump length at that position.Your goal is to reach the last index in the minimum number of jumps.\textit{(leetcode 45)}
+
+    \item{\textbf{举例}}:\\
+Given array A = [2,3,1,1,4]\\
+The minimum number of jumps to reach the last index is 2. (Jump 1 step from index 0 to 1, then 3 steps to the last index.)
+    \item{\textbf{贪心}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\我们还是以A=[2,3,1,1,4]为例,我们考虑A[1], A[2], A[3]都能到A[4],如果存在$A[x] \rightarrow A[3] \rightarrow A[4]$，那么必然存在$A[x] \rightarrow A[1] \rightarrow A[4]$,因为A[1]在A[3]前面,A[x]必须是先越过A[1]. 所以我们每次选择能到A[4]的所有跳板中最远的那个(A[1])，这样总跳数必然是最少的.
+    \begin{lstlisting}
+int jump(int A[], int n) {
+	if(n <= 0)	return -1;
+	vector<int> left(n, -1);
+	int pos = 0;
+	//left[i]表示目标位置i的最远跳板位置
+	for(int i = 0; i < n && pos < n - 1; i++){
+		for(int j = pos + 1; j <= i + A[i] && j < n; j++)
+			left[j] = i;
+		pos = pos > i + A[i]? pos : i + A[i];
+	}
+	int count = 0;
+	pos = n - 1;
+	while(pos > 0){
+		count++;
+		pos = left[pos];
+	}
+	return pos == 0?  count : -1;
+}
+    \end{lstlisting}
+    \textit{这个选取最远跳板还有一个trick, 上面代码就是先使用O(n)时间产生每个目标位置的最远跳板位置，很具有技巧性}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

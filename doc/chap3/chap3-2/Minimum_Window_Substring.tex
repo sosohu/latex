@@ -1,0 +1,73 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+	Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).\textit{(leetcode 76)}
+    \item{\textbf{举例}}: \\
+	S = "ADOBECODEBANC"\\
+	T = "ABC"\\
+	Minimum window is "BANC".
+    \item{\textbf{Note}}: \\
+	If there is no such window in S that covers all characters in T, return the emtpy string "".\\
+	If there are multiple such windows, you are guaranteed that there will always be only one unique minimum window in S.
+    \item{\textbf{Hash}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这道题很容易想到用哈希表来求解,但是对于这个存在重复多的key,我一开始想到的是哈希的value存储一个list来放这些重复元素,后来发现对于这道题,其实你只要记录次数就行了,每次准备向右移动窗口时候,只要要被移掉的字符它的hash值大于原数目就说明是多的,可以移除的,所以这题就简单开朗很多了.
+    \begin{lstlisting}
+string minWindow(string S, string T) {
+	vector<int> table(256, 0);
+	vector<int> apper(256, 0);
+	for(int i = 0; i < T.length(); i++) table[T[i]]++;
+	int len = INT_MAX, num = 0, last = 0, pos = 0;
+	for(int i = 0; i < S.length(); i++){
+		apper[S[i]]++;
+		if(apper[S[i]] <= table[S[i]]) num++;
+		while(apper[S[last]] > table[S[last]]){
+			apper[S[last]]--;
+			last++;
+		}
+		if(num == T.length() && len > i - last + 1){
+			len = i - last + 1;
+			pos = last;
+		}
+	}
+	return num == T.length()? S.substr(pos, len) : "";
+}
+    \end{lstlisting}
+    在字符串很多问题中都需要用到哈希表,特别是一个主串一个副串,在主串找副串的元素这类问题.
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

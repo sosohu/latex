@@ -1,5 +1,6 @@
 \documentclass[oneside]{book}
-\usepackage{CJK}
+%\usepackage{CJK}
+\usepackage{CJKutf8}
 \usepackage{graphics,graphicx}
 \usepackage{pstricks,pst-node,pst-tree}
 \usepackage{verbatim}
@@ -37,7 +38,8 @@
 
 %\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
 
-\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,CJKbookmarks=true]{hyperref}
+%最好保证 hyperref 是最后加载的宏包
+\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,unicode=true]{hyperref}
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
@@ -84,6 +86,22 @@
 
 \chapter{字符串}
 \input{chap3/chap3.tex}
+
+%\chapter{搜索与回溯}
+%\input{chap3/chap3.tex}
+
+%\chapter{排序}
+%\input{chap3/chap3.tex}
+
+%\chapter{分治}
+%\input{chap3/chap3.tex}
+
+\chapter{贪心}
+\input{greedy/main.tex}
+
+%\chapter{动态规划}
+%\input{chap3/chap3.tex}
+
 
 \end{CJK}
 \end{document}

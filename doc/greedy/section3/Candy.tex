@@ -1,0 +1,66 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+There are N children standing in a line. Each child is assigned a rating value.
+You are giving candies to these children subjected to the following requirements:\\
+Each child must have at least one candy.\\
+Children with a higher rating get more candies than their neighbors.\\
+What is the minimum candies you must give? \textit{(leetcode 135)}
+    \item{\textbf{贪心}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+	\\我们对每个位置设两个变量left[i]和right[i]分别表示位于i左边/右边连续的小于A[i]的数目.　然后我们可以使用递推公式left[i] = A[i] $>$ A[i-1]?  left[i-1]+1 : 0来求left数组，对应right[i] = A[i] $>$ A[i+1]? right[i+1]+1 : 0来求right数组.\\
+    \\这题老实说感觉应该算动态规划，不过贪心也算是一种特殊的动态规划了，而且left和right数组的求值都是直接通过最优子问题求出，不是多个选出的，从这种角度来说应该算是贪心算法.
+    \begin{lstlisting}
+int candy(vector<int> &ratings) {
+	int size = ratings.size();
+	vector<int> left(size, 0), right(size, 0);
+	for(int i = 1; i < size; i++)
+		if(ratings[i] > ratings[i-1]) left[i] = left[i-1] + 1;
+		else	left[i] = 0;
+	for(int i = size - 2; i >= 0; i--)
+		if(ratings[i] > ratings[i+1]) right[i] = right[i+1] + 1;
+		else	right[i] = 0;
+	int sum = 0;
+	for(int i = 0; i < size; i++)
+		sum += max(left[i], right[i]) + 1;
+	return sum;
+}
+    \end{lstlisting}
+    \textit{left[i]和right[i]是一种常用的方法}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

@@ -1,0 +1,66 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for "abcabcbb" is "abc", which the length is 3. For "bbbbb" the longest substring is "b", with the length of 1. \textit{(leetcode 3)}
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\这道题其实和最大连续和问题是一个类型的问题,都是属于一维的动态规划,说它是动态规划是因为父问题可以通过子问题来构造,我们是d[i]表示字符串s[1...i]中的最长无重复串的长度,c[i]表示s[1...i]中以s[i]为结尾的最长无重复子串的长度, 例如s[1...5] = "abcdb", 那么d[5] = 4, c[5] = 3.\\
+	所以我们有递推关系:\\
+	$$d[i+1] = max(d[i], s_{i+1} \in s[i-c[i]+1...i])? d[i] : c[i]+1)$$
+	根据这个递推关系式,我们可以扫描字符串,边扫描边统计d[i]和更新c[i],最终求得答案.
+    \begin{lstlisting}
+int lengthOfLongestSubstring(string s) {
+	vector<bool> appear(256, false);
+	int ret = 0, con = 0;
+	for(int i = 0; i < s.length(); i++){
+		if(!appear[s[i]]){
+			con++;
+			appear[s[i]] = true;
+			ret = max(ret, con);
+		}else{
+			for(int j = i - con; j < i && s[j] != s[i]; j++){
+				appear[s[j]] = false;
+				con--;
+			}
+		}
+	}
+	return ret;
+}
+    \end{lstlisting}
+    \textit{这类问题很常见,像最大连续和,最长递增子串等等,它们的共同点就是连续而且可以很方便的使用新加入的元素来更新最长靠右连续最优解(本题的c[i]),父问题可以很容易的通过子问题求出.}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

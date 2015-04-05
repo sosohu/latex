@@ -1,0 +1,102 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+	Given an array of words and a length L, format the text such that each line has exactly L characters and is fully (left and right) justified.\\
+You should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces ' ' when necessary so that each line has exactly L characters.\\
+Extra spaces between words should be distributed as evenly as possible. If the number of spaces on a line do not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.\\
+For the last line of text, it should be left justified and no extra space is inserted between words.\textit{(leetcode 68)}
+	\item{\textbf{Note}}:\\
+	Each word is guaranteed not to exceed L in length.\\
+	A line other than the last line might contain only one word. What should you do in this case?\\
+	In this case, that line should be left-justified.
+    \item{\textbf{Care}} : \fbox{时间复杂度O(n) , 空间复杂度O(L)}
+    \\这题比较繁琐,需要考虑很多边界情况,弄清楚题目的所有边界情况很重要,代码写的也是根琐碎.
+    \begin{lstlisting}
+vector<string> fullJustify(vector<string> &words, int L) {
+	vector<string> ret;
+	if(L < 1 || !words.size()){ 
+		string str(L, ' ');
+		ret.push_back(str);	
+		return ret;
+	}
+	int last = 0, cur = 0, num = 0, left = 0;
+	while(cur < words.size()){
+		int sum = 0;
+		last = cur;
+		while(cur < words.size() && sum + words[cur].length() <= L){
+			sum = sum + words[cur].length() + 1;
+			cur++;
+		}
+		num = cur - last; // 词数
+		sum = sum - num; // num个词总长
+		left = L - sum; // 余下空格长度
+		if(num == 1){//一行只有一个词
+			string margin(left, ' ');
+			words[last] = words[last] + margin;
+			ret.push_back(words[last]);
+			continue;
+		}
+		if(cur == words.size()){//最后一行
+			string line, s(1, ' ');
+			for(int i = 0; i < num - 1; i++){
+				line = line + words[last++] + s;
+			}
+			line = line + words[last++];
+			string margin(left - num + 1, ' ');
+			line = line + margin;
+			ret.push_back(line);
+			continue;
+		}
+		int gap = left / (num - 1);
+		int remain = left % (num - 1);
+		string line, s1(gap + (remain == 0? 0 : 1), ' '), s2(gap, ' ');
+		for(int i = 0; i < remain; i++){
+			line = line + words[last++] + s1;
+		}
+		for(int i = remain; i < num - 1; i++){
+			line = line + words[last++] + s2;
+		}
+		line += words[last];
+		ret.push_back(line);
+	}
+	return ret;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

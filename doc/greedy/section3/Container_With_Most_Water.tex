@@ -1,0 +1,59 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.\textit{(leetcode 11)}
+
+    \item{\textbf{Note}}:You may not slant the container. 
+    \item{\textbf{贪心}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\这题采用夹逼法，首先选取左边板为A[0],右边板为A[n-1],这两个边假设可以盛放水量为water，那么我们选取左边板和右边板中的较小的那个，因为这个较少的值决定盛水槽的高度，所以在宽度已经最大的情况下，要想增加盛水量只能试着升高高度，那么只能使得这个两个边板较小的那个向中间移动，以寻找最大盛水量．\\
+	\\假设我们的最优解为中间的某两个边板子，设为A[i]和A[j]，且设A[i] $<$ A[j](反之一样)，我们目前的两个边板设为A[l], A[r],那么在两个边板都没到达最大值的边板位置之前必然有min{A[l], A[r]} $<$ min{A[i], A[j]}, 接着有一个边到达最大值的位置，假设是A[l] == A[i], 那么必然有A[r] $<$ min{A[l], A[j]}, 所以会一直移动到A[r] == A[j]，即是最大值.
+    \begin{lstlisting}
+int maxArea(vector<int> &height) {
+	int water = 0;
+	int left = 0, right = height.size() - 1;
+	while(left < right){
+		water = max(water, min(height[left], height[right])*(right - left));
+		if(height[left] < height[right])	left++;
+		else	right--;
+	}
+	return water;
+}
+    \end{lstlisting}
+    \textit{这道题虽然叫夹逼法，其实也是贪心的一种体现，因为每次内收较矮的一边.}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

@@ -1,0 +1,72 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+	The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)\\ \\
+
+	P   A   H   N\\
+	A P L S I I G\\
+	Y   I   R\\
+	And then read line by line: "PAHNAPLSIIGYIR"\\
+	Write the code that will take a string and make this conversion given a number of rows:\\ \\
+
+	string convert(string text, int nRows);\\
+	convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".\\
+ \textit{(leetcode 6)}
+    \item{\textbf{数学推导}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这题就是简单的推导一下每一行相邻两个位置的间隔,然后编写代码.
+    \begin{lstlisting}
+string convert(string s, int nRows) {
+	if(nRows == 1)	return s;
+	int len = s.length();
+	string ret;
+	for(int i = 0; i < nRows; i++){
+		int start = i, gap = nRows - i - 1;
+		while(start < len){
+			ret.push_back(s[start]);
+			if(!gap) gap = nRows - 1 - gap;
+			start = start + 2*gap;
+			gap = nRows - 1 - gap;
+		}
+	}
+	return ret;
+}
+    \end{lstlisting}
+    \textit{这段代码写的很简洁,每一行都有一个自己的gap表示这一行相邻两个位置的间隔,除了第一行和最后一行gap值一直都会反转,与实际的推导结果一致.}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
