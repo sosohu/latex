@@ -1,0 +1,119 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing all ones and return its area.\textit{(leetcode 85)}\\
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(n*m)}
+    \\这便是经典的最大子矩形问题的一个变种，最大子矩形问题中，允许边界有障碍点，但是本题是不允许边界有障碍点(0),不过本题的解法和最大子矩形问题的解法一样，都是对矩形中每点求其悬线，悬线左边距离和右边距离，然后在每个悬线左右扫描形成的极大子矩形中选取一个为最大子矩形．\\
+	\\我们首先来声明几个定义:\\
+\begin{itemize}
+	\item{悬线height[i][j]}: 矩阵中点A[i][j]的悬线指从该点出发向上走，走到第一个障碍点或者边界的距离(含本点).
+	\item{左边距离left[i][j]}: 矩阵中点A[i][j]的左边距离指的是该点的悬线向左移动在不会碰到障碍点或者边界的情况下能移动的最大距离(含本点).
+	\item{右边距离right[i][j]}: 矩阵中点A[i][j]的右边距离指的是该点的悬线向右移动在不会碰到障碍点或者边界的情况下能移动的最大距离(含本点).
+\end{itemize}
+	我们以矩阵A为例:\\
+$$
+A=\begin{pmatrix}
+1 & 0 & 0 \\
+1 & 1 & 1 \\
+0 & 1 & 1 \\
+\end{pmatrix}
+$$
+那么点A[2][1]位置的悬线高度为2,左边距离为1,右边距离为2. 所以点A[2][1]悬线左右扫面形成的矩形面积为2*(1+2-1) = 4\\
+	\\于是我们target = max\{height[i][j]*(left[i][j] + right[i][j] - 1)\}\\
+	\\另外对于height,left,right的求值都有递推公式可以算出:\\
+$$
+height[i][j] =
+\begin{cases} 
+0 & A[i][j] = 0  \\
+1 & A[i][j] != 0 \,\And\, i = 0 \\
+1 + height[i-1][j] & A[i][j] != 0 \,\And\, i != 0 \\
+\end{cases}
+$$
+假设left\_zero为A[i][j]同行中左边最近的那个0的位置
+$$
+left[i][j] =
+\begin{cases} 
+0 & A[i][j] = 0  \\
+i - left_zero & A[i][j] != 0 \,\And\, i = 0 \\
+min(i - left_zero, left[i-1][j]) & A[i][j] != 0 \,\And\, i != 0 \\
+\end{cases}
+$$
+假设right\_zero为A[i][j]同行中右边最近的那个0的位置
+$$
+right[i][j] =
+\begin{cases} 
+0 & A[i][j] = 0  \\
+right_zero - i & A[i][j] != 0 \,\And\, i = 0 \\
+min(right_zero - i, right[i-1][j]) & A[i][j] != 0 \,\And\, i != 0 \\
+\end{cases}
+$$
+    \begin{lstlisting}
+int maximalRectangle(vector<vector<char> > &matrix){ 
+	int n = matrix.size();
+	if(n == 0)	return 0;
+	int m = matrix[0].size();
+	vector<vector<int> > height(n, vector<int>(m, 0)); 
+	//悬线,包含本元素
+	vector<vector<int> > left(n, vector<int>(m, 0)); 
+	//左边,包含本元素
+	vector<vector<int> > right(n, vector<int>(m, 0)); 
+	//右边,包含本元素
+	//计算悬线
+	for(int i = 0; i < n; i++)
+		for(int j = 0; j < m; j++){
+			if(matrix[i][j] != '0'){
+				height[i][j] = i == 0? 1 : height[i-1][j] + 1;
+			}
+		}
+	//计算左边界
+	for(int i = 0; i < n; i++){
+		int left_zero = -1;
+		for(int j = 0; j < m; j++){
+			if(matrix[i][j] != '0'){
+				if(j == 0) left[i][j] = 1;
+				else{
+					if(height[i][j] == 1){
+						left[i][j] = j - left_zero;
+					}else{
+						left[i][j] = min(j - left_zero, left[i-1][j]);
+					}
+				}
+			}else{
+				left_zero = j;
+			}
+		}
+	}
+	//计算右边界
+	for(int i = 0; i < n; i++){
+		int right_zero = m;
+		for(int j = m-1; j >= 0; j--){
+			if(matrix[i][j] != '0'){
+				if(j == m-1)	right[i][j] = 1;
+				else{
+					if(height[i][j] == 1){
+						right[i][j] = right_zero - j;
+					}else{
+						right[i][j] = min(right_zero - j, right[i-1][j]);
+					}
+				}
+			}else{
+				right_zero = j;
+			}
+		}
+	}
+	//计算每个悬线左右扫描确定的极大子矩阵
+	int maxRect = 0;
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < m; j++){
+			if(matrix[i][j] != '0'){
+				int cur = height[i][j]*(left[i][j] + right[i][j] - 1);
+				maxRect = max(maxRect, cur);
+			}
+		}
+	}
+	return maxRect;
+}
+    \end{lstlisting}
+    这题是非常经典的动态规划题目，这类问题的更详细解释可以参考\href{http://wenku.baidu.com/link?url=8ks5PMqZkgKmnRCvK2\_o-jbvRekmySiy\_jPWLj9AJsDKU\_5zRftwE7pQQcI\_4i1NJw5OTdk9QeyYYh5\_rrb9FjZ3JnHnCOLJhVLVY60tfKy}{王知昆的论文}
+\end{description}
+

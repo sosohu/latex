@@ -1,0 +1,44 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.\\
+For "(()", the longest valid parentheses substring is "()", which has length = 2.\\
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4. \textit{(leetcode 32)}
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
+    \\设动态规划变量为dp[i]表示以s[i]为开始的最长匹配串长度.以")()())"为例,dp[i]分别为0,4,0,2,0,0. 所以target = max\{dp[i]\}即为4.\\
+	\\dp的递推关系式:
+$$
+dp[i] =
+\begin{cases} 
+0 & s[i]=')' \,||\, i=n-1  \\
+2+dp[i+2] & s[i,i+1]="()" \\
+0 & s[i,i+1]="((" \,\And\, i+dp[i+1]=n-1\\
+0 & s[i,i+1]="((" \,\And\, s[i+dp[i+1]] = '('\\
+2+dp[i+1]+dp[i+dp[i+1]+2] & s[i,i+1]="((" \,\And\, s[i+dp[i+1]] = ')'
+\end{cases}
+$$
+    \begin{lstlisting}
+int longestValidParentheses(string s) {
+	int size = s.size();
+	vector<int> dp(size + 1, 0);
+	int max = 0;
+	for(int i = size - 2; i >= 0; i--){
+		if(s[i] == '('){
+			if(s[i+1] == ')'){
+				dp[i] = 2 + dp[i+2];
+			}else{
+				if(i + dp[i+1] < size - 1){
+					if(s[i + dp[i+1] + 1] == ')')
+						dp[i] = 2 + dp[i+1] + dp[i + dp[i+1] + 2];
+				}
+			}
+		}
+		if(max < dp[i])
+			max = dp[i];
+	}
+	return max;
+}
+    \end{lstlisting}
+    \textit{}
+\end{description}
+

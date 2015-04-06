@@ -1,0 +1,32 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Find the contiguous subarray within an array (containing at least one number) which has the largest sum.\textit{(leetcode 53)}\\
+    \item{\textbf{举例}}:\\
+For example, given the array [−2,1,−3,4,−1,2,1,−5,4],\\
+the contiguous subarray [4,−1,2,1] has the largest sum = 6.\\
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
+    \\设动态规划变量为dp[i]表示以A[i]为结尾的最长连续和,那么target=max\{dp[i]\}\\
+	\\dp的递推关系式:
+$$
+dp[i] =
+\begin{cases} 
+0 & i = 0  \\
+max\{A[i], A[i] + dp[i-1]\} & other 
+\end{cases}
+$$
+    \begin{lstlisting}
+int maxSubArray(int A[], int n) {
+	if(n <= 0)	return 0;
+	int maxCon = A[0];
+	vector<int> con(n, A[0]);
+	for(int i = 1; i < n; i++){
+		con[i] = max(A[i], con[i-1] + A[i]);
+		if(maxCon < con[i])	maxCon = con[i];
+	}
+	return maxCon;
+}
+    \end{lstlisting}
+    \textit{这题是非常经典的动态规划题目，这类问题通常是以某某为结尾或者某某为开始作为规划目标}
+\end{description}
+

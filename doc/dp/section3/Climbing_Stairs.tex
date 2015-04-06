@@ -1,0 +1,31 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+You are climbing a stair case. It takes n steps to reach to the top.\\
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?\textit{(leetcode 70)}
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\其实本题就是著名的斐波那契数列问题，设动态规划变量为dp[i]为到阶梯i的所有可能的路数，那么target=dp[n-1].
+	\\dp的递推关系式:
+$$
+dp[i] =
+\begin{cases} 
+1 & i = 0 \\
+2 & i = 1 \\
+dp[i-2]+dp[i-1] & other
+\end{cases}
+$$
+    \begin{lstlisting}
+int climbStairs(int n) {
+	if(n <= 1)	return n;
+	int fn1 = 2, fn2 = 1, fn = 2;
+	for(int i = 3; i <= n; i++){
+		fn = fn1 + fn2;
+		fn2 = fn1;
+		fn1 = fn;
+	}
+	return fn;
+}
+    \end{lstlisting}
+	\textit{虽然我们递推公式中是使用dp[i]一个数组来解释，但是因为dp[i]只依赖dp[i-1]和dp[i-2],那么可以压缩状态存储空间到O(1),这是节约空间的一种常用手段，像轮转数组等等}
+\end{description}
+
