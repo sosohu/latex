@@ -1,0 +1,59 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Say you have an array for which the ith element is the price of a given stock on day i.\\
+Design an algorithm to find the maximum profit. You may complete at most two transactions.\textit{(leetcode 123)}
+
+    \item{\textbf{Note}}:\\
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
+	\\我们可以试着这样考虑问题: 由于能买两次，所以可以考虑将prices[0...n-1]插入n+1个分界点，每选取一个都可以将prices数组分为两份，我们可以在这两份子数组中分别求出一次购买的最大利润，然后两者相加就是此分界点确定的两次购买最大利润．　我们的最优解也必然是先是一次购买又是一次购买(如果只需要一次购买，可以想成是有一个第二次购买且是当天购买当天卖出收益0这种情况),最优解的购买方式也必然是被某个(或者多个)分界点确定的，所以我们的目标就是求出每个分界点确定的最大利润，然后在这里面取最大的那个就行了.\\
+	\\我们假设dp[i]为分界点i,将prices数组分为prices[0..i-1]和prices[i..n-1],这两个子数组的单次购买最大利润值分别标记为left[i]和right[i]\\
+	\\那么有递推关系式:\\
+假设left\_min为prices[0...i-1]中的最小值
+$$
+left[i] =
+\begin{cases} 
+0 & i = 0 \\
+max(left[i-1], prices[i-1] - left\_min) & other
+\end{cases}
+$$
+假设right\_max为prices[i..n-1]中的最大值
+$$
+right[i] =
+\begin{cases} 
+0 & i = n \\
+max(right[i+1], right\_max - prices[i-1]) & other
+\end{cases}
+$$
+$$
+dp[i] = left[i]+right[i]
+$$
+
+    \begin{lstlisting}
+int maxProfit(vector<int> &prices) {
+	int n = prices.size();
+	vector<int> left(n+1, 0);
+	//left[i]表示a[0],...a[i-1]单次购买最大利润
+	vector<int> right(n+1, 0);
+	//right[i]表示a[i],...a[n-1]单次购买最大利润
+	int left_min = INT_MAX, right_max = INT_MIN;
+	for(int i = 1; i <= n; i++){
+		left_min = min(prices[i-1], left_min);
+		left[i] = max(left[i-1], prices[i-1] - left_min);
+	}
+	for(int i = n-1; i >= 0; i--){
+		right_max = max(prices[i], right_max);
+		right[i] = max(right_max - prices[i], right[i+1]);
+	}
+	//以i为切割点，求左右两部分各自最大利润再综合
+	int maxEarn = INT_MIN;
+	for(int i = 0; i <= n; i++){
+		maxEarn = max(maxEarn, left[i] + right[i]);
+	}
+	return maxEarn;
+}
+    \end{lstlisting}
+	\textit{这道题先采用分治的做法把区间两次股票问题转为区间单次股票问题，区间单次股票问题很简单，参见Best\_Time\_Buy\_and\_Sell\_Stock\_I}
+\end{description}
+

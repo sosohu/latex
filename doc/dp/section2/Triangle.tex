@@ -1,0 +1,49 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.\textit{(leetcode 120)}
+    \item{\textbf{举例}}:\\
+given the following triangle\\
+\\
+     2, \\
+    3,4, \\
+   6,5,7, \\
+  4,1,8,3 \\
+\\
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11). \\
+
+    \item{\textbf{Note}}:Bonus point if you are able to do this using only O(n) extra space, where n is the total number of rows in the triangle.
+    \item{\textbf{DP}} : \fbox{时间复杂度O($n^2$) , 空间复杂度O(n)}
+    \\设动态规划变量为dp[i][j]表示处于triangle[i][j]到顶点的最短距离,那么target=min\{dp[n-1][j]\}
+	\\dp的递推关系式:
+$$
+dp[i][j] =
+\begin{cases} 
+triangle[i][j] & i = 0  \\
+dp[i-1][j] & j = 0  \\
+dp[i-1][j-1] & j = triangle[i].size() - 1 \\
+min(dp[i-1][j-1], dp[i-1][j]) + triangle[i][j] & other 
+\end{cases}
+$$
+    \begin{lstlisting}
+int minimumTotal(vector<vector<int> > &triangle) {
+	int n = triangle.size();
+	if( n == 0)	return 0;
+	vector<int> odp(triangle[0]);
+	vector<int> ndp(triangle[0]);
+	for(int i = 1; i < n; i++){
+		odp = ndp;
+		ndp.clear();
+		ndp.resize(i+1);
+		for(int j = 0; j < triangle[i].size(); j++){
+			ndp[j] = triangle[i][j] + min((j == 0? INT_MAX : odp[j-1]), 
+							(j == triangle[i].size()-1? INT_MAX : odp[j]));
+		}
+	}
+	auto iter = min_element(ndp.begin(), ndp.end());
+	return *iter;
+}
+    \end{lstlisting}
+	\textit{我们可以看到dp[i]行变量只依赖dp[i-1]变量，所以可以使用滚动数组将O($n^2$)空间复杂度降为O(n)}
+\end{description}
+

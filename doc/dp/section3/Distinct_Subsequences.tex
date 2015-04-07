@@ -1,0 +1,42 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a string S and a string T, count the number of distinct subsequences of T in S.\\
+\\
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).\textit{(leetcode 115)}
+
+    \item{\textbf{举例}}:\\
+S = "rabbbit", T = "rabbit"\\
+\\
+Return 3.\\
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n*m) , 空间复杂度O(n*m)}
+	\\我们假设dp[i][j]表示S[0..i-1]能抽出T[0..j-1]的种类数,那么target = dp[n][m]
+	\\dp的递推关系式:
+$$
+dp[i][j] =
+\begin{cases} 
+0 & i < j \\
+1 & j = 0 \\
+dp[i-1][j-1]+dp[i-1][j] & S[i-1] == T[j-1]\\
+dp[i-1][j] & other
+\end{cases}
+$$
+    \begin{lstlisting}
+int numDistinct(string S, string T) {
+	int n = S.size();
+	int m = T.size();
+	vector<vector<int> > dp(n+1, vector<int>(m+1, 0));
+	for(int j = 0; j < m; j++)
+		for(int i = j; i < n; i++){
+			if(S[i] == T[j]){
+				dp[i+1][j+1] = dp[i][j+1] + (j == 0? 1 : dp[i][j]);
+			}else{
+				dp[i+1][j+1] = dp[i][j+1];
+			}
+		}
+	return dp[n][m];
+}
+    \end{lstlisting}
+	\textit{这题和LCS问题很像}
+\end{description}
+
