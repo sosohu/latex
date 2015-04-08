@@ -1,0 +1,51 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a string s, partition s such that every substring of the partition is a palindrome.\\
+Return the minimum cuts needed for a palindrome partitioning of s.\textit{(leetcode 132)}
+
+    \item{\textbf{举例}}:\\
+given s = "aab", \\
+Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 cut.
+    \item{\textbf{DP}} : \fbox{时间复杂度O($n^2$) , 空间复杂度O($n^2$)}
+	\\我们假设dp[i]表示s[0..i-1]最小切分下的段数,那么tgarget = dp[n] - 1.\\
+	\\dp的递推关系式:
+$$
+dp[i] =
+\begin{cases} 
+0 & i = 0 \\
+min{dp[k] + 1  其中0 <= k < i 且 s[k+1...i] is palindrome} & other
+\end{cases}
+$$
+    \begin{lstlisting}
+int minCut(string s) {
+	int n = s.size();
+	vector<vector<bool> > palin(n, vector<bool>(n, false));
+	for(int i = 0; i < n; i++){
+		for(int j = 0; i + j < n && i - j >= 0; j++){
+			if(s[i-j] == s[i+j]) palin[i-j][i+j] = true;
+			else break;
+		}
+	}
+	for(int i = 0; i < n-1; i++){
+		for(int j = 0; i + j < n - 1 && i - j >= 0; j++){
+			if(s[i-j] == s[i+j+1]) palin[i-j][i+j+1] = true;
+			else break;
+		}
+	}
+	vector<int> dp(n+1, 0);
+	for(int i = 0; i < n; i++){
+		int minCur = INT_MAX;
+		for(int j = 0; j <= i; j++){
+			if(palin[j][i]){
+				minCur = min(minCur, dp[j] + 1);
+			}
+		}
+		dp[i+1] = minCur;
+	}
+	return dp[n] - 1;
+}
+    \end{lstlisting}
+	\textit{这题很有普世性，都是一维的dp,但是对于dp[i]需要选取前面所有合适的候选中的最佳候选而不是直接得出最佳候选，所以时间复杂度就是O($n^2$)}
+\end{description}
+

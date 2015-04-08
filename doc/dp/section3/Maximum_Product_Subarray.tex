@@ -1,0 +1,47 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Find the contiguous subarray within an array (containing at least one number) which has the largest product.\textit{(leetcode 152)}
+
+    \item{\textbf{举例}}:\\
+given the array [2,3,-2,4],\\
+the contiguous subarray [2,3] has the largest product = 6.\\
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n) , 空间复杂度O(n)}
+	\\我们假设maxCon[i]表示以A[i]为结尾的最大连续子串积，minCon[i]表示以A[i]为结尾的最小连续子串积．　那么target = max\{maxCon[i]\}.\\
+	\\maxCon和minCon的递推关系式:
+$$
+maxCon[i] =
+\begin{cases} 
+A[0] & i = 0 \\
+max(A[i], maxCon[i-1]*A[i]) & i != 0 \And A[i] >= 0\\
+max(A[i], minCon[i-1]*A[i]) & other
+\end{cases}
+$$
+$$
+minCon[i] =
+\begin{cases} 
+A[0] & i = 0 \\
+min(A[i], minCon[i-1]*A[i]) & i != 0 \And A[i] >= 0\\
+min(A[i], maxCon[i-1]*A[i]) & other
+\end{cases}
+$$
+    \begin{lstlisting}
+int maxProduct(int A[], int n) {
+	if(n <= 0)	return 0;
+	vector<int> maxCon(n, A[0]);
+	vector<int> minCon(n, A[0]);
+	for(int i = 1; i < n; i++){
+		if(A[i] >= 0){
+			maxCon[i] = max(maxCon[i-1]*A[i], A[i]);
+			minCon[i] = min(minCon[i-1]*A[i], A[i]);
+		}else{
+			maxCon[i] = max(minCon[i-1]*A[i], A[i]);
+			minCon[i] = min(maxCon[i-1]*A[i], A[i]);
+		}
+	}
+	return *max_element(maxCon.begin(), maxCon.end());
+}
+    \end{lstlisting}
+	\textit{这题和最大连续子串和几乎一样，唯一区别是需要维护两个动规量，思路都是列出所有结尾的可能得到的值，取其中最大的一个}
+\end{description}
+
