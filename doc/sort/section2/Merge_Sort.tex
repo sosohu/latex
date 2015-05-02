@@ -1,0 +1,66 @@
+\qquad Merge Sort这里分为递归和迭代两种实现,关于迭代的实现可以参考博客\href{https://sosohu.github.io/algorithm/2015/04/14/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F%E7%9A%84%E8%BF%AD%E4%BB%A3%E5%86%99%E6%B3%95.html}{归并排序的迭代写法}    
+\begin{lstlisting}
+//----------------------递归版merge sort---------
+int min(int a, int b){
+	return a < b? a : b;
+}
+
+void merge_aux(int A[], int begin, int end){
+	if(begin >= end)	return;
+	int mid = (begin + end)/2;
+	merge_aux(A, begin, mid);
+	merge_aux(A, mid+1, end);
+	int result[end - begin + 1];
+	int i = begin, j = mid+1, k = 0;
+	while(i <= mid || j <= end){
+		int first = i > mid? INT_MAX : A[i];
+		int second = j > end? INT_MAX : A[j];
+		if(first < second)	i++;
+		else	j++;
+		result[k++] = min(first, second);
+	}
+	for(int i = 0; i < k; i++)
+		A[begin + i] = result[i];
+}
+
+void merge_sort(int A[], int n){
+	merge_aux(A, 0, n-1);
+}
+//-----------------------------------------------
+//----------------------迭代版merge sort---------
+void merge_iteration(vector<int> &mix, vector<int> &cur){
+	vector<int> sum;
+	int i = 0, j = 0;
+	while(i < mix.size() || j < cur.size()){
+		int left = i == mix.size()? INT_MAX : mix[i];
+		int right = j == cur.size()? INT_MAX : cur[j];
+		if(left < right) i++;
+		else	j++;
+		sum.push_back(min(left, right));
+	}
+	cur.clear();
+	mix = sum;
+}
+
+void merge_sort(int A[], int n){
+	if(n <= 1)	return;
+	vector<vector<int> > bucket(64, vector<int>());
+	for(int i = 0; i < n; i++){
+		int index = 0;
+		vector<int> mix(1, A[i]);
+		while(!bucket[index].empty()){
+			merge_iteration(mix, bucket[index]);
+			index++;
+		}
+		bucket[index] = mix;
+	}
+	vector<int> mix;
+	for(int i = 0; i < 64; i++){
+		if(!bucket[i].empty()){
+			merge_iteration(mix, bucket[i]);
+		}
+	}
+	for(int i = 0; i < mix.size(); i++)
+		A[i] = mix[i];
+}
+\end{lstlisting}

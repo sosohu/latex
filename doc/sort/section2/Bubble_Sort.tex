@@ -1,0 +1,20 @@
+    
+\begin{lstlisting}
+void swap(int& a, int& b){
+	//avoid a, b is the same one
+	if(a == b) return; 
+	a = a^b;
+	b = a^b;
+	a = a^b;
+}
+
+void bubble_sort(int A[], int n){
+	if(n <= 1)	return;
+	for(int i = n - 1; i > 0; i--){
+		for(int j = 0; j < i; j++){
+			if(A[j] > A[j+1])
+				swap(A[j], A[j+1]);
+		}
+	}
+}
+\end{lstlisting}

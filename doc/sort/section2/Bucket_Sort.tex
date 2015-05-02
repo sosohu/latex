@@ -1,0 +1,68 @@
+\qquad 桶排序实现起来比较复杂,这里思路是建立10个头链表和尾链表指针,分别维护0,1,...,9这个10个桶,从低位开始逐渐调整排序,把相应数据放入到相应桶中.    
+\begin{lstlisting}
+struct bucket_node{
+	int val;
+	bucket_node* next;
+};
+
+int march_bucket(int val, int pos){
+	return (val / ((int)pow(10,pos))) % 10;
+}
+
+void bucket_aux(bucket_node start[], bucket_node end[], int n, int pos){
+	bucket_node new_start[10], new_end[10];
+	for(int i = 0; i < 10; i++){
+		new_start[i].next = 0;
+		new_end[i].next = &new_start[i];
+	}
+	for(int i = 0; i < n; i++){
+		bucket_node *head = &start[i], *cur;
+		while(head->next){
+			cur = head->next;
+			head->next = cur->next;
+			int id = march_bucket(cur->val, pos);
+			(new_end[id].next)->next = cur;
+			cur->next = 0;
+			new_end[id].next = cur;
+		}
+	}
+	for(int i = 0; i < 10; i++){
+		start[i] = new_start[i];
+		end[i] = new_end[i];
+	}
+}
+
+void bucket_pre(int A[], bucket_node node[], int n, int w){
+	bucket_node start[10], end[10];
+	start[0].next = &node[0];
+	end[0].next = &node[n-1];
+	for(int i = 1; i < 10; i++){
+		start[i].next = 0;
+		end[i].next = &start[i];
+	}
+	for(int i = 0; i < w; i++)
+		bucket_aux(start, end, 10, i);
+	int pos = 0;
+	for(int i = 0; i < 10; i++){
+		bucket_node* cur = &start[i];
+		while(cur->next){
+			cur = cur->next;
+			A[pos++] = cur->val;
+		}
+	}
+}
+
+void bucket_sort(int A[], int n, int w){
+	if(n <= 1)	return;
+	bucket_node node[n];
+	bucket_node* pre = &node[0]; ;
+	pre->val = A[0];
+	for(int i = 1; i < n; i++){
+		node[i].val = A[i];
+		pre->next = &node[i];
+		pre= pre->next;
+	}
+	pre->next = 0;
+	bucket_pre(A, node, n, w);
+}
+\end{lstlisting}

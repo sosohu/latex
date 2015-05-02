@@ -1,0 +1,17 @@
+    
+\begin{lstlisting}
+//assume ele in A is [0, up)
+//up is not a very large num
+void count_sort(int A[], int n, int up){
+	int count[up];
+	memset(count, 0, sizeof(count));
+	for(int i = 0; i < n; i++)
+		count[A[i]]++;
+	int pos = 0;
+	for(int i = 0; i < up; i++){
+		for(int j = 0; j < count[i]; j++){
+			A[pos++] = i;
+		}
+	}
+}
+\end{lstlisting}
