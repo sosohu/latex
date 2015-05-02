@@ -1,0 +1,85 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}:Given a sorted array of integers, find the starting and ending position of a given target value.\textit{(leetcode 34)}
+	\item{\textbf{举例}}:\\
+Given [5, 7, 7, 8, 8, 10] and target value 8,\\
+return [3, 4].\\
+	\item{\textbf{Note}}:\\
+Your algorithm's runtime complexity must be in the order of O(log n).\\
+If the target is not found in the array, return [-1, -1].
+
+    \item{\textbf{二分查找}} : \fbox{时间复杂度O(lgn), 空间复杂度O(1)}
+    \\我这里的方法是先通过二分查找随便找到一个位置,然后再找其上下界.其实可以直接编写类似STL库中的lower\_bound和upper\_bound就可以了-.-
+    \begin{lstlisting}
+int binary_sarch(int A[], int begin, int end, int target){
+	if(begin > end)	return -1;
+	int mid = (begin + end) / 2;
+	if(A[mid] == target)	return mid;
+	if(A[mid] > target)	return binary_sarch(A, begin, mid-1, target);
+	return binary_sarch(A, mid+1, end, target);
+}
+
+int binary_sarchNo(int A[], int begin, int end, int target, bool left){
+	if(begin > end)	return left? begin : end;
+	int mid = (begin + end) / 2;
+	int new_begin, new_end;
+	if(A[mid] == target){
+		new_begin = left? begin : mid + 1;
+		new_end = left? mid - 1 : end;
+	}else if(A[mid] > target){
+		return binary_sarchNo(A, begin, mid - 1, target, left);
+	}else{
+		return binary_sarchNo(A, mid+1, end, target, left);
+	}
+	return binary_sarchNo(A, new_begin, new_end, target, left);
+}
+
+vector<int> searchRange(int A[], int n, int target) {
+	vector<int> result{-1, -1};
+	int pos = binary_sarch(A, 0, n-1, target);
+	if(pos != -1){
+		result[0] = pos == 0? 0 : binary_sarchNo(A, 0, pos, target, true);
+		result[1] = pos == n-1? n-1 : binary_sarchNo(A, pos, n-1, target, false);
+	}
+	return result;
+}
+    \end{lstlisting}
+    \textit{}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

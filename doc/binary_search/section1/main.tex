@@ -1,0 +1,38 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\qquad二分查找,是一种非常经典的快速查找算法.抽象的来说: 当我们在求满足某个条件C(x)的最小的x时,对于任意满足C(x)的x,如果所有的$$x_1 \ll x$$也满足$$C(x_1)$$的话就可以使用二分查找来求得最小的x.
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

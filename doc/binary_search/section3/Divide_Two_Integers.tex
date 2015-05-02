@@ -1,0 +1,70 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: Divide two integers without using multiplication, division and mod operator. If it is overflow, return MAX\_INT.  \textit{(leetcode 29)}
+    \item{\textbf{}} : \fbox{时间复杂度O(lgn) , 空间复杂度O(1)}
+    \\这题主要思路就是$$dividend = x*divisor = \sum2^idivisor$$,不断的通过二分查找算出一个个$$2^i$$,另外需要注意的就是注意溢出问题,这里用的技巧就是全部换算成负数.
+    \begin{lstlisting}
+int div2n(int &dividend, int divisor){
+	if(dividend > divisor){
+		dividend = 0;
+		return 0;
+	}
+	int i = 1;
+	while(divisor > dividend - divisor ){
+		divisor +=divisor;
+		i = i + i;
+	}
+	dividend -= divisor;
+	return i;
+}
+
+int divide(int dividend, int divisor) {
+	bool isMinus = (dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0);
+	dividend = dividend < 0? dividend : -dividend;
+	divisor = divisor < 0? divisor : -divisor;
+	int result = 0;
+	while(dividend){
+		result -= div2n(dividend, divisor);
+	}
+	return isMinus? result : (result == INT_MIN? INT_MAX : -result);
+}
+    \end{lstlisting}
+    \textit{}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi
