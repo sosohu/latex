@@ -1,0 +1,48 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a 2D board and a word, find if the word exists in the grid.\\
+\\
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.\\
+\textit{(leetcode 79)}
+    \item{\textbf{举例}}:\\
+Given board =\\
+\\
+(\\
+  ("ABCE"),\\
+  ("SFCS"),\\
+  ("ADEE")\\
+)\\
+word = "ABCCED", -> returns true,\\
+word = "SEE", -> returns true,\\
+word = "ABCB", -> returns false.
+    \item{\textbf{回溯}} : \fbox{时间复杂度($n*m*4^k$), 空间复杂度O(n*m)}
+    \\这里从每个点开始出发搜索,不停的向四个方向搜索并回溯.
+    \begin{lstlisting}
+bool backtrack(vector<vector<char> > &board, vector<vector<bool> > &used, string &word,
+				int i, int j, int n, int m, int pos, int len){
+	if(pos == len)	return true;
+	if(i < 0 || i >= n || j < 0 || j >= m || used[i][j])	return false;
+	if(board[i][j] == word[pos]){
+		used[i][j] = true;
+		if(backtrack(board, used, word, i+1, j, n, m, pos+1, len))	return true;
+		if(backtrack(board, used, word, i-1, j, n, m, pos+1, len))	return true;
+		if(backtrack(board, used, word, i, j+1, n, m, pos+1, len))	return true;
+		if(backtrack(board, used, word, i, j-1, n, m, pos+1, len))	return true;
+		used[i][j] = false;
+	}
+	if(pos != 0)	return false;
+	if(backtrack(board, used, word, i, j+1, n, m, pos, len))	return true;
+	if(j == m-1 && backtrack(board, used, word, i+1, 0, n, m, pos, len))	return true;
+	return false;
+}
+
+bool exist(vector<vector<char> > &board, string word) {
+	int n = board.size(), len = word.size();
+	if(n == 0 || len == 0)	return false;
+	int m = board[0].size();
+	vector<vector<bool> > used(n, vector<bool>(m, false));
+	return backtrack(board, used, word, 0, 0, n, m, 0, len);
+}
+    \end{lstlisting}
+\end{description}

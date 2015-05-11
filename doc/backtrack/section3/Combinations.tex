@@ -1,0 +1,40 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.\\
+\textit{(leetcode 77)}
+    \item{\textbf{举例}}:\\
+If n = 4 and k = 2, a solution is:\\
+\\
+(\\
+  (2,4),
+  (3,4),
+  (2,3),
+  (1,2),
+  (1,3),
+  (1,4),
+)
+    \item{\textbf{回溯}} : \fbox{时间复杂度O($2^n$), 空间复杂度O(n)}
+    \\从1,2,3,...,n每个枚举有还是没有这两种可能.
+    \begin{lstlisting}
+void backtrack(vector<vector<int> > &result, vector<int> &track,
+				int count, int k, int pos, int n){
+	if(count == k){
+		result.push_back(track);
+		return;
+	}
+	if(pos >= n || k <= 0 || n <= 0)	return;
+	track.push_back(pos+1);
+	backtrack(result, track, count+1, k, pos+1, n);
+	track.pop_back();
+	backtrack(result, track, count, k, pos+1, n);
+}
+
+vector<vector<int> > combine(int n, int k) {
+	vector<vector<int> > result;
+	vector<int> track;
+	backtrack(result, track, 0, k, 0, n);
+	return result;
+}
+    \end{lstlisting}
+\end{description}
