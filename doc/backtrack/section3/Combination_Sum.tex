@@ -1,0 +1,46 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a set of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.\\
+The same repeated number may be chosen from C unlimited number of times.\\
+\textit{(leetcode 39)}
+    \item{\textbf{举例}}:\\
+Given candidate set 2,3,6,7 and target 7, \\
+A solution set is: \\
+(7) \\
+(2, 2, 3) 
+	\item{\textbf{Note}}:\\
+All numbers (including target) will be positive integers.\\
+Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).\\
+The solution set must not contain duplicate combinations.
+    \item{\textbf{回溯}} : \fbox{时间复杂度O($2^n$), 空间复杂度O(n)}
+    \\这题就是对于每个值包含还是不包含两种选择,然后进行回溯算法.这里需要注意的就是遇到一个值有多个的情况,这里因为每个值可以用无数次,所以就可以直接把原数组数据去重就可以了,具体办法可以每次枚举完$a_i$后前向枚举下一个第一个不等于$a_i$的那个.
+    \begin{lstlisting}
+void backtrack(vector<int> &num, int target, int pos, 
+			vector<vector<int> > &result, vector<int> &track){
+	if(target == 0){
+		result.push_back(track);
+		return;
+	}
+	if(pos == -1)	return;
+	if(num[pos] <= target){
+		track.push_back(num[pos]);
+		backtrack(num, target - num[pos], pos, result, track);
+		track.pop_back();
+	}
+	pos--;
+	while(pos >= 0 && num[pos] == num[pos+1]) pos--;
+	if(pos >= 0){
+		backtrack(num, target, pos, result, track);
+	}
+}
+
+vector<vector<int> > combinationSum(vector<int> &nums, int target) {
+	sort(nums.begin(), nums.end(), greater<int>());
+	vector<vector<int> > result;
+	vector<int> track;
+	backtrack(nums, target, nums.size()-1, result, track);
+	return result;
+}
+    \end{lstlisting}
+\end{description}

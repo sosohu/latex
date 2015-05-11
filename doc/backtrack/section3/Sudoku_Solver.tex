@@ -1,0 +1,66 @@
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+Write a program to solve a Sudoku puzzle by filling the empty cells.\\
+Empty cells are indicated by the character '.'.\\
+You may assume that there will be only one unique solution.\\
+\textit{(leetcode 37)}
+	\item{\textbf{举例}}:\\
+\includegraphics{backtrack/section3/250px-Sudoku-by-L2G-20050714.svg.eps}
+A sudoku puzzle...
+\includegraphics{backtrack/section3/250px-Sudoku-by-L2G-20050714_solution.svg.eps}
+    \item{\textbf{回溯}} : \fbox{时间复杂度O(9!8!7!...1!) , 空间复杂度O(1)}
+    \\时间复杂度也是远远没有O(9!8!7!...1!)这么多
+    \begin{lstlisting}
+unordered_set<char> row[9]; 
+unordered_set<char> col[9]; 
+unordered_set<char> area[9]; 
+
+bool dfs(vector<vector<char> > &board, int i, int j){
+	if(i == 9)	return true;
+	if(board[i][j] != '.'){
+		i = j == 8? i+1 : i;
+		j = j == 8? 0 : j+1;
+		return dfs(board, i, j);
+	}else{
+		for(int k = 1; k <= 9; k++){
+			char cur = '0' + k;
+			if(!row[i].count(cur) && !col[j].count(cur) 
+				&& !area[(i/3)*3 + j/3].count(cur)){
+				row[i].insert(cur);
+				col[j].insert(cur);
+				area[(i/3)*3 + j/3].insert(cur);
+				board[i][j] = cur;
+				i = j == 8? i+1 : i;
+				j = j == 8? 0 : j+1;
+				if(dfs(board, i, j))	return true;
+				i = j == 0? i-1 : i;
+				j = j == 0? 8 : j-1;
+				row[i].erase(cur);
+				col[j].erase(cur);
+				area[(i/3)*3 + j/3].erase(cur);
+			}
+		}
+		board[i][j] = '.';
+		return false;
+	}
+}
+
+void solveSudoku(vector<vector<char> > &board) {
+	for(int i = 0; i < 9; i++){
+		row[i].clear();
+		col[i].clear();
+		area[i].clear();
+	}
+	for(int i = 0; i < 9; i++)
+		for(int j = 0; j < 9; j++){
+			if(board[i][j] != '.'){
+				row[i].insert(board[i][j]);
+				col[j].insert(board[i][j]);
+				area[(i/3)*3+j/3].insert(board[i][j]);
+			}
+		}
+	dfs(board, 0, 0);
+}
+    \end{lstlisting}
+\end{description}

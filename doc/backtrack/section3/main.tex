@@ -1,0 +1,18 @@
+
+\qquad回溯法可以解决很多需要枚举才能确定解的问题,一般来说会有$a_1, a_2, ..., a_n$的值需要确定,且这些$a_i$还要满足某种约束. 我们采用的办法是: 从$a_1$开始分别枚举它的所有可能值,然后采用DFS的做法,依次确定$a_2, ....$,如果确定到$a_n$,那么这组枚举解是合理解,就放入到搜索结果中,如果枚举到某个$a_i$发现它已经没有可用解时候,就需要回溯.
+
+\qquad另外,我的编码风格是使用result存放最终解,而trace保存一路DFS下来的状态信息,每次进入一个新节点时候trace要压入新节点的状态,每次离开该节点时候就需要pop刚才压入的状态.
+\subsection{Letter Combinations of a Phone Number}
+\input{backtrack/section3/Letter_Combinations_of_a_Phone_Number.tex}
+\subsection{Generate Parentheses}
+\input{backtrack/section3/Generate_Parentheses.tex}
+\subsection{Sudoku Solver}
+\input{backtrack/section3/Sudoku_Solver.tex}
+\subsection{Combination Sum}
+\input{backtrack/section3/Combination_Sum.tex}
+\subsection{Combination Sum II}
+\input{backtrack/section3/Combination_Sum_II.tex}
+\subsection{Permutations}
+\input{backtrack/section3/Permutations.tex}
+\subsection{Permutations II}
+\input{backtrack/section3/Permutations_II.tex}

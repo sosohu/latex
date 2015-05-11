@@ -1,0 +1,29 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:Given a collection of numbers, return all possible permutations.\textit{(leetcode 46)}
+	\item{\textbf{举例}}:\\
+(1,2,3) have the following permutations:\\
+(1,2,3), (1,3,2), (2,1,3), (2,3,1), (3,1,2), and (3,2,1).
+    \item{\textbf{排序}} : \fbox{时间复杂度O(n!), 空间复杂度O(n)}
+    \\这题本应该使用回溯法求解,特别是对于没有重复元素情况可以非常简单的使用回溯法求解,但是这道题又是经典的组合数学问题: 我们把这些数的组合看成一个数,例如(1,2,3)看成123,(3,2,1)看成321,那么我们可以从最小的数开始逐渐增大这个数直到算到最大的数,那么所有的组合也就求出来了.那么怎么根据现在的数求出下一个更大一点的数的? 假设我们现在的数是$a_1,a_2,...a_n$,我们找该序列最后一个极大点,设为$a_k$,我们知道$a_{k-1} \textless a_k$, $a_k \textgreater a_{k+1} \textgreater ... \textgreater a_n$,另外设$a_m$是$a_k, ..., a_n$中大于$a_{k-1}$的最小的那个,那么下一个数就是$a_1, a_2, ... a_m, a_k, a_{k+1}, ... , a_{m-1}, a_{k-1}, a_{m+1}, ... , a_n$
+    \begin{lstlisting}
+vector<vector<int> > permute(vector<int> &num) {
+	vector<int> data(num);
+	sort(data.begin(), data.end());
+	vector<vector<int> > result;
+	while(1){
+		int peak = data.size() - 1;
+		while(peak > 0 && data[peak] <= data[peak-1])	peak--;
+		result.push_back(data);
+		if(peak == 0)	break;
+		int before_peak = peak - 1;
+		vector<int>::iterator next_peak = lower_bound(data.begin() + peak, data.end(), 
+									data[before_peak], greater<int>());
+		next_peak--;
+		swap(data[before_peak], *next_peak);
+		reverse(data.begin() + peak, data.end());
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

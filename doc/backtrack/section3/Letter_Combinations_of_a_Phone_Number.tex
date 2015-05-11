@@ -1,0 +1,42 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a digit string, return all possible letter combinations that the number could represent.\\
+A mapping of digit to letters (just like on the telephone buttons) is given below.\\
+
+\includegraphics{backtrack/section3/LetterCombinations.eps}
+
+\textit{(leetcode 17)}
+	\item{\textbf{举例}}:\\
+Input:Digit string "23"\\
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].\\
+	\item{\textbf{Note}}:\\
+Although the above answer is in lexicographical order, your answer could be in any order you want.
+    \item{\textbf{回溯}} : \fbox{时间复杂度O($3^n$), 空间复杂度O(n)}
+    \begin{lstlisting}
+string table[] = {" ","", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+void dfs(vector<string> &result, string& digits, string& trace, int pos){
+	if(pos == digits.size()){
+		result.push_back(trace);
+		return;
+	}
+	string& all = table[digits[pos] - '0'];
+	for(int i = 0; i <  all.size(); i++){
+		trace.push_back(all[i]);
+		dfs(result, digits, trace, pos+1);
+		trace.erase(trace.size() - 1);
+	}
+}
+
+vector<string> letterCombinations(string digits) {
+	vector<string> result;
+	int n = digits.size();
+	if(n == 0)	return result;
+	string trace;
+	dfs(result, digits, trace, 0);	
+	return result;
+}
+    \end{lstlisting}
+    \textit{}
+\end{description}

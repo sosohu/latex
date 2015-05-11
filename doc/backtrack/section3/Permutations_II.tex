@@ -1,0 +1,29 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:Given a collection of numbers that might contain duplicates, return all possible unique permutations.\textit{(leetcode 47)}
+	\item{\textbf{举例}}:\\
+(1,1,2) have the following unique permutations:\\
+(1,1,2), (1,2,1), and (2,1,1).
+    \item{\textbf{排序}} : \fbox{时间复杂度O(n!), 空间复杂度O(n)}
+    \\这题同样还是采用转为大数处理,这里就可以看到,如果采用回溯法,那么还要想办法去掉由于有重复元素带来的问题(压缩原数组变成(元素,记数)对).而这个方法则不需要,是不是很飘逸呢.
+    \begin{lstlisting}
+vector<vector<int> > permuteUnique(vector<int>& nums) {
+	vector<int> data(nums);
+	sort(data.begin(), data.end());
+	vector<vector<int> > result;
+	while(1){
+		int peak = data.size() - 1;
+		while(peak > 0 && data[peak] <= data[peak-1])	peak--;
+		result.push_back(data);
+		if(peak == 0)	break;
+		int before_peak = peak - 1;
+		vector<int>::iterator next_peak = lower_bound(data.begin() + peak, data.end(), 
+									data[before_peak], greater<int>());
+		next_peak--;
+		swap(data[before_peak], *next_peak);
+		reverse(data.begin() + peak, data.end());
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}
