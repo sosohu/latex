@@ -1,0 +1,66 @@
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.\\
+\textit{(leetcode 200)}
+    \item{\textbf{举例}}: \\
+Example 1:\\
+\\
+11110\\
+11010\\
+11000\\
+00000\\
+Answer: 1\\
+\\
+Example 2:\\
+\\
+11000\\
+11000\\
+00100\\
+00011\\
+Answer: 3\\
+    \item{\textbf{BFS}} : \fbox{时间复杂度O(n*m), 空间复杂度O(n*m)}
+    \\这题就是通过BFS找到一个个的图连通分量,其实也可以使用DFS进行搜索.另外,需要学习的就是这种对付矩阵四个方向问题,可以在主函数每个方向都调用visit函数,然后在visit函数中判断是否合法,这比直接判断合法要简洁清楚很多.
+    \begin{lstlisting}
+void visit(vector<vector<char> > &grid, vector<vector<bool> > &visited,
+			queue<pair<int, int> > &q, int n, int m, int i, int j){
+	if(i < 0 || j < 0 || i > n-1 || j > m-1 || 
+		grid[i][j] == '0' || visited[i][j])	return;
+	visited[i][j] = true;
+	q.push(make_pair(i,j));
+}
+
+void bfs(vector<vector<char> > &grid, vector<vector<bool> > &visited,
+		 int n, int m, int i, int j){
+	queue<pair<int, int> > q;
+	q.push(make_pair(i, j));
+	pair<int,int> cur;
+	visited[i][j] = true;
+	while(!q.empty()){
+		cur = q.front();
+		q.pop();
+		i = cur.first;
+		j = cur.second;
+		visit(grid, visited, q, n, m, i+1, j);
+		visit(grid, visited, q, n, m, i-1, j);
+		visit(grid, visited, q, n, m, i, j-1);
+		visit(grid, visited, q, n, m, i, j+1);
+	}
+}
+
+int numIslands(vector<vector<char> >& grid) {
+	int n = grid.size();
+	if(n == 0)	return 0;
+	int m = grid[0].size();
+	vector<vector<bool> > visited(n, vector<bool>(m, false));
+	int count = 0;
+	for(int i = 0; i < n; i++)
+		for(int j = 0; j < m; j++)
+			if(!visited[i][j] && grid[i][j] == '1'){
+				count++;
+				bfs(grid, visited, n, m, i, j);
+			}
+	return count;
+}
+    \end{lstlisting}
+\end{description}

@@ -1,0 +1,76 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given two words (start and end), and a dictionary, find all shortest transformation sequence(s) from start to end, such that:\\
+\\
+Only one letter can be changed at a time\\
+Each intermediate word must exist in the dictionary\\
+\textit{(leetcode 126)}
+    \item{\textbf{举例}}:\\
+Given:\\
+start = "hit"\\
+end = "cog"\\
+dict = ("hot","dot","dog","lot","log")\\
+Return\\
+  (\\
+    ("hit","hot","dot","dog","cog"),\\
+    ("hit","hot","lot","log","cog")\\
+  )\\
+    \item{\textbf{Note}}:\\
+All words have the same length.\\
+All words contain only lowercase alphabetic characters.
+    \item{\textbf{BFS}} : \fbox{时间复杂度O(???), 空间复杂度O(???)}
+    \\由于最短路径才可以是最优解,所以不推荐使用DFS,而是使用BFS实现回溯. 这道题需要注意不要访问重复点,还有时间空间要把握好,稍微不慎就会TLE或者MLE
+    \begin{lstlisting}
+void genTrack(vector<pair<string, int> > &tree, int pos, vector<string> &track){
+	if(pos == 0){
+		track.push_back(tree[0].first);
+		return;
+	}
+	genTrack(tree, tree[pos].second, track);
+	track.push_back(tree[pos].first);
+}
+
+/*多一丁点计算都会超时,多一丁点空间都会超空间......*/
+vector<vector<string> > findLadders(string start, string end,
+									unordered_set<string> &dict){
+	dict.insert(start);
+	vector<vector<string> > result;
+	vector<pair<string, int> > tree;
+	unordered_map<string, int> used;
+	used[start] = 0;
+	tree.push_back(make_pair(start, -1));
+	int last = 1, pre = -1, pos = 0;
+	bool found = false;
+	string cur, tmp;
+	while(pos < last){
+		cur = tree[pos].first;
+		tmp = cur;
+		for(int i = 0; i < cur.size(); i++){
+			cur = tmp;
+			for(int j = 'a'; j <= 'z'; j++){
+				cur[i] = j;
+				if(cur.compare(end) == 0){
+					found = true;
+					vector<string> track;
+					genTrack(tree, pos, track);
+					track.push_back(end);
+					result.push_back(track);
+					continue;
+				}
+				if(dict.count(cur) == 1 && (used.count(cur) == 0 || used[cur] >= pre )){
+					used[cur] = pos;
+					tree.push_back(make_pair(cur, pos));
+				}
+			}
+		}
+		pos++;
+		if(!found && pos == last){
+			pre = last;
+			last = tree.size();
+		}
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

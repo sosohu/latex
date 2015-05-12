@@ -1,0 +1,36 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.\\
+\textit{(leetcode 199)}
+    \item{\textbf{举例}}:\\
+Given the following binary tree,\\
+   1            $\leftarrow$   \\
+ /   $\backslash$ \\
+2     3     	$\leftarrow$   \\
+ $\backslash$      $\backslash$	 \\
+  5     4       $\leftarrow$   \\
+You should return (1, 3, 4).
+    \item{\textbf{BFS}} : \fbox{时间复杂度O(n), 空间复杂度O(w)}
+    \\最普通的宽度优先搜索之队列法.
+    \begin{lstlisting}
+vector<int> rightSideView(TreeNode* root) {
+	vector<int> result;
+	if(!root)	return result;
+	queue<TreeNode*> cur, next;
+	cur.push(root);
+	TreeNode* pos;
+	while(!cur.empty()){
+		pos = cur.front();
+		cur.pop();
+		if(pos->left)	next.push(pos->left);
+		if(pos->right)	next.push(pos->right);
+		if(cur.empty()){
+			result.push_back(pos->val);
+			next.swap(cur);
+		}
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}
