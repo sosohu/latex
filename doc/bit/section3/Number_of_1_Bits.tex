@@ -1,0 +1,20 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Write a function that takes an unsigned integer and returns the number of ’1' bits it has (also known as the Hamming weight).\\
+\textit{(leetcode 191)}
+    \item{\textbf{举例}}:\\
+The 32-bit integer ’11' has binary representation 00000000000000000000000000001011, so the function should return 3.
+    \item{\textbf{位操作}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\这题用经典问题$x \And (x - 1)$即可
+    \begin{lstlisting}
+int hammingWeight(uint32_t n) {
+	int count = 0;
+	while(n){
+		n = (n & (n - 1));
+		count++;
+	}
+	return count;
+}
+    \end{lstlisting}
+\end{description}

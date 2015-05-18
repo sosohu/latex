@@ -1,0 +1,23 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a range $\left[m, n\right]$ where 0 <= m <= n <= 2147483647, return the bitwise AND of all numbers in this range, inclusive.\\
+\textit{(leetcode 201)}
+    \item{\textbf{举例}}:\\
+Given the range $\left[5, 7\right]$, you should return 4.
+    \item{\textbf{位操作}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\首先声明高位区间:高位都一样,低位从0x0到0xff..f区间.比如$\left[0xc1a000, 0xc1afff\right]$
+	\\然后我们有一个规律，在区间$\left[a,b\right]$中如果gap = b - a + 1小于某个高位区间的大小，那么a和b的对应高位是一样的. 比如区间$\left[13,16\right]$中gap = 16 - 13 + 1 = 4 $\le$ 8,所以高29位是一样的.
+	\\基于上面的规律，不断的扩大高位区间直到gap大于高位区间大小，这样就确定了哪些高位是一样的.
+    \begin{lstlisting}
+int rangeBitwiseAnd(int m, int n) {
+	if(m == 0 && n == INT_MAX)	return 0;
+	int gap = n - m + 1;
+	if(gap <= 1)	return n;
+	int pos = 0;
+	while(pos < 32 && ((1 << pos) - (m & (~(0xffffffff - ((1 << pos) - 1)))) < gap))
+		pos++;
+	return n & (0xffffffff - ((1 << pos) - 1));
+}
+    \end{lstlisting}
+\end{description}

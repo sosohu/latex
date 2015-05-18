@@ -1,0 +1,24 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an array of integers, every element appears three times except for one. Find that single one.\\
+\textit{(leetcode 137)}
+    \item{\textbf{Note}}:\\
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+    \item{\textbf{}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这题和上题不同，这题相同的元素是有三个．我们不得不寻找一个更加普适的方法，我们知道三个一样的数在每一位上要么都是1要么都是0,所以我们可以对于每个位,求出这些1和0的和，然后模上3,那么三三一样的就会被剔除，剩余的余数就是那个单独的数．这个方法不仅适用于3个数一样的问题，还适用于4,5,...个数一样的问题，当然两个数一样的问题，只不过那题可以用更简洁的亦或做.
+    \begin{lstlisting}
+int singleNumber(vector<int>& nums) {
+	int result = 0;
+	vector<int> b(32, 0);
+	for(int i = 0; i < 32; i++){
+		for(int j = 0; j < nums.size(); j++){
+			b[i] += (((nums[j] >> i) & 0x1) != 0);
+		}
+		b[i] %= 3;
+		result += (b[i] << i);
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

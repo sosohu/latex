@@ -1,0 +1,18 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an array of integers, every element appears twice except for one. Find that single one.\\
+\textit{(leetcode 136)}
+    \item{\textbf{Note}}: 
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+    \item{\textbf{亦或}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这道题是很经典的一道题，主要是需要想出一个或者一组操作使得相同的元素能够彼此清除掉而只剩下那一个唯一的操作.我们可以想一下，相同的元素在每个位上都是相同的要么都是0要么都是1,所以我们想到了亦或操作．
+    \begin{lstlisting}
+int singleNumber(vector<int>& nums) {
+	int result = 0;
+	for(int i = 0; i < nums.size(); i++)
+		result ^= nums[i];
+	return result;
+}
+    \end{lstlisting}
+\end{description}

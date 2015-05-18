@@ -1,0 +1,48 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.\\
+\\
+You may assume that the array is non-empty and the majority element always exist in the array.\\
+\textit{(leetcode 169)}
+    \item{\textbf{记数法}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这题我最先了解到的解法就是记数法，因为主元素出现的次数多于总个数的一半，所以我们可以放着两个椅子，然后让元素去争抢：对于每个新加入的元素，如果椅子上有与它相同的元素，那么该椅子记数+1;如果没有，此时如果有空闲椅子，则该元素抢占该椅子，然后置此椅子记数为1;如果没有空闲椅子，那么舍弃该元素，并且两个椅子的记数都-1,如果此时某个椅子记数为0,则置此椅子为空闲.
+	\\最后，椅子上记数较大的那个元素就是主元素．
+	\\这个方法的证明也很简单，我们可以试想一下，由于主元素个数超过一半，又有两个椅子，所以主元素必然在最终的一个之一，而且另一个椅子的记数也绝不会超过它.
+    \begin{lstlisting}
+int majorityElement(vector<int>& nums) {
+	if(nums.size() == 0)	return -1;
+	int p1 = nums[0], p2, c1 = 1, c2 = 0;
+	for(int i = 1; i < nums.size(); i++){
+		if(c1 && nums[i] == p1)	c1++;
+		else	if(c2 && nums[i] == p2)	c2++;
+		else	if(!c1){
+			p1 = nums[i];
+			c1++;
+		}
+		else	if(!c2){
+			p2 = nums[i];
+			c2++;
+		}else{
+			c1--;
+			c2--;
+		}
+	}
+	return c1 > c2? p1 : p2;
+}
+    \end{lstlisting}
+    \item{\textbf{位操作}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+	\\这题还可以这么考虑：我们对于数组中每个元素分析它们的每个位，由于主元素个数超半，所以每个位的0,1个数必然被主元素控制，如果主元素该位为1那么1的个数必然超过一半，反之亦然.所以我们可以基于这个原则设计算法.
+	\begin{lstlisting}
+int majorityElement(vector<int>& nums) {
+	int result = 0, n = nums.size();
+	for(int i = 0; i < 32; i++){
+		int bit = 0;
+		for(int j = 0; j < n; j++)
+			bit += ((nums[j] & (0x1 << i))? 1 : 0);
+		result += ((bit > n/2? 1 : 0) << i);
+	}
+	return result;
+}
+	\end{lstlisting}
+\end{description}
