@@ -1,0 +1,71 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.\\
+\textit{(leetcode 42)}
+    \item{\textbf{举例}}:\\
+Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.
+\includegraphics{stack/section3/rainwatertrap.eps}
+    \item{\textbf{栈}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\这道题可以这样想，依次遍历$a_1, a_2, ..., a_n$如果$a_i \le a_{i-1}$那么加入到栈中；反之，进行弹栈处理，因为$a_i > a_{i-1} \le a_{i-2}$所以可以计算$a_{i-1}$处的积水，依次类推.
+    \begin{lstlisting}
+int trap(vector<int>& height) {
+	if(height.size() <= 1)	return 0;
+	stack<pair<int,int> > s;
+	s.push(make_pair(height[0], 0));
+	int sum = 0;
+	pair<int,int> cur;
+	for(int i = 1; i < height.size(); i++){
+		while(height[i] > s.top().first){
+			cur = s.top();
+			s.pop();
+			if(!s.empty())	
+				sum += (min(height[i], s.top().first) - cur.first) 
+						* (i - s.top().second - 1);
+			else	break;
+		}
+		s.push(make_pair(height[i], i));
+	}
+	return sum;
+}
+    \end{lstlisting}
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\其实栈的方法比较麻烦，这里推荐一种更简单直接的做法，我们来考虑每个元素$a_i$它能盛放的水量:$V_i$,我们可以轻易的知道$V_i = min(left[i], right[i])$,其中$left[i],right[i]$分别是$a_i$左右连续最大值.
+	\\那么，我们可以通过动态规划计算$left_i和right_i$:
+$$
+left[i] =
+\begin{cases} 
+a_0 & i = 0 \\
+max(a_i, left[i-1]) & other
+\end{cases}
+$$
+$$
+right[i] =
+\begin{cases} 
+a_{n-1} & i = n-1 \\
+max(a_i, right[i+1]) & other
+\end{cases}
+$$
+	\\最终$target = \sum_{i=0}^{n-1}V_i$
+    \begin{lstlisting}
+int trap(int A[], int n) {
+	vector<int> left(n, 0), right(n, 0);
+	left[0] = A[0];
+	right[n-1] = A[n-1];
+	for(int i = 1; i < n; i++){
+		A[i] = A[i] < left[i-1]? left[i-1] : A[i];
+	}
+
+	for(int i = n - 2; i >= 0; i--){
+		A[i] = A[i] < right[i+1]? right[i+1] : A[i];
+	}
+
+	int sum = 0;
+	for(int i = 0; i < n; i++){
+		min = left[i] < right[i]? left[i] : right[i];
+		sum = sum + min - A[i];
+	}
+	return sum;
+}
+    \end{lstlisting}
+\end{description}

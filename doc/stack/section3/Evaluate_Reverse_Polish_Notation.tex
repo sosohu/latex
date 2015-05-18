@@ -1,0 +1,55 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.\\
+\\
+Valid operators are +, -, *, /. Each operand may be an integer or another expression.\\
+\textit{(leetcode 150)}
+    \item{\textbf{举例}}:\\
+  $["2", "1", "+", "3", "*"] \rightarrow ((2 + 1) * 3) -> 9$
+  $["4", "13", "5", "/", "+"] \rightarrow (4 + (13 / 5)) -> 6$
+    \item{\textbf{栈}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\逆波兰式是典型的栈式问题.
+    \begin{lstlisting}
+bool scanNum(const string &str, int& num){
+	if(str.size() == 1 && (str[0] == '+' || str[0] == '-' 
+		|| str[0] == '*' || str[0] == '/') )
+		return false;
+	bool isMunis = false;
+	if(str[0] == '-')	isMunis = true;
+	num = 0;
+	for(int i = 0; i < str.size(); i++)
+		if(str[i] != '+' && str[i] != '-')
+			num = num*10 + str[i] - '0';
+	num = isMunis? -num : num;
+	return true;
+}
+
+int evalRPN(vector<string>& tokens) {
+	int result = 0, num = 0;
+	if(tokens.size() == 0)	return 0;
+	scanNum(tokens[0], num);
+	if(tokens.size() <= 2)	return num;
+	stack<int> s;
+	s.push(num);
+	scanNum(tokens[1], num);
+	s.push(num);
+	for(int i = 2; i < tokens.size(); i++){
+		if(!scanNum(tokens[i], num)){
+			int first = s.top(); s.pop();
+			int second = s.top(); s.pop();
+			switch(tokens[i][0]){
+				case '+': s.push(second + first); break;
+				case '-': s.push(second - first); break;
+				case '*': s.push(second * first); break;
+				case '/': s.push(second / first); break;
+			}
+		}else{
+			s.push(num);
+		}
+	}
+	result = s.top();
+	return result;
+}
+    \end{lstlisting}
+\end{description}

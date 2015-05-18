@@ -1,0 +1,43 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.\\
+\\
+push(x) -- Push element x onto stack.\\
+pop() -- Removes the element on top of the stack.\\
+top() -- Get the top element.\\
+getMin() -- Retrieve the minimum element in the stack.\\
+ \textit{(leetcode 155)}
+    \item{\textbf{栈}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\这里采用经典的双栈法处理，一个栈储存数据，另一个栈储存最小值.
+    \begin{lstlisting}
+class MinStack {
+
+public:
+
+	void push(int x) {
+		data.push(x);
+		if(track.empty() || x <= track.top())
+			track.push(x);
+    }
+
+    void pop(){
+		if(data.top() == track.top())
+			track.pop();
+		data.pop();
+    }
+
+    int top(){
+		return data.top();
+    }
+
+    int getMin(){
+		return track.top();
+    }
+
+private:
+	stack<int> data;
+	stack<int> track;
+};
+    \end{lstlisting}
+\end{description}

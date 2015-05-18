@@ -1,0 +1,31 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a string containing just the characters $'(', ')', '{', '}', '[' and ']'$, determine if the input string is valid.\\
+\\
+The brackets must close in the correct order, $"()"$ and $"()[]\{\}"$ are all valid but $"(\}"$ and $"([)]"$ are not.\\
+\textit{(leetcode 20)}
+    \item{\textbf{栈}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\括号匹配的原则是每个右括号都与最左边最近的左括号匹配，所以这和栈的先进后出完全一致，所以使用栈就非常方便.
+    \begin{lstlisting}
+bool isValid(string s) {
+	// 0,1,2 represent (, [, {
+	stack<int> left; 
+	for(int i = 0; i < s.size(); i++){
+		switch(s[i]){
+			case '(': left.push(0); break;
+			case '[': left.push(1); break;
+			case '{': left.push(2); break;
+			case ')': if(left.empty() || left.top() != 0)	
+					return false; left.pop(); break;
+			case ']': if(left.empty() || left.top() != 1)	
+					return false; left.pop(); break;
+			case '}': if(left.empty() || left.top() != 2)	
+					return false; left.pop(); break;
+			default: return false;
+		}
+	}
+	return left.empty();
+}
+    \end{lstlisting}
+\end{description}
