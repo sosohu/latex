@@ -1,0 +1,74 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Implement a trie with insert, search, and startsWith methods.\\
+\textit{(leetcode 208)}
+    \item{\textbf{Note}}:\\
+You may assume that all inputs are consist of lowercase letters a-z.
+    \item{\textbf{Trie}} : \fbox{时间复杂度O(h), 空间复杂度O(h)}
+	\\字典树最简单的实现就是看做一个多叉树.
+    \begin{lstlisting}
+class TrieNode {
+public:
+	char val;
+	bool isNode;
+	TrieNode *sons[26];
+public:
+    // Initialize your data structure here.
+    TrieNode(char val = '-', bool isNode = false)
+	: val(val), isNode(isNode) {
+		for(int i = 0; i < 26; i++)
+			sons[i] = NULL;
+    }
+};
+
+class Trie {
+
+public:
+
+    Trie() {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    void insert(string s) {
+		TrieNode *pos = root;
+		for(int i = 0; i < s.size(); i++){
+			int index = s[i] - 'a';
+			if(pos->sons[index] == NULL)
+				pos->sons[index] = new TrieNode(s[i]);
+			pos = pos->sons[index];
+		}
+		pos->isNode = true;
+    }
+
+    // Returns if the word is in the trie.
+    bool search(string key) {
+		TrieNode *pos = root;
+		for(int i = 0; i < key.size(); i++){
+			int index = key[i] - 'a';
+			if(pos->sons[index] == NULL)
+				return false;
+			pos = pos->sons[index];
+		}
+		return pos->isNode;
+    }
+
+	// Returns if there is any word in the trie
+    // that starts with the given prefix.
+    bool startsWith(string prefix) {
+		TrieNode *pos = root;
+		for(int i = 0; i < prefix.size(); i++){
+			int index = prefix[i] - 'a';
+			if(pos->sons[index] == NULL)
+				return false;
+			pos = pos->sons[index];
+		}
+		return true;
+    }
+
+private:
+    TrieNode* root;
+};
+    \end{lstlisting}
+\end{description}

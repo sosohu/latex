@@ -1,0 +1,79 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Design and implement a data structure for Least Recently Used (LRU) cache. It should support the following operations: get and set.\\
+\\
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.\\
+set(key, value) - Set or insert the value if the key is not already present. When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.\\
+\textit{(leetcode 146)}
+    \item{\textbf{List+Hash}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\这题是一题非常经典的题目，必须非常熟悉各个数据结构的优劣点才能想到怎么去结合它们设计出O(1)操作的LRU Cache. 我们知道Hash的好处是可以O(1)时间的定位和插入与删除，坏处是数据存储位置难以猜测，彼此独立；数组的优点是O(1)访问，存储连续，但是缺点是无法O(1)的插入和删除;链表和数组相反，插入删除很方便，但是访问就很慢.
+	\\回到这个问题，我们想一下首先我们要O(1)时间访问元素即get(key)，那么必须要有哈希结构;然后，我们在insert元素时候，当cache满的时候我们需要花O(1)的时间直接找到哪个是最老的，那我们自然想到了排序，我们可以试着每次插入元素后，都把对应插入时间插入到一个排序的顺序容器中，由于我们还有set操作，所以我们不能使用vector来盛放这个排序序列，因为中间删除代价非常大，只能使用list,当然我们需要在hash表上记录该元素所在list的ListNode的指针方便一次定位.
+    \begin{lstlisting}
+class LRUCache {
+private:
+	struct ListNode{
+		int key;
+		int value;
+		ListNode *pre, *next;
+		ListNode(int key = -1, int value = -1) : key(key), value(value), pre(NULL), next(NULL)
+		{} 
+	};
+
+	unordered_map<int, ListNode*> table;
+	ListNode seq_head;
+	ListNode seq_end;
+	int capacity;
+	int size;
+
+private:
+	void seq_push_back(ListNode *pos){
+		seq_end.pre->next = pos;
+		pos->pre = seq_end.pre;
+		seq_end.pre = pos;
+		pos->next = &seq_end;
+	}
+
+	void seq_erase(ListNode *pos){
+		pos->pre->next = pos->next;
+		pos->next->pre = pos->pre;
+	}
+
+public:
+
+	LRUCache(int capacity) : capacity(capacity){
+		size = 0;
+		seq_head.next = &seq_end;
+		seq_end.pre = &seq_head;
+	}
+
+	int get(int key){
+		if(table.count(key) == 0)	return -1;
+		seq_erase(table[key]);
+		seq_push_back(table[key]);
+		return table[key]->value;
+	}
+
+
+	void set(int key, int value){
+		if(table.count(key)){
+			table[key]->value = value;
+			seq_erase(table[key]);
+			seq_push_back(table[key]);
+		}else{ 
+			if(size >= capacity){
+				ListNode *old = seq_head.next;
+				table.erase(old->key);
+				seq_erase(old);
+				delete old;
+				size--;
+			}
+			size++;
+			table[key] = new ListNode(key, value);
+			seq_push_back(table[key]);
+		}
+	}
+
+};
+    \end{lstlisting}
+\end{description}
