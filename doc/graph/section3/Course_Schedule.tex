@@ -1,0 +1,50 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+There are a total of n courses you have to take, labeled from 0 to n - 1.\\
+\\
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: $[0,1]$\\
+\\
+Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?\\
+\textit{(leetcode 207)}
+    \item{\textbf{举例}}:\\
+2, $[[1,0]]$ \\
+There are a total of 2 courses to take. To take course 1 you should have finished course 0. So it is possible.\\
+\\
+2, $[[1,0],[0,1]]$ \\
+There are a total of 2 courses to take. To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.\\
+    \item{\textbf{BFS}} : \fbox{时间复杂度O(E), 空间复杂度O(V)}
+    \\这是一题典型的拓扑排序问题，可以使用BFS/DFS进行排序.
+    \begin{lstlisting}
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+	vector<vector<int> > g(numCourses, vector<int>());
+	vector<bool> visited(numCourses, false);
+	vector<int> pre_count(numCourses, 0);
+	for(int i = 0; i < prerequisites.size(); i++){
+		g[prerequisites[i][1]].push_back(prerequisites[i][0]);
+		pre_count[prerequisites[i][0]]++;
+	}
+	queue<int> pre;
+	for(int i = 0; i < numCourses; i++)
+		if(!pre_count[i]){
+			pre.push(i);
+			visited[i] = true;
+	}
+	while(!pre.empty()){
+		int pos = pre.front();
+		pre.pop();
+		for(int i = 0; i < g[pos].size(); i++){
+			pre_count[g[pos][i]]--;
+			if(pre_count[g[pos][i]] < 0)	return false;
+			if(pre_count[g[pos][i]] == 0){
+				pre.push(g[pos][i]);
+				visited[g[pos][i]] = true;
+			}
+		}
+	}
+	for(int i = 0; i < numCourses; i++)
+		if(!visited[i])	return false;
+	return true;
+}
+    \end{lstlisting}
+\end{description}
