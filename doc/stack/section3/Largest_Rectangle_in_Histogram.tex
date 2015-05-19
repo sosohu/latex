@@ -4,11 +4,11 @@
 Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.\\
 \textit{(leetcode 84)}
     \item{\textbf{举例}}:\\
-Given height = [2,1,5,6,2,3],
-Above is a histogram where width of each bar is 1, given height = [2,1,5,6,2,3].
-\includegraphics{stack/section3/histogram.eps}
-The largest rectangle is shown in the shaded area, which has area = 10 unit.
-\includegraphics{stack/section3/histogram_area.eps}
+Given height = $[2,1,5,6,2,3]$, \\
+Above is a histogram where width of each bar is 1, given height = $[2,1,5,6,2,3]$.\\
+\includegraphics{stack/section3/histogram.eps} \\
+The largest rectangle is shown in the shaded area, which has area = 10 unit. \\
+\includegraphics{stack/section3/histogram_area.eps} \\
 return 10.
     \item{\textbf{栈}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
     \\我们可以这样考虑这个问题，我么依次扫描$a_1, a_2, ..., a_n$如果$a_i \ge a_{i-1}$就将$a_i$加入到栈中；反之，我们就弹栈处理$a_{i-1}$,因为$a_{i-2} < a_{i-1} > a_i$所以我们可以计算以$a_{i-1}$为基准的histogram大小，依次类推.

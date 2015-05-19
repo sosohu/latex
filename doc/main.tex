@@ -22,7 +22,7 @@
 \lstset{language=C++, %用于设置语言为C++
     numbers=left,
     numberstyle=\ttfamily\scriptsize,
-    backgroundcolor=\color{darkgray}, frame=single,framesep=5pt,framexleftmargin=8mm,%frameround=fttt,
+    backgroundcolor=\color{darkgray}, frame=single,framesep=3pt,framexleftmargin=8mm,%frameround=fttt,
     basicstyle=\ttfamily\small,
     keywordstyle=\ttfamily\bf\color{blue},
     ndkeywordstyle=\ttfamily\bf\color{brown},
@@ -38,8 +38,11 @@
 
 %\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
 
+\usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry} %页边距
+
 %最好保证 hyperref 是最后加载的宏包
-\usepackage[colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,unicode=true]{hyperref}
+\usepackage[pdftex,bookmarksnumbered,colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green,unicode=true]{hyperref}
+
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
@@ -105,8 +108,8 @@
 \chapter{二分查找}
 \input{binary_search/main.tex}
 
-%\chapter{分治}
-%\input{chap3/chap3.tex}
+\chapter{分治}
+\input{divide_conquer/main.tex}
 
 \chapter{搜索}
 \input{search/main.tex}
