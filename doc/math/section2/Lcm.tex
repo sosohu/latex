@@ -1,0 +1,18 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given you two integer, return the lowwest common multiple of them.
+    \item{\textbf{欧几里得算法}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+	\\我们有结论lcm(a.b) = a*b / gcd(a, b), 所以实质上还是求gcd
+    \begin{lstlisting}
+//assume a >= b
+unsigned int gcd(unsigned int a, unsigned int b){
+	if (b == 0) return a;
+	return gcd(b, a % b);
+}
+unsigned int lcm(unsigned int a, unsigned int b){
+	if(a < b)	return lcm(b, a);
+	return a / gcd(a, b) * b;
+}
+    \end{lstlisting}
+\end{description}

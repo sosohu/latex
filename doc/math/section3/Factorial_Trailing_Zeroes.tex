@@ -1,0 +1,15 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an integer n, return the number of trailing zeroes in n!. \\
+\textit{(leetcode 172)}
+    \item{\textbf{Note}}:\\
+Note: Your solution should be in logarithmic time complexity.
+    \item{\textbf{Math}} : \fbox{时间复杂度O($lg_5n$), 空间复杂度O(1)}
+    \\这题其实就是统计$1*2*...*n$中包含5因子的个数,因为2因子个数肯定比5的多，所以它们组合成10的倍数
+    \begin{lstlisting}
+int trailingZeroes(int n) {
+	return abs(n) < 5?  0 : abs(n/5) + trailingZeroes(n/5);
+}
+    \end{lstlisting}
+\end{description}

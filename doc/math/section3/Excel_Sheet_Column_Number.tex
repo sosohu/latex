@@ -1,0 +1,23 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Related to question Excel Sheet Column Title\\
+\\
+Given a column title as appear in an Excel sheet, return its corresponding column number.\\
+\textit{(leetcode 171)}
+    \item{\textbf{举例}}:\\
+    A $\rightarrow$ 1 \\
+    B $\rightarrow$ 2 \\
+    C $\rightarrow$ 3 \\
+    ... \\
+    Z $\rightarrow$ 26 \\
+    AA $\rightarrow$ 27 \\
+    AB $\rightarrow$ 28 
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\进制转换，使用递归一行代码解决
+    \begin{lstlisting}
+int titleToNumber(string s) {
+	return s.size()? titleToNumber(s.substr(0, s.size() - 1))*26 + s[s.size()-1] - 'A' + 1: 0;		
+}
+    \end{lstlisting}
+\end{description}

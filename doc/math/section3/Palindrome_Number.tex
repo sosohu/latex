@@ -1,0 +1,19 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Determine whether an integer is a palindrome. Do this without extra space.\\
+\textit{(leetcode 9)}
+    \item{\textbf{Math}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\我们可以只反转低半部分，然后判断反转的低半部分是否与高半部分相符即可
+    \begin{lstlisting}
+bool isPalindrome(int x) {
+	if(x < 0 || (x != 0 && x % 10  == 0)) return false;
+	int rev = 0;
+	while(x > rev){
+		rev = rev * 10 + (x % 10);
+		x = x / 10;
+	}
+	return (x == rev) || (x == rev/10);
+}
+    \end{lstlisting}
+\end{description}

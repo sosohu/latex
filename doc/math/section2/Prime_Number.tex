@@ -1,0 +1,31 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given you one positive integer, determine if it is a prime number.
+    \item{\textbf{Eratosthenes 筛法}} : \fbox{时间复杂度O(???), 空间复杂度O(1)}
+	\\这里介绍的是使用素数表筛选判断整数n是否是素数，那么问题来了：怎么构造素数表呢？这里就是采用边筛边构造素数表的方法．从素数表初始化集合只有元素２，然后使用２筛掉$[3,n]$区间中的所有2的倍数，然后判断3是否被筛掉，如果没有则将3加入素数表，继续新一轮筛；如果被筛掉了，则继续判断4,5...直到$\sqrt{n}$
+    \begin{lstlisting}
+#define MAXN 30000
+
+/** prime_table[i]==1 表示 i 是素数,等于 0 则不是素数 */
+int prime_table[MAXN+1];
+
+void compute_prime_table() {
+	int i, j;
+	const int upper = sqrt(MAXN);
+	for (i = 2; i <= MAXN; i++) 
+		prime_table[i] = 1;
+	prime_table[0] = 0;
+	prime_table[1] = 0;
+	for (i = 2; i < upper; i++) 
+		if(prime_table[i]) {
+			for (j = 2; j * i <= MAXN; j++) 
+				prime_table[j*i] = 0;
+		}
+}
+
+int is_prime(unsigned int n) {
+	return prime_table[n];
+}
+    \end{lstlisting}
+\end{description}

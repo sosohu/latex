@@ -1,0 +1,32 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Reverse digits of an integer.\\
+\textit{(leetcode 7)}
+    \item{\textbf{举例}}:\\
+Example1: x = 123, return 321\\
+Example2: x = -123, return -321
+    \item{\textbf{Note}}:\\
+Here are some good questions to ask before coding. Bonus points for you if you have already thought through this!\\
+\\
+If the integer's last digit is 0, what should the output be? ie, cases such as 10, 100.\\
+\\
+Did you notice that the reversed integer might overflow? Assume the input is a 32-bit integer, then the reverse of 1000000003 overflows. How should you handle such cases?\\
+\\
+For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.\\
+    \item{\textbf{Math}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\这题有两个点需要注意，一个是正数与负数怎么表示？我这里采用全化为负数处理，简单明了；另一个问题就是溢出预先判断，可以在乘之前判断一下
+    \begin{lstlisting}
+int reverse (int x) {
+	if(x > 0)	return -reverse(-x);
+	int rever = 0;
+	while(x != 0){
+		if(rever < (INT_MIN - x%10) / 10)
+			return 0;
+		rever = rever * 10 + x % 10;
+		x = x / 10;
+	}
+	return rever;
+}
+    \end{lstlisting}
+\end{description}

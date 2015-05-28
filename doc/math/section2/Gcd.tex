@@ -1,0 +1,14 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given you two integer, return the greatest common divisor of them.
+    \item{\textbf{欧几里得算法}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\欧几里得算法又称辗转相除法.假设a >= b, 那么$gcd(a, b) = gcd(a \mod b, b)$直到a == 0 或者 b == 0时候另一个非零值就是gcd(a,b)
+    \begin{lstlisting}
+//assume a >= b
+unsigned int gcd(unsigned int a, unsigned int b){
+	if (b == 0) return a;
+	return gcd(b, a % b);
+}
+    \end{lstlisting}
+\end{description}

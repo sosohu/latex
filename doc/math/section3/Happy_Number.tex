@@ -1,0 +1,33 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Write an algorithm to determine if a number is "happy". \\
+\\
+A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.\\
+\textit{(leetcode 202)}
+    \item{\textbf{举例}}:\\
+19 is a happy number \\
+\\
+$1^2 + 9^2 = 82$\\
+$8^2 + 2^2 = 68$\\
+$6^2 + 8^2 = 100$\\
+$1^2 + 0^2 + 0^2 = 1$\\
+    \item{\textbf{Hash}} : \fbox{时间复杂度O(1), 空间复杂度O(1)}
+    \\使用hash记录是否重现
+    \begin{lstlisting}
+int change(int n){
+	return n == 0? 0 : (n % 10) * (n % 10) + change(n/10);
+}
+
+bool isHappy(int n) {
+	unordered_set<int> table;
+	while(n != 1){
+		table.insert(n);
+		n = change(n);
+		if(table.count(n))
+			return false;
+	}
+	return true;
+}
+    \end{lstlisting}
+\end{description}

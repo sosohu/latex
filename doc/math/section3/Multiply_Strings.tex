@@ -1,0 +1,54 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given two numbers represented as strings, return multiplication of the numbers as a string.\\
+\textit{(leetcode 43)}
+    \item{\textbf{Note}}:\\
+Note: The numbers can be arbitrarily large and are non-negative.
+    \item{\textbf{大数}} : \fbox{时间复杂度O(n*m), 空间复杂度O(n*m)}
+    \\这题是典型的大数问题，对于大数问题一般采用vector或者string来存储大数，需要注意高低位的顺序，其运算方式完全按照小学学习的加减乘除计算方法计算就可以了.
+    \begin{lstlisting}
+// num1[0]为低位,num2[0]为低位, num1 = num1 + (num2 << left)
+void bigAdd(string &num1, string &num2, int left){
+	string fill = string(left, '0');
+	num2 = fill + num2;
+	int cin = 0;
+	for(int i = 0; i < num1.size(); i++){
+		int out = cin + (num1[i] - '0') + (num2[i] - '0');
+		num1[i] = (out % 10) + '0';
+		cin = out / 10;
+	}
+}
+
+// num1[0]为低位
+void bigMul(string &result, const string &num1, const char num2){
+	int cin = 0;
+	int mul = num2 - '0';
+	for(int i = 0; i < num1.size(); i++){
+		int out = cin + mul * (num1[i] - '0');
+		result[i] = (out % 10) + '0';
+		cin = out / 10;
+	}
+	if(cin)	result[num1.size()] = cin + '0';
+}
+
+string multiply(string num1, string num2) {
+	int n1 = num1.size(), n2 = num2.size();
+	if(n1 < n2)	return multiply(num2, num1);
+	reverse(num1.begin(), num1.end());
+	reverse(num2.begin(), num2.end());
+	int n = n1 + n2;
+	vector<string> line(n2, string(n, '0'));
+	string result(n, '0');
+	for(int i = 0; i < n2; i++){
+		bigMul(line[i], num1, num2[i]);
+		bigAdd(result, line[i], i);
+	}
+	reverse(result.begin(), result.end());
+	int nozero = 0;
+	while(nozero < result.size() && result[nozero] == '0')
+		nozero++;
+	return nozero == result.size()? "0" : result.substr(nozero, result.size() - nozero);
+}
+    \end{lstlisting}
+\end{description}

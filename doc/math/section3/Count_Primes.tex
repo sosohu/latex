@@ -1,0 +1,23 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Count the number of prime numbers less than a non-negative number, n.\\
+\textit{(leetcode 204)}
+    \item{\textbf{筛选法}} : \fbox{时间复杂度O(n), 空间复杂度O(m)}
+    \\采用前面提到的筛选法即可
+    \begin{lstlisting}
+int countPrimes(int n) {
+	if(n < 3)	return 0;
+	vector<bool> table(n+1, true);
+	int pos = 2, count = 0;
+	while(pos < n){
+		while(pos < n && !table[pos])	pos++;
+		if(pos < n) count++;
+		for(int i = 2; i * pos < n; i++)
+			table[i*pos] = false;
+		pos++;
+	}
+	return count;
+}
+    \end{lstlisting}
+\end{description}

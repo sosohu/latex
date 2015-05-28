@@ -1,0 +1,51 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given n points on a 2D plane, find the maximum number of points that lie on the same straight line.\\
+\textit{(leetcode 149)}
+    \item{\textbf{Hash+Gcd}} : \fbox{时间复杂度O($n^2$), 空间复杂度O(n)}
+    \\这题思路就是选取每个点作为直线上的点，然后计算其他点与该点形成的斜率，斜率一样的说明这些点和该点在同一条直线上．问题就编程了怎么记录这些斜率一样的信息，我们想到使用hash记录，那么这个斜率自然就是key值，这个key值不能是整数，也不能是浮点数(会有误差)，只能用最简分数表示，如何化简分数那就使用gcd
+    \begin{lstlisting}
+//x,y最大公约数，如果x或y为0,返回y或x
+int gcd(int x, int y){
+	x = abs(x);
+	y = abs(y);
+	while(x && y){
+		if(x < y) y = y - x;
+		else x = x - y;
+	}
+	return x != 0? x : y;
+}
+
+struct hashKey{
+	std::size_t operator()(const pair<int,int> &x) const{
+		using std::hash;
+		return x.first ^ x.second;
+	}
+};
+
+//pair<int,int>表示斜率,(0,0)表示重点,(0,1)表示平行与y轴,(1,0)表示平行于x轴
+int maxPoints(vector<Point> &points) {
+	int result = 0;
+	for(int i = 0; i < points.size(); i++){
+		unordered_map<pair<int,int>, int, hashKey> table;
+		int cur = 0, base = 0;
+		for(int j = 0; j < points.size(); j++){
+			int dx = points[j].x - points[i].x;
+			int dy = points[j].y - points[i].y;
+			if(dx == 0 && dy == 0){
+				base++;
+				continue;
+			}
+			pair<int, int> k(make_pair(dx/gcd(dx, dy), dy/gcd(dx,dy)));
+			if(table.count(k))	table[k]++;
+			else table[k] = 1;
+		}
+		for(auto iter = table.begin(); iter != table.end(); iter++)
+			if(cur < iter->second) cur = iter->second;
+		result = max(result, base + cur);
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

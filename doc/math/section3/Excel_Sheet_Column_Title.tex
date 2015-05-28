@@ -1,0 +1,21 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a positive integer, return its corresponding column title as appear in an Excel sheet.\\
+\textit{(leetcode 168)}
+    \item{\textbf{举例}}:\\
+    1 $\rightarrow$ A \\
+    2 $\rightarrow$ B \\
+    3 $\rightarrow$ C \\
+    ... \\
+    26 $\rightarrow$ Z \\ 
+    27 $\rightarrow$ AA \\
+    28 $\rightarrow$ AB 
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这是典型的进制转换问题，可以采用递归实现一行代码解决
+    \begin{lstlisting}
+string convertToTitle(int n) {
+	return n <= 0? "" : convertToTitle((n-1)/26) + string(1,((n-1) % 26) + 'A');   	    
+}
+    \end{lstlisting}
+\end{description}
