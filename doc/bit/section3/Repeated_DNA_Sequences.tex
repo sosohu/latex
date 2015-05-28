@@ -1,0 +1,31 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+All DNA is composed of a series of nucleotides abbreviated as A, C, G, and T, for example: "ACGAATTCCG". When studying DNA, it is sometimes useful to identify repeated sequences within the DNA.\\
+\\
+Write a function to find all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule.\\
+ \textit{(leetcode 187)}
+
+    \item{\textbf{举例}}:\\
+Given s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT",\\
+\\
+Return:\\
+$["AAAAACCCCC", "CCCCCAAAAA"].$
+    \item{\textbf{Hash+bit}} : \fbox{时间复杂度O(n), 空间复杂度O(n)}
+    \\这题一般会想到使用hash来统计是否重复，问题是hash的key值怎么表示才是体现水准的关键，笔者一开始想到的就是把A,C,G,T分别编号问0,1,2,3然后将序列化成4进制的数. 但是还有一种非常巧妙的做法，它的原理如下:\\
+	A,C,G,T的Asci码分别是0x41, 0x43, 0x47和0x54.这几个数的二进制表示中倒数第三和倒数第二位分别是00, 01, 11和10,所以可以利用这两位产生key
+    \begin{lstlisting}
+vector<string> findRepeatedDnaSequences(string s) {
+	vector<string> result;
+	unordered_map<int, int> table;
+	for(int i = 0; i + 9 < s.size(); i++){
+		unsigned int code = 0x0;
+		for(int j = 0; j < 10; j++)
+			code |= (((s[i+j] & 0x6) >> 1) << (2*j));
+		if(table[code] == 1) result.push_back(s.substr(i,10));
+		table[code]++;
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

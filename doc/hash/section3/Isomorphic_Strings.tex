@@ -1,0 +1,34 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given two strings s and t, determine if they are isomorphic.\\
+\\
+Two strings are isomorphic if the characters in s can be replaced to get t.\\
+\\
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character but a character may map to itself.\\
+\textit{(leetcode 205)}
+    \item{\textbf{举例}}:\\
+Given "egg", "add", return true.\\
+\\
+Given "foo", "bar", return false.\\
+\\
+Given "paper", "title", return true.\\
+    \item{\textbf{Note}}:\\
+You may assume both s and t have the same length.
+    \item{\textbf{Hash}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \begin{lstlisting}
+bool isIsomorphic(string s, string t) {
+	vector<int> table(256, -1), used(256, false);
+	for(int i = 0; i < s.size(); i++){
+		if(table[(unsigned int)s[i]] == -1){
+			if(used[(unsigned int)t[i]])	return false;
+			used[(unsigned int)t[i]] = true;
+			table[(unsigned int)s[i]] = (unsigned int)t[i];
+		}
+		if(table[(unsigned int)s[i]] != (unsigned int)t[i])
+			return false;
+	}
+	return true;
+}
+    \end{lstlisting}
+\end{description}

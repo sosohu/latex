@@ -1,0 +1,59 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Determine if a Sudoku is valid, according to: Sudoku Puzzles - The Rules.\\
+\\
+The Sudoku board could be partially filled, where empty cells are filled with the character '.'.\\
+\textit{(leetcode 36)}\\
+\includegraphics{hash/section3/Sudoku.eps}
+    \item{\textbf{Note}}:\\
+A valid Sudoku board (partially filled) is not necessarily solvable. Only the filled cells need to be validated.
+    \item{\textbf{Hash}} : \fbox{时间复杂度O(???), 空间复杂度O(1)}
+    \\采用hash来简化行，列和区是否有重复,当然这里采用的hash结构是用vector模拟的
+    \begin{lstlisting}
+bool preprocess(vector<vector<bool> > &row,
+				vector<vector<bool> > &col,
+				vector<vector<bool> > &area,
+				vector<vector<char> > &board){
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(board[i][j] != '.'){
+				if(row[i][board[i][j] - '1'] == false)
+					return false;
+				row[i][board[i][j] - '1'] = false;
+			}
+		}
+	}
+
+	for(int j = 0; j < 9; j++){
+		for(int i = 0; i < 9; i++){
+			if(board[i][j] != '.'){
+				if(col[j][board[i][j] - '1'] == false)
+					return false;
+				col[j][board[i][j] - '1'] = false;
+			}
+		}
+	}
+
+	for(int i = 0; i < 9; i++){
+		for(int j = 0; j < 9; j++){
+			if(board[i][j] != '.'){
+				if(area[(i/3)*3 + j/3][board[i][j] - '1'] == false)
+					return false;
+				area[(i/3)*3 + j/3][board[i][j] - '1'] = false;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool isValidSudoku(vector<vector<char> > &board) {
+	vector<vector<bool> > row(9, vector<bool>(9, true));
+	vector<vector<bool> > col(9, vector<bool>(9, true));
+	vector<vector<bool> > area(9, vector<bool>(9, true));
+
+	return preprocess(row, col, area, board);
+}
+    \end{lstlisting}
+\end{description}
