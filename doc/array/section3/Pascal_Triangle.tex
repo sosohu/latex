@@ -1,0 +1,34 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given numRows, generate the first numRows of Pascal's triangle. \\
+\textit{(leetcode 118)}
+    \item{\textbf{举例}}:\\
+Given numRows = 5, \\
+Return \\
+\\
+$[$ \\
+     $[1]$, \\
+    $[1,1]$, \\
+   $[1,2,1]$, \\
+  $[1,3,3,1]$, \\
+ $[1,4,6,4,1]$ \\
+$]$
+    \item{\textbf{???}} : \fbox{时间复杂度O($n^2$), 空间复杂度O(1)}
+    \begin{lstlisting}
+vector<vector<int> > generate(int numRows) {
+	vector<vector<int> > result;
+	if(numRows == 0)	return result;
+	result.push_back(vector<int>{1});
+	for(int i = 1; i < numRows; i++){
+		vector<int> cur;
+		cur.push_back(1);
+		for(int j = 0; j < result[i-1].size() - 1; j++)
+			cur.push_back(result[i-1][j] + result[i-1][j+1]);
+		cur.push_back(1);
+		result.push_back(cur);
+	}
+	return result;
+}
+    \end{lstlisting}
+\end{description}

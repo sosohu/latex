@@ -1,0 +1,19 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Rotate an array of n elements to the right by k steps.\\
+\textit{(leetcode 189)}
+    \item{\textbf{举例}}:\\
+With n = 7 and k = 3, the array $[1,2,3,4,5,6,7]$ is rotated to $[5,6,7,1,2,3,4]$.
+    \item{\textbf{翻转}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
+    \\这题是编程珠玑中的经典例题，可以通过三次翻转实现shift动作
+    \begin{lstlisting}
+void rotate(vector<int>& nums, int k) {
+	if(nums.size() == 0 || (k = k % nums.size()) == 0)	
+		return;
+	reverse(nums.begin(), nums.end() - k);
+	reverse(nums.end() - k, nums.end());
+	reverse(nums.begin(), nums.end());
+}
+    \end{lstlisting}
+\end{description}

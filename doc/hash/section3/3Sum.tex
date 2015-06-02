@@ -1,0 +1,52 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.\\
+\textit{(leetcode 15)}
+    \item{\textbf{举例}}:\\
+Given array S = ${-1 0 1 2 -1 -4}$,\\
+\\
+    A solution set is:\\
+    (-1, 0, 1)\\
+    (-1, -1, 2)
+    \item{\textbf{Note}}:\\
+Elements in a triplet (a,b,c) must be in non-descending order. $(ie, a ≤ b ≤ c)$ \\
+The solution set must not contain duplicate triplets.
+    \item{\textbf{Hash}} : \fbox{时间复杂度O($n^2$), 空间复杂度O(n)}
+    \\为了避免统计结果出现重复，可以先对原数组进行预处理，排序然后去掉重复元素，再开始利用哈希表排查出3点对
+    \begin{lstlisting}
+	vector<vector<int> > threeSum(vector<int> &num) {
+		vector<vector<int> > result;
+		if(num.size() < 3)	return result;
+		unordered_map<int, int> table;
+		sort(num.begin(), num.end());
+		vector<pair<int, int> >  shrink;
+		int last = num[0], pos = 0;
+		table[num[0]] = 1;
+		shrink.push_back(make_pair(num[0], 1));
+		for(int i = 1; i < num.size(); i++){
+			if(last == num[i]){
+				shrink[pos].second++;
+				table[last]++;
+			}else{
+				shrink.push_back(make_pair(num[i], 1));
+				last = num[i];
+				table[last] = 1;
+				pos++;
+			}				
+		}
+		for(int i = 0; i < shrink.size(); i++)
+			for(int j = i; j < shrink.size(); j++){
+				if(j == i && shrink[i].second == 1) continue;
+				int left = 0 - shrink[i].first - shrink[j].first;
+				if(table.count(left) == 0)	continue;
+				if(left < shrink[j].first)	break;
+				if(left == shrink[j].first && j == i
+					 && shrink[j].second == 2)	break;
+				if(left == shrink[j].first && shrink[j].second == 1)	break;
+				result.push_back(vector<int>{shrink[i].first, shrink[j].first, left});
+			}
+		return result;
+	}
+    \end{lstlisting}
+\end{description}

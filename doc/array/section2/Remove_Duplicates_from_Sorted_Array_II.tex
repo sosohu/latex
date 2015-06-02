@@ -1,0 +1,27 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Follow up for "Remove Duplicates": \\
+What if duplicates are allowed at most twice? \\
+\textit{(leetcode 80)}
+    \item{\textbf{举例}}:\\
+Given sorted array nums = $[1,1,1,2,2,3]$, \\
+\\
+Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. It doesn't matter what you leave beyond the new length. \\
+    \item{\textbf{Two Pointer}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \begin{lstlisting}
+int removeDuplicates(vector<int>& nums) {
+	int pos = 0;
+	for(int i = 0; i < nums.size(); i++){
+		nums[pos++] = nums[i];
+		if(i < nums.size() - 1 && nums[i] == nums[i+1]){
+			while(i < nums.size() - 1 && nums[i] == nums[i+1])
+				i++;
+			nums[pos++] = nums[i];
+		}
+	}
+	nums.resize(pos);
+	return pos;
+}
+    \end{lstlisting}
+\end{description}

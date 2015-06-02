@@ -1,0 +1,45 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.\\
+\textit{(leetcode 73)}
+    \item{\textbf{Follow Up}}:\\
+Did you use extra space? \\
+A straight forward solution using O(mn) space is probably a bad idea. \\
+A simple improvement uses O(m + n) space, but still not the best solution. \\
+Could you devise a constant space solution?
+    \item{\textbf{???}} : \fbox{时间复杂度O($n^2$), 空间复杂度O(1)}
+    \\从上到下一行一行的处理，如果上一个存在0,可以先保留上一行的现场，然后根据上一行的原来值更新本行，然后处理上一行．唯一需要注意的就是，如果本行出现新０需要更新该０所在列的上面所有行.
+    \begin{lstlisting}
+void setZeroes(vector<vector<int> > &matrix) {
+	int n = matrix.size();
+	if(n == 0)	return;
+	int m = matrix[0].size();
+	bool lastZero = false;
+	for(int i = 0; i < n; i++){
+		bool thisZero = false;
+		for(int j = 0; j < m; j++){
+			if(matrix[i][j] == 0){
+				int up = i - 1;
+				while(up >= 0){
+					matrix[up][j] = 0;
+					up--;
+				}
+				thisZero = true;
+			}
+			if(i > 0 && matrix[i-1][j] == 0)
+				matrix[i][j] = 0;
+		}
+		if(lastZero){
+			for(int j = 0; j < m; j++)
+				matrix[i-1][j] = 0;
+		}
+		lastZero = thisZero;
+	}
+	if(lastZero){
+		for(int j = 0; j < m; j++)
+			matrix[n-1][j] = 0;
+	}
+}
+    \end{lstlisting}
+\end{description}

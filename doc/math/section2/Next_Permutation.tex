@@ -1,0 +1,29 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.\\
+\\
+If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).\\
+\\
+The replacement must be in-place, do not allocate extra memory.\\
+\textit{(leetcode 31)}
+    \item{\textbf{举例}}:\\
+Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.\\
+1,2,3 $\rightarrow$ 1,3,2 \\
+3,2,1 $\rightarrow$ 1,2,3 \\
+1,1,5 $\rightarrow$ 1,5,1
+    \item{\textbf{组合数学}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这是组合数学中的经典问题，假设我们现在的数是$a_1,a_2,...a_n$,我们找该序列最后一个极大点,设为$a_k$,我们知道$a_{k-1} \textless a_k$, $a_k \textgreater a_{k+1} \textgreater ... \textgreater a_n$,另外设$a_m$是$a_k, ..., a_n$中大于$a_{k-1}$的最小的那个,那么下一个数就是$a_1, a_2, ... a_m, a_k, a_{k+1}, ... , a_{m-1}, a_{k-1}, a_{m+1}, ... , a_n$
+    \begin{lstlisting}
+void nextPermutation(vector<int> &num) {
+	int pos = num.size() - 1;
+	while(pos > 0 && num[pos - 1] >= num[pos])	pos--;
+	if(pos != 0){
+		int pre = pos - 1;
+		auto index = lower_bound(num.begin() + pos, num.end(), num[pre], greater<int>());
+		swap(num[pre], num[index - num.begin() - 1]);
+	}
+	reverse(num.begin() + pos, num.end());
+}
+    \end{lstlisting}
+\end{description}

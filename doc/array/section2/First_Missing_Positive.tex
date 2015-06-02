@@ -1,0 +1,26 @@
+    
+\begin{description}
+    \item{\textbf{问题}}:\\
+Given an unsorted integer array, find the first missing positive integer. \\
+Your algorithm should run in O(n) time and uses constant space. \\
+\textit{(leetcode 41)}
+    \item{\textbf{举例}}:\\
+Given $[1,2,0]$ return 3, \\
+and $[3,4,-1,1]$ return 2.
+    \item{\textbf{}} : \fbox{时间复杂度 , 空间复杂度O}
+    \\这题题目的要求其实就是最大的提示了，即要求O(n)时间复杂度,又要求O(1)空间复杂度，那么思来想去也只有践踏原有数组这一个办法了，至于如何践踏,我们发现数组中元素的位置分别是0,1,2,3,...正好可以一一对应1,2,3,4....于是就可以设定对于元素放在对应位置
+    \begin{lstlisting}
+int firstMissingPositive(vector<int>& nums) {
+	int pos = 0;
+	while(pos < nums.size()){
+		if(nums[pos] == pos + 1 || nums[pos] > nums.size() 
+			|| nums[pos] <= 0  || nums[nums[pos] - 1] == nums[pos])
+			pos++;
+		else swap(nums[pos], nums[nums[pos] - 1]);
+	}
+	for(int i = 0; i < nums.size(); i++)
+		if(nums[i] != i+1)	return i + 1;
+	return nums.size() + 1;
+}
+    \end{lstlisting}
+\end{description}
