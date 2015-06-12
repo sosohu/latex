@@ -1,0 +1,71 @@
+\ifx allfiles undefined
+\documentclass{article}
+\usepackage{CJK}
+\usepackage{verbatim}
+
+%%%代码
+\usepackage{color}
+\usepackage{xcolor}
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\usepackage{listings}
+\lstset{breaklines}%这条命令可以让LaTeX自动将长的代码行换行排版
+\lstset{extendedchars=false}%这一条命令可以解决代码跨页时，章节标题，页眉等汉字不显示的问题
+\lstset{language=C++, %用于设置语言为C++
+    keywordstyle=\color{keywordcolor} \bfseries, %设置关键词
+    identifierstyle=,
+    basicstyle=\ttfamily, 
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily, 
+    showstringspaces=false,
+    %frame=shadowbox, %边框
+    captionpos=b
+}
+%%%
+
+%\hypersetup{CJKbookmarks=true} %解决section不能使用中文的问题
+
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
+
+\else
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night. \\
+\\
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police. \\
+\textit{(leetcode 198)}
+    \item{\textbf{DP}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\这题就是经典的最大无连续子序列问题，我们假设dp[i]表示nums[0..i]可以rob的最大价值，target = dp[n-1]
+	\\所以我们有递推公式:
+$$
+dp[i] =
+\begin{cases} 
+nums[0] & i = 0 \\
+max(nums[0], nums[1]) & i = 1 \\
+max(nums[i] + dp[i-2], dp[i-1]) & other
+\end{cases}
+$$
+	\\我们可以在编写代码时候对dp进行状态压缩以减少空间复杂度
+    \begin{lstlisting}
+int rob(vector<int>& nums) {
+	int n = nums.size();
+	if(n == 0)	return 0;
+	if(n == 1)	return nums[0];
+	int dp1 = nums[0], dp2 = max(nums[0], nums[1]);
+	for(int i = 2; i < n; i++){
+		int cur = max(nums[i] + dp1, dp2);
+		dp1 = dp2;
+		dp2 = cur;
+	}
+	return dp2;
+}
+    \end{lstlisting}
+\end{description}
+
+\fi
+
+\ifx allfiles undefined
+\end{CJK}
+\end{document}
+\fi

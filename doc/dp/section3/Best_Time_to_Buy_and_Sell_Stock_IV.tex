@@ -1,0 +1,75 @@
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+Say you have an array for which the ith element is the price of a given stock on day i. \\
+\\
+Design an algorithm to find the maximum profit. You may complete at most k transactions. \\
+\textit{(leetcode 188)}
+    \item{\textbf{Note}}: \\
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    \item{\textbf{DP}} : \fbox{时间复杂度O(kn), 空间复杂度O(n)}
+    \\首先需要考虑一种特殊情况: $k > price.size() / 2$, 这种情况就是等同于你可以购买无数次，也就是你需要把每个增长区间都计算进去就可以了.这样就可以在O(n)时间解决这种情况而不是O(kn).
+	\\对于其他情况，我们假设left[i]表示prices[i]的左边连续最小值的位置，dp[i][p]表示至多购买p次并且以prices[i]为最后一次卖出点的最大利润，r[i][p]表示至多购买p次并且最后一次卖出点在prices[i]之前的最大利润，所以target = r[n-1][k]
+	\\我们可以有递推公式
+$$
+left[i] =
+\begin{cases} 
+0 & i = 0 \\
+left[i-1] & prices[i] >= prices[i-1] \\
+i & prices[i] < prices[i-1] \\
+\end{cases}
+$$
+$$
+dp[i][p] =
+\begin{cases} 
+prices[i] - prices[0] & left[i] = 0 \\
+max(prices[i] - prices[j] + r[j-1][p-1], prices[i] - prices[j-1] + dp[j-1][p]) & other \\
+\end{cases}
+$$
+\\其中$j = left[i]$
+$$
+r[i][p] =
+\begin{cases} 
+0 & p = 0 || r = 0 \\
+max(r[i-1][p], dp[i][p]) & other \\
+\end{cases}
+$$
+\\从递推公式可以看出,dp和r可以状态压缩以节省空间
+    \begin{lstlisting}
+int maxProfit(int k, vector<int>& prices) {
+	int n = prices.size();
+	// simple case, very important
+	if (k > n/2){ 
+		int ans = 0;
+		for (int i=1; i<n; ++i){
+			ans += max(prices[i] - prices[i-1],0);
+		}
+		return ans;
+	}
+	k = min(k, n/2);
+	if(n <= 1)	return 0;
+	vector<int> dp(n, 0), r(n, 0), left(n,0);
+	for(int i = 1; i < n; i++){
+		if(prices[i] >= prices[i-1]){
+			left[i] = left[i-1];
+		}
+		else{
+			left[i] = i;
+		}
+	}
+	for(int p = 1; p <= k; p++){
+		for(int i = 1; i < n; i++){
+			int j = left[i];
+			if(j == 0)	dp[i] = prices[i] - prices[0];
+			else
+				dp[i] = max(prices[i] - prices[j-1] + dp[j-1],
+							prices[i] - prices[j] + r[j-1]);
+		}
+		for(int i = 1; i < n; i++)
+			r[i] = max(r[i-1], dp[i]);
+	}
+	return r[n-1];
+}
+    \end{lstlisting}
+\end{description}
+
