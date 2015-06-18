@@ -30,13 +30,13 @@
 \else
     
 \begin{description}
-    \item{\textbf{问题}}: Given a list, rotate the list.
+    \item{\textbf{问题}}: Reverse a singly linked list. \textit{(leetcode 206)}
     \item{\textbf{头插法}} : \fbox{时间复杂度O(n) , 空间复杂度O(1)}
     \\新建一个头节点，然后依次将后面节点插入到头节点之后，便形成链表的倒序.
     \begin{lstlisting}
 ListNode *ReverseList(ListNode *pHead){
 	if(!pHead || !pHead->next)	return pHead;
-	ListNode * newhead = new ListNode();
+	ListNode * newhead = new ListNode(0);
 	ListNode *pos = pHead, *tmp;
 	newhead->next = pHead;
 	while(pos->next){

@@ -1,6 +1,7 @@
 \ifx allfiles undefined
 \documentclass{article}
 \usepackage{CJK}
+\usepackage{verbatim}
 
 %%%代码
 \usepackage{color}
@@ -27,16 +28,25 @@
 \begin{CJK}{UTF8}{gbsn}     %CJK:支持中文
 
 \else
-
-\section{库函数}
-\input{chap3/chap3-1/chap3-1.tex}
-\newpage
-\section{字符串经典问题}
-\input{chap3/chap3-2/chap3-2.tex}
-\newpage
-\section{字符串其他问题}
-\input{chap3/chap3-3/chap3-3.tex}
-\newpage
+    
+\begin{description}
+    \item{\textbf{问题}}: \\
+Remove all elements from a linked list of integers that have value val. \\
+\\
+Example \\
+Given: $1 \rightarrow 2 \rightarrow 6 \rightarrow 3 \rightarrow 4 \rightarrow 5 \rightarrow 6, val = 6$ \\
+Return: $1 \rightarrow 2 \rightarrow 3 \rightarrow 4 \rightarrow 5$ \\
+ \textit{(leetcode 203)}
+    \item{\textbf{递归}} : \fbox{时间复杂度O(n), 空间复杂度O(1)}
+    \\递归写法很简洁,虽然里面有三目运算符还有逗号表达式
+    \begin{lstlisting}
+ListNode* removeElements(ListNode* head, int val) {
+	if(!head)	return NULL;
+	return head->val == val? removeElements(head->next, val) :
+			(head->next = removeElements(head->next, val), head);
+}
+    \end{lstlisting}
+\end{description}
 
 \fi
 
